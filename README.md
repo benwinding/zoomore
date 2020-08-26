@@ -1,4 +1,4 @@
-# shot_zoom
+# zoomore
 
 A new Flutter project.
 

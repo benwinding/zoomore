@@ -1,4 +1,4 @@
-package com.example.shot_zoom
+package com.example.zoomore
 
 import io.flutter.embedding.android.FlutterActivity
 
