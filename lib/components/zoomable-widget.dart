@@ -17,7 +17,9 @@ class _ZoomableWidgetState extends State<ZoomableWidget> {
   Widget build(BuildContext context) {
     return MatrixGestureDetector(
       onMatrixUpdate: (Matrix4 m, Matrix4 tm, Matrix4 sm, Matrix4 rm) {
-        context.read<ZoomModel>().setMatrix(m);
+        var matrixCurrent = context.read<ZoomModel>().matrix;
+        var matrix = MatrixGestureDetector.compose(matrixCurrent, tm, sm, rm);
+        context.read<ZoomModel>().setMatrix(matrix);
       },
       child: Transform(
         transform: context.watch<ZoomModel>().matrix,
