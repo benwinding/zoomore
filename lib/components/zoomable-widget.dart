@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:matrix_gesture_detector/matrix_gesture_detector.dart';
+
+import '../zoom-model.dart';
 
 class ZoomableWidget extends StatefulWidget {
   final Widget child;
@@ -10,18 +13,14 @@ class ZoomableWidget extends StatefulWidget {
 }
 
 class _ZoomableWidgetState extends State<ZoomableWidget> {
-  Matrix4 matrix = Matrix4.identity();
-
   @override
   Widget build(BuildContext context) {
     return MatrixGestureDetector(
       onMatrixUpdate: (Matrix4 m, Matrix4 tm, Matrix4 sm, Matrix4 rm) {
-        setState(() {
-          matrix = m;
-        });
+        context.read<ZoomModel>().setMatrix(m);
       },
       child: Transform(
-        transform: matrix,
+        transform: context.watch<ZoomModel>().matrix,
         child: widget.child,
       ),
     );

@@ -1,12 +1,11 @@
-// import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'zoomable-widget.dart';
+import 'components/zoomable-widget.dart';
 
-class ImageZoomer extends StatelessWidget {
+class ZoomContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ZoomableWidget(
+      key: Key('widgy'),
       child: Container(
         width: 400,
         height: 740,
