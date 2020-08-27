@@ -36,7 +36,7 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Ok Zoomr'),
+        title: const Text('Zoomore'),
       ),
       body: Center(
         child: Column(

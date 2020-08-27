@@ -4,15 +4,11 @@ import 'package:matrix_gesture_detector/matrix_gesture_detector.dart';
 
 import '../zoom-model.dart';
 
-class ZoomableWidget extends StatefulWidget {
+class ZoomableWidget extends StatelessWidget {
   final Widget child;
 
   const ZoomableWidget({Key key, this.child}) : super(key: key);
-  @override
-  _ZoomableWidgetState createState() => _ZoomableWidgetState();
-}
 
-class _ZoomableWidgetState extends State<ZoomableWidget> {
   @override
   Widget build(BuildContext context) {
     return MatrixGestureDetector(
@@ -23,7 +19,7 @@ class _ZoomableWidgetState extends State<ZoomableWidget> {
       },
       child: Transform(
         transform: context.watch<ZoomModel>().matrix,
-        child: widget.child,
+        child: child,
       ),
     );
   }
