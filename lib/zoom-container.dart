@@ -8,7 +8,7 @@ class ZoomContainer extends StatelessWidget {
       key: Key('widgy'),
       child: Container(
         width: 400,
-        height: 740,
+        height: 650,
         color: Color.fromRGBO(
           0,
           0,
