@@ -50,7 +50,7 @@ class MyHomePage extends StatelessWidget {
               Slider(
                 value: context.watch<MainModel>().slider,
                 label: context.watch<MainModel>().label,
-                min: 1,
+                min: -1,
                 max: 100,
                 divisions: 100,
                 onChanged: (value) {
