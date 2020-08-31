@@ -2,13 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'zoom-container.dart';
-import 'zoom-model.dart';
+import 'components/zoomable-widget-model.dart';
 
 void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => ZoomModel()),
+        ChangeNotifierProvider(create: (_) => ZoomableWidgetModel()),
       ],
       child: MyApp(),
     ),
@@ -46,7 +46,7 @@ class MyHomePage extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => context.read<ZoomModel>().reset(),
+        onPressed: () => context.read<ZoomableWidgetModel>().reset(),
         tooltip: 'Reset',
         child: Icon(Icons.restore_page),
       ),
