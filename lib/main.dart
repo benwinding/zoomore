@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'main-model.dart';
-import 'zoom-container.dart';
+import 'package:zoomore/zoom-player.model.dart';
+import 'zoom-player.dart';
 import 'components/zoomable-widget-model.dart';
 
 void main() {
@@ -10,7 +10,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ZoomableWidgetModel()),
-        ChangeNotifierProvider(create: (_) => MainModel()),
+        ChangeNotifierProvider(create: (_) => ZoomPlayerModel()),
       ],
       child: MyApp(),
     ),
@@ -41,31 +41,7 @@ class MyHomePage extends StatelessWidget {
         title: const Text('Zoomore'),
       ),
       body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Column(children: [
-              ZoomContainer(),
-              Slider(
-                value: context.watch<MainModel>().slider,
-                label: context.watch<MainModel>().label,
-                min: -1,
-                max: 100,
-                divisions: 100,
-                onChanged: (value) {
-                  context.read<MainModel>().setSlider(value);
-                  print(context.read<MainModel>().slider);
-                },
-              )
-            ])
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => context.read<ZoomableWidgetModel>().reset(),
-        tooltip: 'Reset',
-        child: Icon(Icons.restore_page),
+        child: ZoomPlayer(),
       ),
     );
   }
