@@ -1,7 +1,7 @@
 import 'dart:io';
-
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:screenshot/screenshot.dart';
 import 'package:zoomore/zoom-player.model.dart';
 import 'components/zoomable-widget.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,8 +12,9 @@ class ZoomPlayer extends StatefulWidget {
 }
 
 class _ZoomPlayerState extends State<ZoomPlayer> {
-  final picker = ImagePicker();
   File _image;
+  final picker = ImagePicker();
+  final ScreenshotController screenshotController = ScreenshotController();
 
   Future getImage() async {
     try {
@@ -32,29 +33,32 @@ class _ZoomPlayerState extends State<ZoomPlayer> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Column(children: [
-            Container(
-              color: Color.fromRGBO(
-                222,
-                222,
-                222,
-                1,
-              ),
-              child: ZoomableWidget(
-                onChange: (m) => context.read<ZoomPlayerModel>().setMatrix(m),
-                matrix: context.watch<ZoomPlayerModel>().matrix,
-                key: Key('zoomy'),
-                child: Container(
-                  width: 400,
-                  height: 550,
-                  color: Color.fromRGBO(
-                    0,
-                    0,
-                    0,
-                    1,
+            Screenshot(
+              controller: screenshotController,
+              child: Container(
+                color: Color.fromRGBO(
+                  222,
+                  222,
+                  222,
+                  1,
+                ),
+                child: ZoomableWidget(
+                  onChange: (m) => context.read<ZoomPlayerModel>().setMatrix(m),
+                  matrix: context.watch<ZoomPlayerModel>().matrix,
+                  key: Key('zoomy'),
+                  child: Container(
+                    width: 400,
+                    height: 550,
+                    color: Color.fromRGBO(
+                      0,
+                      0,
+                      0,
+                      1,
+                    ),
+                    child: _image != null
+                        ? Image.file(_image)
+                        : Image.asset('assets/large-image.jpg'),
                   ),
-                  child: _image != null
-                      ? Image.file(_image)
-                      : Image.asset('assets/large-image.jpg'),
                 ),
               ),
             ),
@@ -90,7 +94,14 @@ class _ZoomPlayerState extends State<ZoomPlayer> {
                     onPressed: () {
                       this.getImage();
                     },
-                    child: Icon(Icons.image))
+                    child: Icon(Icons.image)),
+                RaisedButton(
+                    onPressed: () {
+                      context
+                          .read<ZoomPlayerModel>()
+                          .playerSave(this.screenshotController);
+                    },
+                    child: Icon(Icons.save_alt)),
               ],
             ),
             Text(context

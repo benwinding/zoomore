@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:screenshot/screenshot.dart';
 
 class ZoomPlayerModel with ChangeNotifier, DiagnosticableTreeMixin {
   // Slider
@@ -43,16 +45,20 @@ class ZoomPlayerModel with ChangeNotifier, DiagnosticableTreeMixin {
   double get playerIndex => _currentIndex;
   Timer _operation;
 
+  void _nextFrame() {
+    _currentIndex += 1;
+    if (_currentIndex >= framesCount - 1) {
+      _currentIndex = 0;
+    }
+    var playFrame = _frames[_currentIndex.toInt()];
+    setMatrix(playFrame);
+  }
+
   void playerStart() {
     playerStop();
     const oneSec = const Duration(milliseconds: 20);
     _operation = new Timer.periodic(oneSec, (Timer t) {
-      _currentIndex += 1;
-      if (_currentIndex >= framesCount - 1) {
-        _currentIndex = 0;
-      }
-      var playFrame = _frames[_currentIndex.toInt()];
-      setMatrix(playFrame);
+      this._nextFrame();
     });
   }
 
@@ -70,5 +76,29 @@ class ZoomPlayerModel with ChangeNotifier, DiagnosticableTreeMixin {
     if (_operation != null) {
       _operation.cancel();
     }
+    if (_operationSave != null) {
+      _operationSave.cancel();
+    }
   }
+
+  Timer _operationSave;
+  void playerSave(ScreenshotController screenshotController) {
+    this._currentIndex = 0;
+    playerStop();
+    final imgsArr = List<File>();
+    const oneSec = const Duration(milliseconds: 20);
+    _operationSave = new Timer.periodic(oneSec, (Timer t) {
+      addFrame(matrix);
+      if (this._currentIndex == 0) {
+        this._operationSave.cancel();
+        this._exportGif(imgsArr);
+        return;
+      }
+      screenshotController.capture().then((img) {
+        imgsArr.add(img);
+      });
+    });
+  }
+
+  void _exportGif(List<File> imgsArr) {}
 }
