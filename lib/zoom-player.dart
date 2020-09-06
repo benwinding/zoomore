@@ -1,9 +1,29 @@
+import 'dart:io';
+
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:zoomore/zoom-player.model.dart';
 import 'components/zoomable-widget.dart';
+import 'package:image_picker/image_picker.dart';
 
-class ZoomPlayer extends StatelessWidget {
+class ZoomPlayer extends StatefulWidget {
+  @override
+  _ZoomPlayerState createState() => _ZoomPlayerState();
+}
+
+class _ZoomPlayerState extends State<ZoomPlayer> {
+  final picker = ImagePicker();
+  File _image;
+
+  Future getImage() async {
+    try {
+      final pickedFile = await picker.getImage(source: ImageSource.gallery);
+      setState(() {
+        _image = File(pickedFile.path);
+      });
+    } catch (e) {}
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -32,7 +52,9 @@ class ZoomPlayer extends StatelessWidget {
                     0,
                     1,
                   ),
-                  child: Image.asset('assets/large-image.jpg'),
+                  child: _image != null
+                      ? Image.file(_image)
+                      : Image.asset('assets/large-image.jpg'),
                 ),
               ),
             ),
@@ -63,7 +85,12 @@ class ZoomPlayer extends StatelessWidget {
                     onPressed: () {
                       context.read<ZoomPlayerModel>().playerStop();
                     },
-                    child: Icon(Icons.stop))
+                    child: Icon(Icons.stop)),
+                RaisedButton(
+                    onPressed: () {
+                      this.getImage();
+                    },
+                    child: Icon(Icons.image))
               ],
             ),
             Text(context
