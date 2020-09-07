@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:screenshot/screenshot.dart';
+import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
 
 class ZoomPlayerModel with ChangeNotifier, DiagnosticableTreeMixin {
   // Slider
@@ -88,10 +89,10 @@ class ZoomPlayerModel with ChangeNotifier, DiagnosticableTreeMixin {
     final imgsArr = List<File>();
     const oneSec = const Duration(milliseconds: 20);
     _operationSave = new Timer.periodic(oneSec, (Timer t) {
-      addFrame(matrix);
+      setMatrix(matrix);
       if (this._currentIndex == 0) {
         this._operationSave.cancel();
-        this._exportGif(imgsArr);
+        this.exportGif(imgsArr);
         return;
       }
       screenshotController.capture().then((img) {
@@ -100,5 +101,8 @@ class ZoomPlayerModel with ChangeNotifier, DiagnosticableTreeMixin {
     });
   }
 
-  void _exportGif(List<File> imgsArr) {}
+  Future<File> exportGif(List<File> imgsArr) {
+    for (var img in imgsArr) {}
+    return file;
+  }
 }
