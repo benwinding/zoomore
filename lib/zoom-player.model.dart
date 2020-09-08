@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:file/memory.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:screenshot/screenshot.dart';
-import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
+
+import 'package:image/image.dart' as img;
 
 class ZoomPlayerModel with ChangeNotifier, DiagnosticableTreeMixin {
   // Slider
@@ -101,8 +103,19 @@ class ZoomPlayerModel with ChangeNotifier, DiagnosticableTreeMixin {
     });
   }
 
-  Future<File> exportGif(List<File> imgsArr) {
-    for (var img in imgsArr) {}
-    return file;
+  Future<File> exportGif(List<File> imgsArr) async {
+    final encoder = img.GifEncoder(
+      delay: 80,
+    );
+    imgsArr.forEach((imgItem) {
+      final bytes = imgItem.readAsBytesSync();
+      final image = img.decodePng(bytes);
+      encoder.addFrame(image);
+    });
+    encoder.repeat = 0;
+    final blobBytes = encoder.finish();
+    final gifFile = MemoryFileSystem().file('test.dart')
+      ..writeAsBytesSync(blobBytes);
+    return gifFile;
   }
 }

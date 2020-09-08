@@ -15,7 +15,8 @@ dependencies:
   provider: 4.3.2
   image_picker: 0.6.7
   screenshot: 0.2.0
-  flutter_ffmpeg: ^0.2.10
+  image: 2.1.14
+  file: 5.2.1
 
 dev_dependencies:
   flutter_test:
