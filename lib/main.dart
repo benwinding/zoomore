@@ -2,8 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zoomore/zoom-player.model.dart';
-import 'zoom-player.dart';
+// import 'zoom-player.dart';
 import 'components/zoomable-widget-model.dart';
+import 'image-picker/image-picker.dart';
 
 void main() {
   runApp(
@@ -40,8 +41,25 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Zoomore'),
       ),
-      body: Center(
-        child: ZoomPlayer(),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Container(
+            color: Colors.red,
+            height: 50,
+            child: Column(
+              children: [Text('Select an image')],
+            ),
+          ),
+          Expanded(
+            child: ImagesGrid(
+              onTapImage: (img) {
+                print(img.toString());
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

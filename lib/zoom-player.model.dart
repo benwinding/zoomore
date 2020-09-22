@@ -48,21 +48,49 @@ class ZoomPlayerModel with ChangeNotifier, DiagnosticableTreeMixin {
   double get playerIndex => _currentIndex;
   Timer _operation;
 
-  void _nextFrame() {
+  void _nextFrameIndex() {
     _currentIndex += 1;
     if (_currentIndex >= framesCount - 1) {
       _currentIndex = 0;
     }
-    var playFrame = _frames[_currentIndex.toInt()];
-    setMatrix(playFrame);
   }
 
   void playerStart() {
     playerStop();
     const oneSec = const Duration(milliseconds: 20);
     _operation = new Timer.periodic(oneSec, (Timer t) {
-      this._nextFrame();
+      this._nextFrameIndex();
+      var playFrame = _frames[_currentIndex.toInt()];
+      setMatrix(playFrame);
     });
+  }
+
+  void playerStartFlitered() {
+    playerStop();
+    // KalmanFilter makeK() {
+    //   return new KalmanFilter(R: 0.06, Q: 0.04, A: 1.12);
+    // }
+
+    // var growthFilter = makeK();
+    // final oneSec = const Duration(milliseconds: 20);
+    // final List<double> last4 = [];
+    // _operation = new Timer.periodic(oneSec, (Timer t) {
+    //   if (_currentIndex < 1) {
+    //     growthFilter = makeK();
+    //   }
+    //   this._nextFrameIndex();
+    //   final index = _currentIndex.toInt();
+    //   final playFrame = _frames[index];
+    //   final scale = playFrame.getMaxScaleOnAxis();
+    //   last4.add(scale);
+    //   if (last4.length > 3) {
+    //     last4.remove(last4[0]);
+    //   }
+    //   final scaleFiltered = last4.reduce((a, c) => a + c) / last4.length;
+    //   final playFrameCopy = playFrame.clone();
+    //   playFrameCopy.scale(scaleFiltered);
+    //   setMatrix(playFrameCopy);
+    // });
   }
 
   void playerRecord() {

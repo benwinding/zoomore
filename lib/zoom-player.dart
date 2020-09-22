@@ -48,7 +48,7 @@ class _ZoomPlayerState extends State<ZoomPlayer> {
                   key: Key('zoomy'),
                   child: Container(
                     width: 400,
-                    height: 550,
+                    height: 450,
                     color: Color.fromRGBO(
                       0,
                       0,
@@ -84,7 +84,12 @@ class _ZoomPlayerState extends State<ZoomPlayer> {
                     onPressed: () {
                       context.read<ZoomPlayerModel>().playerStart();
                     },
-                    child: Icon(Icons.play_arrow)),
+                    child: Icon(Icons.play_circle_outline)),
+                RaisedButton(
+                    onPressed: () {
+                      context.read<ZoomPlayerModel>().playerStartFlitered();
+                    },
+                    child: Icon(Icons.play_circle_filled)),
                 RaisedButton(
                     onPressed: () {
                       context.read<ZoomPlayerModel>().playerStop();
@@ -95,13 +100,13 @@ class _ZoomPlayerState extends State<ZoomPlayer> {
                       this.getImage();
                     },
                     child: Icon(Icons.image)),
-                RaisedButton(
-                    onPressed: () {
-                      context
-                          .read<ZoomPlayerModel>()
-                          .playerSave(this.screenshotController);
-                    },
-                    child: Icon(Icons.save_alt)),
+                // RaisedButton(
+                //     onPressed: () {
+                //       context
+                //           .read<ZoomPlayerModel>()
+                //           .playerSave(this.screenshotController);
+                //     },
+                //     child: Icon(Icons.save_alt)),
               ],
             ),
             Text(context
