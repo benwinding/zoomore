@@ -5,7 +5,6 @@ import 'package:flutter/widgets.dart';
 class ImageGridModel with ChangeNotifier, DiagnosticableTreeMixin {
   List<ImageSelection> _images = new List();
 
-  Image _image;
   int _index;
 
   ImageGridModel() {
@@ -13,7 +12,7 @@ class ImageGridModel with ChangeNotifier, DiagnosticableTreeMixin {
   }
 
   List<ImageSelection> get images => this._images;
-  Image get selectedImage => this._image;
+  Image get selectedImage => this._images[this.selectedIndex].image;
   int get selectedIndex => this._index;
 
   void setIndex(int index) {
