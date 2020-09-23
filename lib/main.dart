@@ -2,15 +2,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zoomore/zoom-player.model.dart';
-// import 'zoom-player.dart';
-import 'components/zoomable-widget-model.dart';
-import 'image-picker/image-picker.dart';
+import 'image-grid/image-grid-model.dart';
+import 'image-grid/image-grid.dart';
 
 void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => ZoomableWidgetModel()),
+        ChangeNotifierProvider(create: (_) => ImageGridModel()),
         ChangeNotifierProvider(create: (_) => ZoomPlayerModel()),
       ],
       child: MyApp(),
@@ -53,11 +52,7 @@ class MyHomePage extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: ImagesGrid(
-              onTapImage: (img) {
-                print(img.toString());
-              },
-            ),
+            child: ImagesGrid(),
           ),
         ],
       ),
