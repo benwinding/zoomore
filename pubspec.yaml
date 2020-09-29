@@ -14,6 +14,7 @@ dependencies:
   matrix_gesture_detector: 0.1.0
   provider: 4.3.2
   image_picker: 0.6.7
+  permission_handler:
   media_gallery:
     git:
       url: git://github.com/rignaneseleo/media_gallery

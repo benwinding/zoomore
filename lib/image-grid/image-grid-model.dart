@@ -1,6 +1,7 @@
 import 'package:media_gallery/media_gallery.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ImageGridModel with ChangeNotifier, DiagnosticableTreeMixin {
   List<ImageSelection> _images = new List();
@@ -21,6 +22,7 @@ class ImageGridModel with ChangeNotifier, DiagnosticableTreeMixin {
   }
 
   Future<void> _loadImageList() async {
+    final mediaStatus = await Permission.photos.status;
     final List<MediaCollection> collections =
         await MediaGallery.listMediaCollections(
       mediaTypes: [MediaType.image, MediaType.video],
@@ -29,7 +31,8 @@ class ImageGridModel with ChangeNotifier, DiagnosticableTreeMixin {
       mediaType: MediaType.image,
       take: 50,
     );
-    for (var i = 0; i < imagePage.items.length; i++) {
+    final count = imagePage.items.length;
+    for (var i = 0; i < count; i++) {
       final item = imagePage.items[i];
       item.getThumbnail(height: 180, width: 180).then((bytes) {
         final image = Image.memory(
