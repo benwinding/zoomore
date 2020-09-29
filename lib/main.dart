@@ -43,13 +43,35 @@ class MyHomePage extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
+        children: [
           Container(
               color: Colors.blueGrey,
               height: 150,
               child: context.watch<ImageGridModel>().selectedIndex != null
-                  ? Wrap(
-                      children: [context.watch<ImageGridModel>().selectedImage],
+                  ? Stack(
+                      children: [
+                        Wrap(
+                          children: [
+                            context.watch<ImageGridModel>().selectedImage
+                          ],
+                        ),
+                        Center(
+                          child: RaisedButton(
+                            padding: EdgeInsets.symmetric(horizontal: 12),
+                            onPressed: () {
+                              // Add your onPressed code here!
+                            },
+                            child: Wrap(
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              children: [
+                                Text('Confirm'),
+                                Icon(Icons.arrow_forward),
+                              ],
+                            ),
+                            color: Colors.green,
+                          ),
+                        )
+                      ],
                     )
                   : Center(
                       child: Text(
