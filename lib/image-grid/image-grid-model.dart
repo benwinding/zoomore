@@ -22,7 +22,8 @@ class ImageGridModel with ChangeNotifier, DiagnosticableTreeMixin {
   }
 
   Future<void> _loadImageList() async {
-    final mediaStatus = await Permission.photos.status;
+    final mediaStatuses = await Future.wait(
+        [Permission.photos.status, Permission.mediaLibrary.status]);
     final List<MediaCollection> collections =
         await MediaGallery.listMediaCollections(
       mediaTypes: [MediaType.image, MediaType.video],
@@ -32,6 +33,7 @@ class ImageGridModel with ChangeNotifier, DiagnosticableTreeMixin {
       take: 50,
     );
     final count = imagePage.items.length;
+    print('found ' + count.toString() + ' files');
     for (var i = 0; i < count; i++) {
       final item = imagePage.items[i];
       item.getThumbnail(height: 180, width: 180).then((bytes) {
@@ -42,6 +44,7 @@ class ImageGridModel with ChangeNotifier, DiagnosticableTreeMixin {
         );
         final imageItem = ImageSelection(image);
         _images.insert(i, imageItem);
+        notifyListeners();
       });
     }
   }
