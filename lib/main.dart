@@ -45,12 +45,21 @@ class MyHomePage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Container(
-            color: Colors.red,
-            height: 50,
-            child: Column(
-              children: [Text('Select an image')],
-            ),
-          ),
+              color: Colors.blueGrey,
+              height: 150,
+              child: context.watch<ImageGridModel>().selectedIndex != null
+                  ? Wrap(
+                      children: [context.watch<ImageGridModel>().selectedImage],
+                    )
+                  : Center(
+                      child: Text(
+                        'Select an image',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
+                      ),
+                    )),
           Expanded(
             child: ImagesGrid(),
           ),
