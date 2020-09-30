@@ -6,24 +6,9 @@ import 'package:zoomore/zoom-player.model.dart';
 import 'components/zoomable-widget.dart';
 import 'package:image_picker/image_picker.dart';
 
-class ZoomPlayer extends StatefulWidget {
-  @override
-  _ZoomPlayerState createState() => _ZoomPlayerState();
-}
-
-class _ZoomPlayerState extends State<ZoomPlayer> {
-  File _image;
+class ZoomPlayer extends StatelessWidget {
   final picker = ImagePicker();
   final ScreenshotController screenshotController = ScreenshotController();
-
-  Future getImage() async {
-    try {
-      final pickedFile = await picker.getImage(source: ImageSource.gallery);
-      setState(() {
-        _image = File(pickedFile.path);
-      });
-    } catch (e) {}
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,9 +40,7 @@ class _ZoomPlayerState extends State<ZoomPlayer> {
                       0,
                       1,
                     ),
-                    child: _image != null
-                        ? Image.file(_image)
-                        : Image.asset('assets/large-image.jpg'),
+                    child: context.watch<ZoomPlayerModel>().image,
                   ),
                 ),
               ),
@@ -95,11 +78,6 @@ class _ZoomPlayerState extends State<ZoomPlayer> {
                       context.read<ZoomPlayerModel>().playerStop();
                     },
                     child: Icon(Icons.stop)),
-                RaisedButton(
-                    onPressed: () {
-                      this.getImage();
-                    },
-                    child: Icon(Icons.image)),
                 // RaisedButton(
                 //     onPressed: () {
                 //       context

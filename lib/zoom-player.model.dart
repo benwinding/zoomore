@@ -146,4 +146,12 @@ class ZoomPlayerModel with ChangeNotifier, DiagnosticableTreeMixin {
       ..writeAsBytesSync(blobBytes);
     return gifFile;
   }
+
+  Image _image;
+  get image => _image;
+
+  setImage(Image image) {
+    this._image = image;
+    notifyListeners();
+  }
 }
