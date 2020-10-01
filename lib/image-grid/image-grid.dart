@@ -11,7 +11,7 @@ class ImagesGrid extends StatelessWidget {
         child: GridView.builder(
           itemCount: context.watch<ImageGridModel>().images.length,
           gridDelegate:
-              SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+              SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
           itemBuilder: (BuildContext context, int index) {
             return Container(
                 padding: EdgeInsets.all(1), child: makeImage(context, index));
