@@ -27,9 +27,22 @@ class ImageGridModel with ChangeNotifier, DiagnosticableTreeMixin {
     notifyListeners();
   }
 
+  _checkPermissions() async {
+    Map<Permission, PermissionStatus> statuses = await [
+      Permission.storage,
+      Permission.photos,
+      Permission.mediaLibrary,
+    ].request();
+
+    if (statuses[0].isPermanentlyDenied ||
+        statuses[1].isPermanentlyDenied ||
+        statuses[2].isPermanentlyDenied) {
+      openAppSettings();
+    }
+  }
+
   Future<void> _loadImageList() async {
-    await Future.wait(
-        [Permission.photos.status, Permission.mediaLibrary.status]);
+    await this._checkPermissions();
     final List<MediaCollection> collections =
         await MediaGallery.listMediaCollections(
       mediaTypes: [MediaType.image, MediaType.video],
