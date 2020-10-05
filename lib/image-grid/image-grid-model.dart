@@ -16,13 +16,19 @@ class ImageGridModel with ChangeNotifier, DiagnosticableTreeMixin {
   Image get selectedImage => this._images[this.selectedIndex].image;
   int get selectedIndex => this._index;
 
+  Future<Image> fetchCurrentImageFull() async {
+    final mediaCurrent = this._images[this.selectedIndex].rawMedia;
+    final file = await mediaCurrent.getFile();
+    return Image.file(file);
+  }
+
   void setIndex(int index) {
     this._index = index;
     notifyListeners();
   }
 
   Future<void> _loadImageList() async {
-    final mediaStatuses = await Future.wait(
+    await Future.wait(
         [Permission.photos.status, Permission.mediaLibrary.status]);
     final List<MediaCollection> collections =
         await MediaGallery.listMediaCollections(
@@ -42,7 +48,7 @@ class ImageGridModel with ChangeNotifier, DiagnosticableTreeMixin {
           fit: BoxFit.cover,
           width: double.maxFinite,
         );
-        final imageItem = ImageSelection(image);
+        final imageItem = ImageSelection(image, item);
         _images.insert(i, imageItem);
         notifyListeners();
       });
@@ -52,7 +58,8 @@ class ImageGridModel with ChangeNotifier, DiagnosticableTreeMixin {
 
 class ImageSelection {
   final Image image;
+  final Media rawMedia;
   bool selected;
 
-  ImageSelection(this.image);
+  ImageSelection(this.image, this.rawMedia);
 }

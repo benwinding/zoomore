@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:zoomore/components/zoomable-widget.dart';
 import 'package:zoomore/pages/zoom.dart';
 import 'package:zoomore/zoom-player.model.dart';
 import '../image-grid/image-grid-model.dart';
@@ -34,10 +33,10 @@ class MyHomePage extends StatelessWidget {
                         Center(
                           child: RaisedButton(
                             padding: EdgeInsets.symmetric(horizontal: 12),
-                            onPressed: () {
+                            onPressed: () async {
                               // Add your onPressed code here!
                               final image =
-                                  context.read<ImageGridModel>().selectedImage;
+                                  await context.read<ImageGridModel>().fetchCurrentImageFull();
                               context.read<ZoomPlayerModel>().setImage(image);
                               Navigator.push(
                                   context,

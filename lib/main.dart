@@ -1,10 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zoomore/pages/home.dart';
 import 'package:zoomore/zoom-player.model.dart';
 import 'image-grid/image-grid-model.dart';
-import 'image-grid/image-grid.dart';
 
 void main() {
   runApp(
