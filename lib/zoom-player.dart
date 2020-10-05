@@ -46,7 +46,7 @@ class ZoomPlayer extends StatelessWidget {
             ),
             Slider(
               value: context.watch<ZoomPlayerModel>().playerIndex,
-              label: context.watch<ZoomPlayerModel>().playerIndex.toString(),
+              label: context.watch<ZoomPlayerModel>().playerIndex.toStringAsFixed(0),
               min: 0,
               max: context.watch<ZoomPlayerModel>().framesCount.toDouble(),
               divisions: 100,
