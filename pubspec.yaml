@@ -16,11 +16,13 @@ dependencies:
   provider: 4.3.2
   image_picker: 0.6.7
   permission_handler:
+  flutter_ffmpeg: ^0.3.0
+  path_provider:
+  esys_flutter_share:
   media_gallery:
     git:
       url: git://github.com/rignaneseleo/media_gallery
       ref: f277e8c5955bc824feb700600d641df75329124e
-  screenshot: 0.2.0
   image: 2.1.14
   file: 5.2.1
 

@@ -4,6 +4,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:zoomore/zoom-player.model.dart';
 
 void main() {
+  if (Directory.current.path.endsWith('/test')) {
+    Directory.current = Directory.current.parent;
+  }
   test('Model saves images', () async {
     try {
       final model = ZoomPlayerModel();
