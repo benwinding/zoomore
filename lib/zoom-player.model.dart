@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:math';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
@@ -104,7 +105,29 @@ class ZoomPlayerModel with ChangeNotifier, DiagnosticableTreeMixin {
   bool get isSaving =>
       this._operationSave != null && this._operationSave.isActive;
 
-  void playerSave(RenderRepaintBoundary boundary) async {
+  Future<void> playerSave(RenderRepaintBoundary boundary) async {
+    try {
+      final files = await _createImageFiles(boundary);
+      final imgDirPath = await saveImagesTemp(files);
+      final vidPath = await saveVideoTemp(imgDirPath);
+      await saveVideoToGallery(vidPath);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> playerShare(RenderRepaintBoundary boundary) async {
+    try {
+      final files = await _createImageFiles(boundary);
+      final imgDirPath = await saveImagesTemp(files);
+      final vidPath = await saveVideoTemp(imgDirPath);
+      await sharedVideoPath(vidPath);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<List<File>> _createImageFiles(RenderRepaintBoundary boundary) async {
     playerStop();
     Future<File> takeScreenshot() async {
       final bytes = await this._getImageBytes(boundary);
@@ -124,13 +147,7 @@ class ZoomPlayerModel with ChangeNotifier, DiagnosticableTreeMixin {
       final f = await takeScreenshot();
       files.add(f);
     }
-    try {
-      final imgDirPath = await saveImagesTemp(files);
-      final vidPath = await saveVideoTemp(imgDirPath);
-      await sharedVideoPath(vidPath);
-    } catch (e) {
-      print(e);
-    }
+    return files;
   }
 
   Future<List<int>> _getImageBytes(RenderRepaintBoundary boundary) async {
@@ -189,6 +206,11 @@ class ZoomPlayerModel with ChangeNotifier, DiagnosticableTreeMixin {
   sharedVideoPath(String vidPath) async {
     final vidBytes = await File(vidPath).readAsBytes();
     await Share.file('Save image', 'video.mp4', vidBytes, 'video/mp4');
+  }
+
+  saveVideoToGallery(String vidPath) async {
+    print('saving to file: ' + vidPath);
+    final result = await ImageGallerySaver.saveFile(vidPath);
   }
 
   saveBytes(List<int> bytes) async {

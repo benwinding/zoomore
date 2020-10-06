@@ -60,12 +60,23 @@ class ZoomPlayer extends StatelessWidget {
                       },
                       child: Icon(Icons.close_fullscreen_sharp)),
                   RaisedButton(
+                      onPressed: () async {
+                        RenderRepaintBoundary boundary =
+                            globalKey.currentContext.findRenderObject();
+                        await context.read<ZoomPlayerModel>().playerSave(boundary);
+                        final snackBar = SnackBar(
+                          content: Text('Saved to gallery!'),
+                        );
+                        Scaffold.of(context).showSnackBar(snackBar);
+                      },
+                      child: Icon(Icons.save_alt)),
+                  RaisedButton(
                       onPressed: () {
                         RenderRepaintBoundary boundary =
                             globalKey.currentContext.findRenderObject();
-                        context.read<ZoomPlayerModel>().playerSave(boundary);
+                        context.read<ZoomPlayerModel>().playerShare(boundary);
                       },
-                      child: Icon(Icons.save_alt)),
+                      child: Icon(Icons.share)),
                 ]),
               ),
               Wrap(children: [
