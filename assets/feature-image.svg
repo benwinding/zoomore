@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1024mm"
+   height="500mm"
+   viewBox="0 0 1024 500"
+   version="1.1"
+   id="svg8"
+   inkscape:version="1.0.1 (0767f8302a, 2020-10-17)"
+   sodipodi:docname="feature-image.svg"
+   inkscape:export-filename="/home/ben/projects/zoomore/assets/feature-image-1024-500.png"
+   inkscape:export-xdpi="25.4"
+   inkscape:export-ydpi="25.4">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.10860853"
+     inkscape:cx="782.01162"
+     inkscape:cy="475.13714"
+     inkscape:document-units="px"
+     inkscape:current-layer="text835"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1528"
+     inkscape:window-height="836"
+     inkscape:window-x="72"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-30.793429,-99.999351)">
+    <g
+       aria-label="z"
+       transform="scale(1.1988102,0.83416042)"
+       id="text835"
+       style="font-style:normal;font-weight:normal;font-size:48.2587px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.20648">
+      <path
+         d="m 273.47155,374.14144 q -13.55366,0 -20.87268,-4.4471 -7.31899,-4.08658 -7.31899,-10.09602 v -47.47573 q 0,-5.40858 1.62622,-7.69216 0.81345,-2.16352 6.50573,-4.68748 4.87935,-2.40386 12.74046,-3.24514 8.13222,-0.96261 15.99333,-0.96261 7.31903,0 10.84295,0 H 589.543 q 5.15038,0 13.01146,0 8.13221,0.24034 11.65621,2.52396 3.52393,2.16352 3.52393,4.56727 0,2.28361 -2.16868,4.68759 -0.81299,0.60036 -6.50576,5.04803 L 341.51059,509.11568 q -4.60821,3.00491 -5.15041,4.20698 -0.81349,1.08109 -0.81349,2.04312 -0.27096,0.36013 -0.27096,0.72107 0,0.72111 1.08448,1.32193 1.62645,0.96145 6.77687,1.56246 5.42147,0.48073 16.26439,0.48073 h 113.3087 q 7.04789,0 13.01153,-0.24034 5.15038,0 8.67434,-1.20184 3.52396,-1.20172 4.87938,-3.60551 1.62645,-2.2838 1.62645,-5.28849 v -37.25937 q 0,-3.48553 1.35545,-5.76914 0.81326,-2.16348 4.33722,-3.96625 7.31899,-3.00481 26.02303,-3.00481 h 62.88906 q 10.0297,0 17.89085,0.72111 7.31899,0.84297 10.84292,2.2837 3.52399,1.80277 4.33715,4.20652 0.54199,2.2838 0.54199,5.88954 v 51.08131 q 0,4.4471 -1.89721,7.45201 -2.98173,2.88451 -9.4876,5.28826 -6.50573,2.28369 -12.19827,2.88475 -5.9636,0.96145 -17.34875,0.96145 l -298.1808,0.24034 q -17.07766,0 -24.39661,-0.60036 -7.31899,-0.24034 -14.36692,-3.24518 -4.33715,-1.44206 -4.33715,-5.28838 0,-2.88447 3.52396,-5.88927 L 510.93153,330.99295 q 3.52393,-2.88452 5.69254,-5.28826 2.43967,-2.16352 2.43967,-3.60597 0,-1.44207 -2.43967,-2.28346 -3.52396,-1.44207 -17.34875,-1.44207 -4.87928,0 -7.86108,0 H 347.20313 q -16.53545,0 -27.37841,2.88471 -7.31895,1.80285 -13.01153,5.88931 -6.50579,4.20672 -6.50579,8.29318 v 24.15843 q 0,6.00948 -6.50577,10.09602 -6.50573,4.44725 -20.33048,4.44725 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Checkbook;-inkscape-font-specification:Checkbook;stroke-width:18.4837"
+         id="path837" />
+    </g>
+  </g>
+</svg>
