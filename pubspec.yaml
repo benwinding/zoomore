@@ -26,6 +26,7 @@ dependencies:
       ref: f277e8c5955bc824feb700600d641df75329124e
   image: 2.1.14
   file: 5.2.1
+  flutter_native_splash: ^0.1.9
 
 dev_dependencies:
   flutter_launcher_icons: 0.8.1
@@ -37,6 +38,11 @@ flutter:
 
   assets:
     - assets/large-image.jpg
+    - assets/splash-200x200.png
+
+flutter_native_splash:
+  image: assets/splash-200x200.png
+  color: "2196f3"
 
 flutter_icons:
   android: "launcher_icon"
