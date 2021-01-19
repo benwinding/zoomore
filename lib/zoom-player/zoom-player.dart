@@ -1,14 +1,12 @@
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:zoomore/zoom-player.model.dart';
-import 'components/zoomable-widget.dart';
-import 'package:image_picker/image_picker.dart';
+
+import './zoom-player.model.dart';
+import './zoomable-widget.dart';
 
 class ZoomPlayer extends StatelessWidget {
-  final picker = ImagePicker();
-
-  GlobalKey globalKey = GlobalKey();
+  final GlobalKey globalKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +61,9 @@ class ZoomPlayer extends StatelessWidget {
                       onPressed: () async {
                         RenderRepaintBoundary boundary =
                             globalKey.currentContext.findRenderObject();
-                        await context.read<ZoomPlayerModel>().playerSave(boundary);
+                        await context
+                            .read<ZoomPlayerModel>()
+                            .playerSave(boundary);
                         final snackBar = SnackBar(
                           content: Text('Saved to gallery!'),
                         );
@@ -126,7 +126,20 @@ class ZoomPlayer extends StatelessWidget {
               0,
               1,
             ),
-            child: context.watch<ZoomPlayerModel>().image,
+            child: Stack(children: [
+              // context.watch<ZoomPlayerModel>().imageFull,
+              context.watch<ZoomPlayerModel>().imageFull == null
+                  ? Container()
+                  : context.watch<ZoomPlayerModel>().imageFull,
+              context.watch<ZoomPlayerModel>().image
+              // AnimatedOpacity(
+              //   opacity: context.watch<ZoomPlayerModel>().imageFull == null
+              //       ? 1.0
+              //       : 0.0,
+              //   duration: Duration(milliseconds: 500),
+              //   child: ,
+              // ),
+            ]),
           ),
         ),
       ),

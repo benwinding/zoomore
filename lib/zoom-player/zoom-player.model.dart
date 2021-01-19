@@ -243,10 +243,19 @@ class ZoomPlayerModel with ChangeNotifier, DiagnosticableTreeMixin {
   }
 
   Image _image;
-  get image => _image;
+  Image get image => _image;
 
-  setImage(Image image) {
-    this._image = image;
+  Image _imageFull;
+  Image get imageFull => _imageFull;
+
+  setImage(Image img) {
+    this._image = img;
+    // this._imageFull = null;
+    notifyListeners();
+  }
+
+  setImageFull(Image img) {
+    this._imageFull = img;
     notifyListeners();
   }
 }

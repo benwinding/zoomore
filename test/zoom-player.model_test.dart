@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:zoomore/zoom-player.model.dart';
+import 'package:zoomore/zoom-player/zoom-player.model.dart';
 
 void main() {
   if (Directory.current.path.endsWith('/test')) {
