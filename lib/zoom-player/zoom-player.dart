@@ -104,6 +104,8 @@ class ZoomPlayer extends StatelessWidget {
   }
 
   Widget buildZoomArea(BuildContext context) {
+    final imageFull = context.watch<ZoomPlayerModel>().imageFull;
+    final imageThumb = context.watch<ZoomPlayerModel>().image;
     return RepaintBoundary(
       key: globalKey,
       child: Container(
@@ -127,18 +129,26 @@ class ZoomPlayer extends StatelessWidget {
               1,
             ),
             child: Stack(children: [
-              // context.watch<ZoomPlayerModel>().imageFull,
-              context.watch<ZoomPlayerModel>().imageFull == null
-                  ? Container()
-                  : context.watch<ZoomPlayerModel>().imageFull,
-              context.watch<ZoomPlayerModel>().image
               // AnimatedOpacity(
-              //   opacity: context.watch<ZoomPlayerModel>().imageFull == null
-              //       ? 1.0
-              //       : 0.0,
+              //   opacity: imageFull == null ? 1.0 : 0.0,
               //   duration: Duration(milliseconds: 500),
-              //   child: ,
+              //   child: imageThumb,
               // ),
+              // AnimatedOpacity(
+              //   opacity: imageFull == null ? 0.0 : 1.0,
+              //   duration: Duration(milliseconds: 500),
+              //   child: imageFull == null ? Container : imageFull,
+              // ),
+
+              // imageFull,
+              // imageThumb,
+
+              AnimatedOpacity(
+                opacity: imageFull == null ? 1.0 : 0.0,
+                duration: Duration(milliseconds: 500),
+                child: imageThumb,
+              ),
+              imageFull == null ? Container : imageFull
             ]),
           ),
         ),

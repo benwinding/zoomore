@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -31,6 +32,12 @@ class _ComposedScreenState extends State<ComposedScreen>
     super.dispose();
   }
 
+  static Future<void> getImage(BuildContext context) async {
+    final imgFull =
+        await context.read<ImageGridModel>().fetchCurrentImageFull();
+    context.read<ZoomPlayerModel>().setImageFull(imgFull);
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -44,10 +51,8 @@ class _ComposedScreenState extends State<ComposedScreen>
             setState(() {
               _index = 1;
             });
-            await Future.delayed(Duration(seconds: 1));
-            final imgFull =
-                await context.read<ImageGridModel>().fetchCurrentImageFull();
-            context.read<ZoomPlayerModel>().setImageFull(imgFull);
+            await Future.delayed(Duration(seconds: 2));
+            await compute(getImage, context);
           }),
           ZoomPlayer(),
           BlankScreen(
