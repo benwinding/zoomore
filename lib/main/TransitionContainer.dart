@@ -3,14 +3,17 @@ import 'package:flutter/material.dart';
 /// This is the stateful widget that the main application instantiates.
 class TransitionContainer extends StatefulWidget {
   final int index;
+  final void Function(int) setMaxCount;
   final List<Widget> children;
 
   TransitionContainer({
     Key key,
     @required this.index,
     @required this.children,
+    @required this.setMaxCount
   }) : super(key: key) {
-    print('TransitionContainer() ' + this.index.toString());
+    // print('TransitionContainer() ' + this.index.toString() + ' maxCount:' + this.children.length.toString());
+    this.setMaxCount(this.children.length);
   }
 
   @override
@@ -30,13 +33,13 @@ class _TransitionContainerState extends State<TransitionContainer>
   @override
   void didUpdateWidget(TransitionContainer oldWidget) {
     bool hasChanged = oldWidget.index != widget.index;
-    print('didUpdate oldIndex=' +
-        oldWidget.index.toString() +
-        ', newIndex=' +
-        widget.index.toString() +
-        // ', movingForward=' +
-        // movingForward.toString()
-        '');
+    // print('didUpdate oldIndex=' +
+    //     oldWidget.index.toString() +
+    //     ', newIndex=' +
+    //     widget.index.toString() +
+    //     // ', movingForward=' +
+    //     // movingForward.toString()
+    //     '');
     if (hasChanged) {
       bool movingForward = widget.index > oldWidget.index;
 

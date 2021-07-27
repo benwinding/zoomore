@@ -35,12 +35,12 @@ class ZoomPlayer extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 child:
                     ButtonBar(alignment: MainAxisAlignment.center, children: [
-                  RaisedButton(
+                  ElevatedButton(
                       onPressed: () {
                         context.read<ZoomPlayerModel>().playerRecord();
                       },
                       child: Icon(Icons.fiber_manual_record)),
-                  RaisedButton(
+                  ElevatedButton(
                       onPressed: () {
                         final m = context.read<ZoomPlayerModel>();
                         if (m.isPlaying) {
@@ -52,12 +52,12 @@ class ZoomPlayer extends StatelessWidget {
                       child: Icon(context.watch<ZoomPlayerModel>().isPlaying
                           ? Icons.pause
                           : Icons.play_arrow)),
-                  RaisedButton(
+                  ElevatedButton(
                       onPressed: () {
                         context.read<ZoomPlayerModel>().reset();
                       },
                       child: Icon(Icons.close_fullscreen_sharp)),
-                  RaisedButton(
+                  ElevatedButton(
                       onPressed: () async {
                         RenderRepaintBoundary boundary =
                             globalKey.currentContext.findRenderObject();
@@ -70,7 +70,7 @@ class ZoomPlayer extends StatelessWidget {
                         Scaffold.of(context).showSnackBar(snackBar);
                       },
                       child: Icon(Icons.save_alt)),
-                  RaisedButton(
+                  ElevatedButton(
                       onPressed: () {
                         RenderRepaintBoundary boundary =
                             globalKey.currentContext.findRenderObject();
@@ -148,7 +148,7 @@ class ZoomPlayer extends StatelessWidget {
                 duration: Duration(milliseconds: 500),
                 child: imageThumb,
               ),
-              imageFull == null ? Container : imageFull
+              imageFull == null ? Container() : imageFull
             ]),
           ),
         ),
