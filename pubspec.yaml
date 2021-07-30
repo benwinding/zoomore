@@ -49,4 +49,4 @@ flutter_icons:
   android: "launcher_icon"
   ios: true
   image_path: "assets/zoomore-icon-512x512.png"
-  
+  image_path_ios: "assets/zoomore-icon-opaque-512x512.png"
