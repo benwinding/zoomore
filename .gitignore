@@ -34,6 +34,9 @@
 # Web related
 lib/generated_plugin_registrant.dart
 
+# Web related
+ios/build
+
 # Symbolication related
 app.*.symbols
 
@@ -44,3 +47,5 @@ app.*.map.json
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 
 test/output.gif
+android/app/release*
+android/app/debug*

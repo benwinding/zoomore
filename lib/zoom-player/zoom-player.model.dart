@@ -6,7 +6,7 @@ import 'package:file/memory.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
+// import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:math';
@@ -186,7 +186,7 @@ class ZoomPlayerModel with ChangeNotifier, DiagnosticableTreeMixin {
       await File(outPath).delete();
     }
     final imagesPath = imgDirPath + '/img_%04d.png';
-    final FlutterFFmpeg _flutterFFmpeg = new FlutterFFmpeg();
+    // final FlutterFFmpeg _flutterFFmpeg = new FlutterFFmpeg();
     final arguments = [
       "-r",
       "10",
@@ -198,7 +198,7 @@ class ZoomPlayerModel with ChangeNotifier, DiagnosticableTreeMixin {
       "25",
       outPath
     ];
-    await _flutterFFmpeg.executeWithArguments(arguments);
+    // await _flutterFFmpeg.executeWithArguments(arguments);
     await Directory(imgDirPath).delete(recursive: true);
     return outPath;
   }

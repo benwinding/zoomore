@@ -1,4 +1,4 @@
-package com.example.zoomore
+package com.benwinding.zoomore
 
 import io.flutter.embedding.android.FlutterActivity
 
