@@ -41,7 +41,7 @@ android {
     defaultConfig {
         applicationId "com.benwinding.zoomore"
         minSdkVersion 16
-        targetSdkVersion 30
+        targetSdkVersion 28
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
