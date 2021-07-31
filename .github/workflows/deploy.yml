@@ -2,6 +2,9 @@ on:
   push:
     branches:
       - master
+    paths:
+      - 'landing-page/**'
+      - '.github/**'
 
 name: "Deploy 🚀 Landing Page"
 jobs:
@@ -34,8 +37,8 @@ jobs:
             IdentityFile ~/.ssh/id_rsa-target
       - name: Allow git pushing
         run: |
-          git config --global user.email "you@example.com"
-          git config --global user.name "Your Name"
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
       - run: yarn build
         working-directory: ./landing-page
       - run: yarn deploy
