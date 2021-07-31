@@ -25,4 +25,3 @@
     "build": "rimraf dist && next build && next export -o dist/"
   }
 }
-
