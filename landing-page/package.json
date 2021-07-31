@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "autoprefixer": "^10.1.0",
-    "dokku-pages": "^1.0.1",
+    "dokku-pages": "^1.0.10",
     "next": "^10.0.3",
     "postcss": "^8.2.1",
     "react": "^17.0.1",
@@ -20,7 +20,7 @@
     "node": ">=12.13.0"
   },
   "scripts": {
-    "deploy": "dokku-pages deploy -g dokku@benwinding.com:zoomore -d dist --minimal",
+    "deploy": "yarn dokku-pages deploy -g dokku@benwinding.com:zoomore -d dist --minimal",
     "start": "next dev",
     "build": "rimraf dist && next build && next export -o dist/"
   }
