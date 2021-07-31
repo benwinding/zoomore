@@ -10,20 +10,20 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  # flutter_google_ad_manager: ^0.11.1
   cupertino_icons: ^0.1.3
   matrix_gesture_detector: 0.1.0
   provider: 4.3.2
   image_picker: 0.6.7
   permission_handler:
-  # flutter_ffmpeg: ^0.3.0
+  # flutter_ffmpeg: 0.3.0
   path_provider:
-  esys_flutter_share: '1.0.2'
-  image_gallery_saver: '^1.6.9'
+  esys_flutter_share: 1.0.2
+  image_gallery_saver: 1.6.9
   media_gallery:
+    # Fixes issue: https://github.com/aloisdeniel/media_gallery/issues/28
     git:
-      url: git://github.com/rignaneseleo/media_gallery
-      ref: f277e8c5955bc824feb700600d641df75329124e
+      url: git://github.com/Geostry/media_gallery
+      ref: f5b30c7298f01dcc1589b6ac450888010c0da9f3
   image: 2.1.14
   file: 5.2.1
   flutter_native_splash: ^0.1.9
@@ -44,6 +44,7 @@ flutter:
 flutter_native_splash:
   image: assets/splash-200x200.png
   color: "2196f3"
+  android12: true
 
 flutter_icons:
   android: "launcher_icon"

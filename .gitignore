@@ -49,3 +49,5 @@ app.*.map.json
 test/output.gif
 android/app/release*
 android/app/debug*
+
+**/.next/**
