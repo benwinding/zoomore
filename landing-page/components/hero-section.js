@@ -18,15 +18,17 @@ export function HeroSection() {
 
             <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="sm:text-center lg:text-left pt-10">
-                <h1 className="">
-                  <span className="block text-6xl font-checkbk xl:inline">
-                    <span className="text-gray-900">Zoom</span>
-                    <span className="text-blue-500">ore</span>
-                  </span>
+                <span className="">
+                  <a href="/">
+                    <span className="block text-6xl font-checkbk xl:inline">
+                      <span className="text-gray-900">Zoom</span>
+                      <span className="text-blue-500">ore</span>
+                    </span>
+                  </a>
                   <span className="block text-3xl text-gray-400">
                     Turn pictures into videos
                   </span>
-                </h1>
+                </span>
                 <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
                   Zoom, pan and rotate your image to make an entertaining video.
                 </p>
