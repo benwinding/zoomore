@@ -47,19 +47,17 @@ class _ComposedScreenState extends State<ComposedScreen>
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
-    final onTapImage = () async {
+    final BlankPage = (ui.Color c, String key) {
+      return BlankScreen(color: c, width: width, height: height, key: Key(key));
+    };
+
+    Future<void> onTapImage() async {
       final imgThumb = context.read<ImageGridModel>().selectedImage;
       context.read<ZoomPlayerModel>().setImage(imgThumb);
       setState(() {
         _index = 1;
       });
-      await Future.delayed(Duration(seconds: 2));
-      await compute(getImage, context);
-    };
-
-    final BlankPage = (ui.Color c, String key) {
-      return BlankScreen(color: c, width: width, height: height, key: Key(key));
-    };
+    }
 
     return Scaffold(
         body: TransitionContainer(
