@@ -3,14 +3,20 @@ import 'package:flutter/material.dart';
 /// This is the stateful widget that the main application instantiates.
 class TransitionContainer extends StatefulWidget {
   final int index;
+  final int durationMs;
   final void Function(int) setMaxCount;
   final List<Widget> children;
+  final Curve curveIn;
+  final Curve curveOut;
 
   TransitionContainer({
     Key key,
     @required this.index,
     @required this.children,
-    @required this.setMaxCount
+    @required this.setMaxCount,
+    @required this.curveIn,
+    @required this.curveOut,
+    @required this.durationMs
   }) : super(key: key) {
     // print('TransitionContainer() ' + this.index.toString() + ' maxCount:' + this.children.length.toString());
     this.setMaxCount(this.children.length);
@@ -64,14 +70,14 @@ class _TransitionContainerState extends State<TransitionContainer>
       end: Offset(-1, 0.0),
     ).animate(CurvedAnimation(
       parent: _controller,
-      curve: Curves.bounceOut,
+      curve: widget.curveOut,
     ));
     _offsetAnimation1 = Tween<Offset>(
       begin: Offset(1, 0.0),
       end: Offset(0, 0.0),
     ).animate(CurvedAnimation(
       parent: _controller,
-      curve: Curves.bounceOut,
+      curve: widget.curveOut,
     ));
   }
 
@@ -81,14 +87,14 @@ class _TransitionContainerState extends State<TransitionContainer>
       end: Offset(-1, 0.0),
     ).animate(CurvedAnimation(
       parent: _controller,
-      curve: Curves.bounceIn,
+      curve: widget.curveIn,
     ));
     _offsetAnimation1 = Tween<Offset>(
       begin: Offset(1, 0.0),
       end: Offset(0, 0.0),
     ).animate(CurvedAnimation(
       parent: _controller,
-      curve: Curves.bounceIn,
+      curve: widget.curveIn,
     ));
   }
 
@@ -97,7 +103,7 @@ class _TransitionContainerState extends State<TransitionContainer>
     super.initState();
 
     _controller = AnimationController(
-      duration: const Duration(seconds: 1),
+      duration: Duration(milliseconds: widget.durationMs),
       vsync: this,
     );
     this.setWidgets(this.widget.index, this.widget.index + 1);

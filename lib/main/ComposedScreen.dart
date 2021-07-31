@@ -61,16 +61,20 @@ class _ComposedScreenState extends State<ComposedScreen>
 
     return Scaffold(
         body: TransitionContainer(
-            index: _index,
-            setMaxCount: (count) => this.setState(() {
-                  _indexMax = count;
-                }),
-            children: [
-              ImagesGrid(onTapImage: onTapImage),
-              ZoomPlayer(),
-              BlankPage(Colors.black, '1'),
-              BlankPage(Colors.blue, '2'),
-            ]),
+          index: _index,
+          setMaxCount: (count) => this.setState(() {
+            _indexMax = count;
+          }),
+          children: [
+            ImagesGrid(onTapImage: onTapImage),
+            ZoomPlayer(),
+            BlankPage(Colors.red, '1'),
+            BlankPage(Colors.blue, '2'),
+          ],
+          curveIn: Curves.easeInExpo,
+          curveOut: Curves.easeOutExpo,
+          durationMs: 700,
+        ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: Padding(
           padding: EdgeInsets.only(left: 10, right: 10),
