@@ -32,6 +32,10 @@ jobs:
           known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
           config: |
             IdentityFile ~/.ssh/id_rsa-target
+      - name: Allow git pushing
+        run: |
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
       - run: yarn build
         working-directory: ./landing-page
       - run: yarn deploy
