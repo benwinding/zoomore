@@ -2,6 +2,7 @@ name: zoomore
 description: A new Flutter project.
 
 version: 0.0.3+4
+publish_to: none
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
