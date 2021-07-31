@@ -21,7 +21,7 @@ export function FooterSection() {
     &copy; 2021 Ben Winding
   </p>
 
-  const PrivacyLink = <a href="/privacy-policy" className="flex text-blue-900">
+  const PrivacyLink = <a href="/privacy-policy.html" className="flex text-blue-900">
     <span className="ml-1">Privacy Policy</span>
   </a>
 
