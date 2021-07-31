@@ -12,6 +12,8 @@ import 'BlankScreen.dart';
 import './TransitionContainer.dart';
 import 'ButtonsBottom.dart';
 
+import 'dart:ui' as ui;
+
 class ComposedScreen extends StatefulWidget {
   @override
   _ComposedScreenState createState() => _ComposedScreenState();
@@ -45,6 +47,20 @@ class _ComposedScreenState extends State<ComposedScreen>
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
+    final onTapImage = () async {
+      final imgThumb = context.read<ImageGridModel>().selectedImage;
+      context.read<ZoomPlayerModel>().setImage(imgThumb);
+      setState(() {
+        _index = 1;
+      });
+      await Future.delayed(Duration(seconds: 2));
+      await compute(getImage, context);
+    };
+
+    final BlankPage = (ui.Color c, String key) {
+      return BlankScreen(color: c, width: width, height: height, key: Key(key));
+    };
+
     return Scaffold(
         body: TransitionContainer(
             index: _index,
@@ -52,26 +68,10 @@ class _ComposedScreenState extends State<ComposedScreen>
                   _indexMax = count;
                 }),
             children: [
-              ImagesGrid(onTapImage: () async {
-                final imgThumb = context.read<ImageGridModel>().selectedImage;
-                context.read<ZoomPlayerModel>().setImage(imgThumb);
-                setState(() {
-                  _index = 1;
-                });
-                await Future.delayed(Duration(seconds: 2));
-                await compute(getImage, context);
-              }),
+              ImagesGrid(onTapImage: onTapImage),
               ZoomPlayer(),
-              BlankScreen(
-                  color: Colors.blue,
-                  width: width,
-                  height: height,
-                  key: Key('0_blue')),
-              BlankScreen(
-                  color: Colors.red,
-                  width: width,
-                  height: height,
-                  key: Key('1_red')),
+              BlankPage(Colors.black, '1'),
+              BlankPage(Colors.blue, '2'),
             ]),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: Padding(
@@ -83,10 +83,9 @@ class _ComposedScreenState extends State<ComposedScreen>
               _index > 0 ? _index-- : _index = 0;
             }),
             onNext: () => this.setState(() {
-              _index <= _indexMax? _index++ : _index = _indexMax - 1;
+              _index <= _indexMax ? _index++ : _index = _indexMax - 1;
             }),
           ),
         ));
   }
 }
-
