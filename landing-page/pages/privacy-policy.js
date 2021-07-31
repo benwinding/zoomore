@@ -2,11 +2,11 @@ import Head from "next/head";
 
 export default function Page() {
   return (
-    <div>
+    <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
       <Head>
         <title>Zoomore - Privacy Policy</title>
       </Head>
-      <h2>Privacy Policy</h2>
+      <h2 className="text-3xl">Privacy Policy</h2>
       <p>
         Ben Winding built the Zoomore app as a Free app. This SERVICE is provided
         by Ben Winding at no cost and is intended for use as is.
