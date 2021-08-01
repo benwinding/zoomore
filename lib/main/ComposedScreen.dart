@@ -9,10 +9,12 @@ import '../image-grid/image-grid.dart';
 import '../zoom-player/zoom-player.model.dart';
 
 import 'BlankScreen.dart';
-import './TransitionContainer.dart';
+import '../layouts/TransitionContainer.dart';
 import 'ButtonsBottom.dart';
 
 import 'dart:ui' as ui;
+
+import '../layouts/LayoutTopBottom.dart';
 
 class ComposedScreen extends StatefulWidget {
   @override
@@ -59,28 +61,33 @@ class _ComposedScreenState extends State<ComposedScreen>
       });
     }
 
+    final hasImage = context.watch<ZoomPlayerModel>().image != null;
+    final body = TransitionContainer(
+      index: _index,
+      setMaxCount: (count) => this.setState(() {
+        _indexMax = count;
+      }),
+      children: [
+        ImagesGrid(onTapImage: onTapImage),
+        ZoomPlayer(),
+        BlankPage(Colors.red, '1'),
+        BlankPage(Colors.blue, '2'),
+      ],
+      curveIn: Curves.easeInExpo,
+      curveOut: Curves.easeOutExpo,
+      durationMs: 700,
+    );
+
     return Scaffold(
-        body: TransitionContainer(
-          index: _index,
-          setMaxCount: (count) => this.setState(() {
-            _indexMax = count;
-          }),
-          children: [
-            ImagesGrid(onTapImage: onTapImage),
-            ZoomPlayer(),
-            BlankPage(Colors.red, '1'),
-            BlankPage(Colors.blue, '2'),
-          ],
-          curveIn: Curves.easeInExpo,
-          curveOut: Curves.easeOutExpo,
-          durationMs: 700,
-        ),
+        body: body,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: Padding(
           padding: EdgeInsets.only(left: 10, right: 10),
           child: BottomButtons(
             index: _index,
             indexMax: _indexMax,
+            disabledNext: true,
+            disabledPrev: true,
             onPrev: () => this.setState(() {
               _index > 0 ? _index-- : _index = 0;
             }),

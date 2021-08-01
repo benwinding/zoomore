@@ -11,6 +11,7 @@ class ImagesGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: new Container(
+        color: Colors.lightGreen.shade100,
         alignment: Alignment.center,
         child: GridView.builder(
           itemCount: context.watch<ImageGridModel>().images.length,

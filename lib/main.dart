@@ -32,6 +32,9 @@ class MyApp extends StatelessWidget {
           backgroundColor: Colors.amber,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: ComposedScreen());
+        home: Container(
+            padding: EdgeInsets.all(5.0),
+            color: Colors.blueGrey,
+            child: ComposedScreen()));
   }
 }

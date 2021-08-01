@@ -31,13 +31,9 @@ class ImageGridModel with ChangeNotifier, DiagnosticableTreeMixin {
     Map<Permission, PermissionStatus> statuses = await [
       Permission.storage,
       Permission.photos,
-      // Permission.mediaLibrary,
     ].request();
 
-    if (statuses[0].isPermanentlyDenied ||
-        statuses[1].isPermanentlyDenied
-        // statuses[2].isPermanentlyDenied
-        ) {
+    if (statuses[0].isPermanentlyDenied || statuses[1].isPermanentlyDenied) {
       openAppSettings();
     }
   }
