@@ -21,6 +21,7 @@ class _ImagesGridState extends State<ImagesGrid> {
 
   @override
   void dispose() {
+    super.dispose();
     GetIt.I.get<ImageGridModel>().removeListener(this.onModelChange);
   }  
 

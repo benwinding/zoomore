@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:provider/provider.dart';
 import 'package:zoomore/screens/screens.model.dart';
-
-import '../image-grid/image-grid-model.dart';
-import '../zoom-player/zoom-player.model.dart';
 
 import '../layouts/TransitionContainer.dart';
 
@@ -25,8 +21,8 @@ class _ComposedScreenState extends State<ComposedScreen>
 
   @override
   void dispose() {
-    _controller.dispose();
     super.dispose();
+    _controller.dispose();
     GetIt.I.get<ScreensModel>().removeListener(this.onScreenChange);
   }
 
@@ -34,12 +30,6 @@ class _ComposedScreenState extends State<ComposedScreen>
     setState(() {
       index = GetIt.I.get<ScreensModel>().currentScreenIndex;
     });
-  }
-
-  static Future<void> getImage(BuildContext context) async {
-    final imgFull =
-        await GetIt.I.get<ImageGridModel>().fetchCurrentImageFull();
-    context.read<ZoomPlayerModel>().setImageFull(imgFull);
   }
 
   @override

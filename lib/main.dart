@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 import 'package:zoomore/screens/screens.dart';
 import 'package:zoomore/screens/screens.model.dart';
 
@@ -16,17 +15,9 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   GetIt.I.registerSingleton(new ScreensModel(screens));
   GetIt.I.registerSingleton(new ImageGridModel());
-  // GetIt.I.registerSingleton(new ZoomPlayerModel());
-  runApp(
-    MultiProvider(
-      providers: [
-        // ChangeNotifierProvider(create: (_) => ImageGridModel()),
-        ChangeNotifierProvider(create: (_) => ZoomPlayerModel()),
-        // ChangeNotifierProvider(create: (_) => ScreensModel()),
-      ],
-      child: MyApp(),
-    ),
-  );
+  GetIt.I.registerSingleton(new ZoomPlayerModel());
+
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {

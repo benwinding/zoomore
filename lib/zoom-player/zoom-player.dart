@@ -1,15 +1,53 @@
 import 'package:flutter/rendering.dart';
-import 'package:provider/provider.dart';
+import 'package:get_it/get_it.dart';
 import 'package:flutter/material.dart';
 
 import './zoom-player.model.dart';
 import './zoomable-widget.dart';
 
-class ZoomPlayer extends StatelessWidget {
+class ZoomPlayer extends StatefulWidget {
+  @override
+  _ZoomPlayerState createState() => _ZoomPlayerState();
+}
+
+class _ZoomPlayerState extends State<ZoomPlayer> {
   final GlobalKey globalKey = GlobalKey();
+
+  double playerIndex;
+  double framesCount;
+
+  bool isPlaying;
+  bool isSaving;
+  Matrix4 matrix;
+  Image image;
+  Image imageFull;
+
+  _ZoomPlayerState() {
+    GetIt.I.get<ZoomPlayerModel>().addListener(this.onModelChanged);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    GetIt.I.get<ZoomPlayerModel>().removeListener(this.onModelChanged);
+  }
+
+  void onModelChanged() {
+    setState(() {
+      final m = GetIt.I.get<ZoomPlayerModel>();
+      playerIndex = m.playerIndex;
+      isPlaying = m.isPlaying;
+      isSaving = m.isSaving;
+      matrix = m.matrix;
+      framesCount = m.framesCount.toDouble();
+      image = m.image;
+      imageFull = m.imageFull;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    final m = GetIt.I.get<ZoomPlayerModel>();
     return Container(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -19,16 +57,13 @@ class ZoomPlayer extends StatelessWidget {
             children: [
               buildZoomArea(context),
               Slider(
-                value: context.watch<ZoomPlayerModel>().playerIndex,
-                label: context
-                    .watch<ZoomPlayerModel>()
-                    .playerIndex
-                    .toStringAsFixed(0),
+                value: playerIndex,
+                label: playerIndex.toStringAsFixed(0),
                 min: 0,
-                max: context.watch<ZoomPlayerModel>().framesCount.toDouble(),
+                max: framesCount,
                 divisions: 100,
                 onChanged: (value) {
-                  context.read<ZoomPlayerModel>().setSlider(value);
+                  m.setSlider(value);
                 },
               ),
               SingleChildScrollView(
@@ -37,33 +72,28 @@ class ZoomPlayer extends StatelessWidget {
                     ButtonBar(alignment: MainAxisAlignment.center, children: [
                   ElevatedButton(
                       onPressed: () {
-                        context.read<ZoomPlayerModel>().playerRecord();
+                        m.playerRecord();
                       },
                       child: Icon(Icons.fiber_manual_record)),
                   ElevatedButton(
                       onPressed: () {
-                        final m = context.read<ZoomPlayerModel>();
                         if (m.isPlaying) {
                           m.playerStop();
                         } else {
                           m.playerStart();
                         }
                       },
-                      child: Icon(context.watch<ZoomPlayerModel>().isPlaying
-                          ? Icons.pause
-                          : Icons.play_arrow)),
+                      child: Icon(isPlaying ? Icons.pause : Icons.play_arrow)),
                   ElevatedButton(
                       onPressed: () {
-                        context.read<ZoomPlayerModel>().reset();
+                        m.reset();
                       },
                       child: Icon(Icons.close_fullscreen_sharp)),
                   ElevatedButton(
                       onPressed: () async {
                         RenderRepaintBoundary boundary =
                             globalKey.currentContext.findRenderObject();
-                        await context
-                            .read<ZoomPlayerModel>()
-                            .playerSave(boundary);
+                        m.playerSave(boundary);
                         final snackBar = SnackBar(
                           content: Text('Saved to gallery!'),
                         );
@@ -74,27 +104,15 @@ class ZoomPlayer extends StatelessWidget {
                       onPressed: () {
                         RenderRepaintBoundary boundary =
                             globalKey.currentContext.findRenderObject();
-                        context.read<ZoomPlayerModel>().playerShare(boundary);
+                        m.playerShare(boundary);
                       },
                       child: Icon(Icons.share)),
                 ]),
               ),
               Wrap(children: [
-                Text(context
-                        .watch<ZoomPlayerModel>()
-                        .playerIndex
-                        .toInt()
-                        .toString() +
-                    ' '),
-                Text(context
-                        .watch<ZoomPlayerModel>()
-                        .framesCount
-                        .toInt()
-                        .toString() +
-                    ' Frames'),
-                context.watch<ZoomPlayerModel>().isSaving
-                    ? Text('Saving....')
-                    : Text('')
+                Text(playerIndex.toInt().toString() + ' '),
+                Text(framesCount.toInt().toString() + ' Frames'),
+                isSaving ? Text('Saving....') : Text('')
               ])
             ],
           )
@@ -104,8 +122,8 @@ class ZoomPlayer extends StatelessWidget {
   }
 
   Widget buildZoomArea(BuildContext context) {
-    final imageFull = context.watch<ZoomPlayerModel>().imageFull;
-    final imageThumb = context.watch<ZoomPlayerModel>().image;
+    // final imageFull = imageFull;
+    final imageThumb = image;
     return RepaintBoundary(
       key: globalKey,
       child: Container(
@@ -116,8 +134,8 @@ class ZoomPlayer extends StatelessWidget {
           1,
         ),
         child: ZoomableWidget(
-          onChange: (m) => context.read<ZoomPlayerModel>().setMatrix(m),
-          matrix: context.watch<ZoomPlayerModel>().matrix,
+          onChange: (m) => GetIt.I.get<ZoomPlayerModel>().setMatrix(m),
+          matrix: matrix,
           key: Key('zoomy'),
           child: Container(
             width: 400,
