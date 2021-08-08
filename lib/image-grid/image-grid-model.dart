@@ -14,6 +14,7 @@ class ImageGridModel with ChangeNotifier {
   List<ImageSelection> get images => this._images;
   Image get selectedImage => this._images[this.selectedIndex].image;
   int get selectedIndex => this._index;
+  int get imageCount => this._images.length;
 
   Future<Image> fetchCurrentImageFull() async {
     final mediaCurrent = this._images[this.selectedIndex].rawMedia;

@@ -3,10 +3,33 @@ import 'package:flutter/material.dart';
 
 import './image-grid-model.dart';
 
-class ImagesGrid extends StatelessWidget {
+class ImagesGrid extends StatefulWidget {
   final Future<void> Function() onTapImage;
 
   ImagesGrid({this.onTapImage});
+
+  @override
+  _ImagesGridState createState() => _ImagesGridState();
+}
+
+class _ImagesGridState extends State<ImagesGrid> {
+  int itemCount = 0;
+
+  _ImagesGridState() {
+    GetIt.I.get<ImageGridModel>().addListener(this.onModelChange);
+  }
+
+  @override
+  void dispose() {
+    GetIt.I.get<ImageGridModel>().removeListener(this.onModelChange);
+  }  
+
+  void onModelChange() {
+    setState(() {
+      final m = GetIt.I.get<ImageGridModel>();
+      itemCount = m.imageCount;
+    });
+  }
 
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -14,7 +37,7 @@ class ImagesGrid extends StatelessWidget {
         color: Colors.lightGreen.shade100,
         alignment: Alignment.center,
         child: GridView.builder(
-          itemCount: GetIt.I.get<ImageGridModel>().images.length,
+          itemCount: itemCount,
           gridDelegate:
               SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
           itemBuilder: (BuildContext context, int index) {
@@ -36,7 +59,7 @@ class ImagesGrid extends StatelessWidget {
               : null),
       onTap: () async {
         GetIt.I.get<ImageGridModel>().setIndex(index);
-        this.onTapImage();
+        this.widget.onTapImage();
       },
     );
   }
