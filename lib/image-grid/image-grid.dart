@@ -14,21 +14,31 @@ class ImagesGrid extends StatefulWidget {
 
 class _ImagesGridState extends State<ImagesGrid> {
   int itemCount = 0;
+  int selectedIndex = 0;
+  List<ImageSelection> images;
 
   _ImagesGridState() {
     GetIt.I.get<ImageGridModel>().addListener(this.onModelChange);
   }
 
   @override
+  void initState() {
+    super.initState();
+    this.onModelChange();
+  }
+
+  @override
   void dispose() {
     super.dispose();
     GetIt.I.get<ImageGridModel>().removeListener(this.onModelChange);
-  }  
+  }
 
   void onModelChange() {
     setState(() {
       final m = GetIt.I.get<ImageGridModel>();
       itemCount = m.imageCount;
+      images = m.images;
+      selectedIndex = m.selectedIndex;
     });
   }
 
@@ -53,11 +63,9 @@ class _ImagesGridState extends State<ImagesGrid> {
   makeImage(BuildContext c, int index) {
     return GestureDetector(
       child: Container(
-          child: GetIt.I.get<ImageGridModel>().images[index].image,
+          child: images[index].image,
           color: Colors.black,
-          padding: GetIt.I.get<ImageGridModel>().selectedIndex == index
-              ? EdgeInsets.all(7)
-              : null),
+          padding: selectedIndex == index ? EdgeInsets.all(7) : null),
       onTap: () async {
         GetIt.I.get<ImageGridModel>().setIndex(index);
         this.widget.onTapImage();
