@@ -16,7 +16,7 @@ class TransitionContainer extends StatefulWidget {
     @required this.curveOut,
     @required this.durationMs
   }) : super(key: key) {
-    // print('TransitionContainer() ' + this.index.toString() + ' maxCount:' + this.children.length.toString());
+    print('TransitionContainer() ' + this.index.toString() + ' maxCount:' + this.children.length.toString());
   }
 
   @override
@@ -36,13 +36,13 @@ class _TransitionContainerState extends State<TransitionContainer>
   @override
   void didUpdateWidget(TransitionContainer oldWidget) {
     bool hasChanged = oldWidget.index != widget.index;
-    // print('didUpdate oldIndex=' +
-    //     oldWidget.index.toString() +
-    //     ', newIndex=' +
-    //     widget.index.toString() +
-    //     // ', movingForward=' +
-    //     // movingForward.toString()
-    //     '');
+    print('didUpdate oldIndex=' +
+        oldWidget.index.toString() +
+        ', newIndex=' +
+        widget.index.toString() +
+        // ', movingForward=' +
+        // movingForward.toString()
+        '');
     if (hasChanged) {
       bool movingForward = widget.index > oldWidget.index;
 

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:zoomore/screens/screens.model.dart';
-import '../screens/screens.dart';
 
 import '../image-grid/image-grid-model.dart';
 import '../zoom-player/zoom-player.model.dart';
@@ -17,18 +16,24 @@ class ComposedScreen extends StatefulWidget {
 class _ComposedScreenState extends State<ComposedScreen>
     with SingleTickerProviderStateMixin {
   AnimationController _controller;
+  int index = 0;
 
   _ComposedScreenState() {
     this._controller = new AnimationController(vsync: this);
-    GetIt.I
-        .get<ScreensModel>()
-        .initScreens(() => [ImageScreen(), ZoomScreen(), EmptyColorScreen()]);
+    GetIt.I.get<ScreensModel>().addListener(this.onScreenChange);
   }
 
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
+    GetIt.I.get<ScreensModel>().removeListener(this.onScreenChange);
+  }
+
+  void onScreenChange() {
+    setState(() {
+      index = GetIt.I.get<ScreensModel>().currentScreenIndex;
+    });
   }
 
   static Future<void> getImage(BuildContext context) async {
@@ -39,25 +44,10 @@ class _ComposedScreenState extends State<ComposedScreen>
 
   @override
   Widget build(BuildContext context) {
-    // final width = MediaQuery.of(context).size.width;
-    // final height = MediaQuery.of(context).size.height;
-
-    // final BlankPage = (ui.Color c, String key) {
-    //   return BlankScreen(color: c, width: width, height: height, key: Key(key));
-    // };
-
-    // Future<void> onTapImage() async {
-    //   final imgThumb = context.read<ImageGridModel>().selectedImage;
-    //   context.read<ZoomPlayerModel>().setImage(imgThumb);
-    //   setState(() {
-    //     _index = 1;
-    //   });
-    // }
-
     final s = GetIt.I.get<ScreensModel>();
 
     final body = TransitionContainer(
-      index: s.currentScreenIndex,
+      index: index,
       children: s.screenComponents,
       curveIn: Curves.easeInExpo,
       curveOut: Curves.easeOutExpo,
