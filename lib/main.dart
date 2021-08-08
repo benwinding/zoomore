@@ -11,11 +11,16 @@ import './screens/screens.dart';
 import 'package:get_it/get_it.dart';
 
 void main() {
-  final screens = [ImageScreen(), ZoomScreen(), EmptyColorScreen()];
   WidgetsFlutterBinding.ensureInitialized();
+  final screens = [ImageScreen(), ZoomScreen(), EmptyColorScreen()];
   GetIt.I.registerSingleton(new ScreensModel(screens));
   GetIt.I.registerSingleton(new ImageGridModel());
   GetIt.I.registerSingleton(new ZoomPlayerModel());
+
+  GetIt.I.get<ImageGridModel>().addListener(() {
+    final image = GetIt.I.get<ImageGridModel>().selectedImage;
+    GetIt.I.get<ZoomPlayerModel>().setImage(image);
+  });
 
   runApp(MyApp());
 }

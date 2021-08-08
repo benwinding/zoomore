@@ -4,10 +4,6 @@ import 'package:flutter/material.dart';
 import './image-grid-model.dart';
 
 class ImagesGrid extends StatefulWidget {
-  final Future<void> Function() onTapImage;
-
-  ImagesGrid({this.onTapImage});
-
   @override
   _ImagesGridState createState() => _ImagesGridState();
 }
@@ -68,7 +64,6 @@ class _ImagesGridState extends State<ImagesGrid> {
           padding: selectedIndex == index ? EdgeInsets.all(7) : null),
       onTap: () async {
         GetIt.I.get<ImageGridModel>().setIndex(index);
-        this.widget.onTapImage();
       },
     );
   }

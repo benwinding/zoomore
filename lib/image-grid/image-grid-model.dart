@@ -5,7 +5,7 @@ import 'package:permission_handler/permission_handler.dart';
 class ImageGridModel with ChangeNotifier {
   List<ImageSelection> _images = [];
 
-  int _index;
+  int _index = 0;
 
   ImageGridModel() {
     this._loadImageList();

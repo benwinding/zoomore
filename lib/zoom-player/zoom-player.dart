@@ -27,6 +27,12 @@ class _ZoomPlayerState extends State<ZoomPlayer> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    this.onModelChanged();
+  }
+
+  @override
   void dispose() {
     super.dispose();
     GetIt.I.get<ZoomPlayerModel>().removeListener(this.onModelChanged);
@@ -134,42 +140,45 @@ class _ZoomPlayerState extends State<ZoomPlayer> {
           1,
         ),
         child: ZoomableWidget(
-          onChange: (m) => GetIt.I.get<ZoomPlayerModel>().setMatrix(m),
-          matrix: matrix,
-          key: Key('zoomy'),
-          child: Container(
-            width: 400,
-            height: 450,
-            color: Color.fromRGBO(
-              0,
-              0,
-              0,
-              1,
-            ),
-            child: Stack(children: [
-              // AnimatedOpacity(
-              //   opacity: imageFull == null ? 1.0 : 0.0,
-              //   duration: Duration(milliseconds: 500),
-              //   child: imageThumb,
-              // ),
-              // AnimatedOpacity(
-              //   opacity: imageFull == null ? 0.0 : 1.0,
-              //   duration: Duration(milliseconds: 500),
-              //   child: imageFull == null ? Container : imageFull,
-              // ),
+            onChange: (m) => GetIt.I.get<ZoomPlayerModel>().setMatrix(m),
+            matrix: matrix,
+            key: Key('zoomy'),
+            child: Wrap(
+              children: [
+                Container(
+                  width: 400,
+                  height: 600,
+                  color: Color.fromRGBO(
+                    0,
+                    0,
+                    0,
+                    1,
+                  ),
+                  child: Stack(children: [
+                    // AnimatedOpacity(
+                    //   opacity: imageFull == null ? 1.0 : 0.0,
+                    //   duration: Duration(milliseconds: 500),
+                    //   child: imageThumb,
+                    // ),
+                    // AnimatedOpacity(
+                    //   opacity: imageFull == null ? 0.0 : 1.0,
+                    //   duration: Duration(milliseconds: 500),
+                    //   child: imageFull == null ? Container : imageFull,
+                    // ),
 
-              // imageFull,
-              // imageThumb,
+                    // imageFull,
+                    // imageThumb,
 
-              AnimatedOpacity(
-                opacity: imageFull == null ? 1.0 : 0.0,
-                duration: Duration(milliseconds: 500),
-                child: imageThumb,
-              ),
-              imageFull == null ? Container() : imageFull
-            ]),
-          ),
-        ),
+                    AnimatedOpacity(
+                      opacity: imageFull == null ? 1.0 : 0.0,
+                      duration: Duration(milliseconds: 500),
+                      child: imageThumb,
+                    ),
+                    imageFull == null ? Container() : imageFull
+                  ]),
+                ),
+              ],
+            )),
       ),
     );
   }

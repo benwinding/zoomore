@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
+import 'package:zoomore/image-grid/image-grid-model.dart';
+
 import 'package:zoomore/image-grid/image-grid.dart';
 import 'package:zoomore/layouts/BlankScreen.dart';
 import 'package:zoomore/main/ButtonsBottom.dart';
 import 'package:zoomore/screens/screen.abstract.dart';
 import 'package:zoomore/screens/screens.model.dart';
+import 'package:zoomore/zoom-player/zoom-player.dart';
+import 'package:zoomore/zoom-player/zoom-player.model.dart';
 
 class ImageScreenButtons extends StatelessWidget {
   @override
@@ -36,7 +40,7 @@ class ImageScreen implements ZScreen {
   Widget buttons = ImageScreenButtons();
 
   @override
-  Widget component = ImagesGrid(onTapImage: () async {});
+  Widget component = ImagesGrid();
 
   @override
   bool valid = true;
@@ -47,8 +51,8 @@ class ZoomScreen implements ZScreen {
   Widget buttons = BlankButtons();
 
   @override
-  Widget component = BlankScreen(color: Colors.amber);
-  // Widget component = ZoomPlayer();
+  // Widget component = BlankScreen(color: Colors.amber);
+  Widget component = ZoomPlayer();
 
   @override
   bool valid;
