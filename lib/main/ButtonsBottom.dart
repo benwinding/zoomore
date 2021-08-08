@@ -1,22 +1,22 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class BottomButtons extends StatelessWidget {
-  final int index;
-  final int indexMax;
-  final Function onNext;
-  final Function onPrev;
-  bool disabledNext = false;
-  bool disabledPrev = false;
+class ButtonState {
+  bool hide;
+  bool disabled;
+  Function onTap;
 
-  BottomButtons({
+  ButtonState({this.hide = false, this.disabled = false, this.onTap});
+}
+
+class ButtonsBottom extends StatelessWidget {
+  final ButtonState prev;
+  final ButtonState next;
+
+  ButtonsBottom({
     Key key,
-    bool disabledNext,
-    bool disabledPrev,
-    @required this.index,
-    @required this.indexMax,
-    @required this.onNext,
-    @required this.onPrev,
+    @required this.next,
+    @required this.prev,
   }) : super(key: key);
 
   @override
@@ -31,11 +31,16 @@ class BottomButtons extends StatelessWidget {
             );
     }
 
+    final buttonPrev =
+        butt(Icons.navigate_before, prev.onTap, prev.hide, prev.disabled);
+    final buttonNext =
+        butt(Icons.navigate_next, next.onTap, next.hide, next.disabled);
+
     return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          butt(Icons.navigate_before, onPrev, index == 0, disabledPrev),
+          buttonPrev,
           Container(
             child: Text(
               'Select an image!',
@@ -43,10 +48,9 @@ class BottomButtons extends StatelessWidget {
             ),
             color: Colors.grey.shade700,
             padding: EdgeInsets.all(5),
-            margin: EdgeInsets.fromLTRB(0,0,0,12),
+            margin: EdgeInsets.fromLTRB(0, 0, 0, 12),
           ),
-          butt(
-              Icons.navigate_next, onNext, index == indexMax - 1, disabledNext),
+          buttonNext,
         ]);
   }
 }

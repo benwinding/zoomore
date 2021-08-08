@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 class TransitionContainer extends StatefulWidget {
   final int index;
   final int durationMs;
-  final void Function(int) setMaxCount;
   final List<Widget> children;
   final Curve curveIn;
   final Curve curveOut;
@@ -13,13 +12,11 @@ class TransitionContainer extends StatefulWidget {
     Key key,
     @required this.index,
     @required this.children,
-    @required this.setMaxCount,
     @required this.curveIn,
     @required this.curveOut,
     @required this.durationMs
   }) : super(key: key) {
     // print('TransitionContainer() ' + this.index.toString() + ' maxCount:' + this.children.length.toString());
-    this.setMaxCount(this.children.length);
   }
 
   @override

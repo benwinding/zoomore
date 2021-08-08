@@ -36,7 +36,7 @@ class ZoomPlayerModel with ChangeNotifier, DiagnosticableTreeMixin {
     notifyListeners();
   }
 
-  List<Matrix4> _frames = new List();
+  List<Matrix4> _frames = [];
   int get framesCount => _frames.length;
 
   void addFrame(Matrix4 m) {

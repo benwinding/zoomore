@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:zoomore/screens/screens.model.dart';
 
 import './zoom-player/zoom-player.model.dart';
 import './image-grid/image-grid-model.dart';
 
 import './main/ComposedScreen.dart';
+import 'package:get_it/get_it.dart';
 
 void main() {
+  GetIt.I.registerSingleton<ScreensModel>(ScreensModel());
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ImageGridModel()),
         ChangeNotifierProvider(create: (_) => ZoomPlayerModel()),
+        // ChangeNotifierProvider(create: (_) => ScreensModel()),
       ],
       child: MyApp(),
     ),
