@@ -1,4 +1,4 @@
-import 'package:provider/provider.dart';
+import 'package:get_it/get_it.dart';
 import 'package:flutter/material.dart';
 
 import './image-grid-model.dart';
@@ -14,7 +14,7 @@ class ImagesGrid extends StatelessWidget {
         color: Colors.lightGreen.shade100,
         alignment: Alignment.center,
         child: GridView.builder(
-          itemCount: context.watch<ImageGridModel>().images.length,
+          itemCount: GetIt.I.get<ImageGridModel>().images.length,
           gridDelegate:
               SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
           itemBuilder: (BuildContext context, int index) {
@@ -29,13 +29,13 @@ class ImagesGrid extends StatelessWidget {
   makeImage(BuildContext c, int index) {
     return GestureDetector(
       child: Container(
-          child: c.watch<ImageGridModel>().images[index].image,
+          child: GetIt.I.get<ImageGridModel>().images[index].image,
           color: Colors.black,
-          padding: c.watch<ImageGridModel>().selectedIndex == index
+          padding: GetIt.I.get<ImageGridModel>().selectedIndex == index
               ? EdgeInsets.all(7)
               : null),
       onTap: () async {
-        c.read<ImageGridModel>().setIndex(index);
+        GetIt.I.get<ImageGridModel>().setIndex(index);
         this.onTapImage();
       },
     );

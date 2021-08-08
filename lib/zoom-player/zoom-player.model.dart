@@ -1,11 +1,11 @@
+import 'package:flutter/material.dart';
+
 import 'dart:async';
 import 'dart:io';
 import 'dart:ui' as ui;
 
 import 'package:file/memory.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 // import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
@@ -14,7 +14,7 @@ import 'package:esys_flutter_share/esys_flutter_share.dart';
 
 import 'package:image/image.dart' as img;
 
-class ZoomPlayerModel with ChangeNotifier, DiagnosticableTreeMixin {
+class ZoomPlayerModel with ChangeNotifier {
   // Slider
   void setSlider(double newSlider) {
     this._currentIndex = newSlider;

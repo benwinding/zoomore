@@ -1,10 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:media_gallery/media_gallery.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class ImageGridModel with ChangeNotifier, DiagnosticableTreeMixin {
-  List<ImageSelection> _images = new List();
+class ImageGridModel with ChangeNotifier {
+  List<ImageSelection> _images = [];
 
   int _index;
 
@@ -31,7 +30,7 @@ class ImageGridModel with ChangeNotifier, DiagnosticableTreeMixin {
     Map<Permission, PermissionStatus> statuses = await [
       Permission.storage,
       Permission.photos,
-    ].request();
+    ]?.request();
 
     if (statuses[0].isPermanentlyDenied || statuses[1].isPermanentlyDenied) {
       openAppSettings();

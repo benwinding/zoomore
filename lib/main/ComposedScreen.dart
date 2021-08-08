@@ -38,7 +38,7 @@ class _ComposedScreenState extends State<ComposedScreen>
 
   static Future<void> getImage(BuildContext context) async {
     final imgFull =
-        await context.read<ImageGridModel>().fetchCurrentImageFull();
+        await GetIt.I.get<ImageGridModel>().fetchCurrentImageFull();
     context.read<ZoomPlayerModel>().setImageFull(imgFull);
   }
 

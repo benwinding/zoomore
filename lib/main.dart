@@ -13,11 +13,14 @@ import 'package:get_it/get_it.dart';
 
 void main() {
   final screens = [ImageScreen(), ZoomScreen(), EmptyColorScreen()];
-  GetIt.I.registerSingleton<ScreensModel>(new ScreensModel(screens));
+  WidgetsFlutterBinding.ensureInitialized();
+  GetIt.I.registerSingleton(new ScreensModel(screens));
+  GetIt.I.registerSingleton(new ImageGridModel());
+  // GetIt.I.registerSingleton(new ZoomPlayerModel());
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => ImageGridModel()),
+        // ChangeNotifierProvider(create: (_) => ImageGridModel()),
         ChangeNotifierProvider(create: (_) => ZoomPlayerModel()),
         // ChangeNotifierProvider(create: (_) => ScreensModel()),
       ],
