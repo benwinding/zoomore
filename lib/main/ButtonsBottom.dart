@@ -12,7 +12,7 @@ class ButtonState {
 class ButtonsBottom extends StatelessWidget {
   final ButtonState prev;
   final ButtonState next;
-  String hintText;
+  final String hintText;
 
   ButtonsBottom(
       {Key key, @required this.next, @required this.prev, this.hintText})
@@ -37,12 +37,19 @@ class ButtonsBottom extends StatelessWidget {
 
     final hintText = this.hintText != null
         ? Container(
+            decoration: BoxDecoration(
+              color: Colors.grey.shade700.withAlpha(100),
+              border: Border.all(
+                color: Colors.transparent,
+                width: 1
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(100))
+            ),
             child: Text(
               this.hintText,
               style: TextStyle(color: Colors.white, fontSize: 18),
             ),
-            color: Colors.grey.shade700.withAlpha(100),
-            padding: EdgeInsets.all(5),
+            padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
             margin: EdgeInsets.fromLTRB(0, 0, 0, 12),
           )
         : Container();

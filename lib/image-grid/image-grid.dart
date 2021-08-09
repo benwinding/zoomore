@@ -13,13 +13,12 @@ class _ImagesGridState extends State<ImagesGrid> {
   int selectedIndex = 0;
   List<ImageSelection> images;
 
-  _ImagesGridState() {
-    GetIt.I.get<ImageGridModel>().addListener(this.onModelChange);
-  }
+  bool hasPermission;
 
   @override
   void initState() {
     super.initState();
+    GetIt.I.get<ImageGridModel>().addListener(this.onModelChange);
     this.onModelChange();
   }
 
@@ -34,11 +33,20 @@ class _ImagesGridState extends State<ImagesGrid> {
       final m = GetIt.I.get<ImageGridModel>();
       itemCount = m.imageCount;
       images = m.images;
+      hasPermission = m.hasPermission;
       selectedIndex = m.selectedIndex;
     });
   }
 
   Widget build(BuildContext context) {
+    if (!hasPermission) {
+      return Center(
+          child: ElevatedButton(
+          onPressed: this.onClickAllowAccess,
+        child: Text('Access Photos'),
+      ));
+    }
+
     return GestureDetector(
       child: new Container(
         color: Colors.lightGreen.shade100,
@@ -66,5 +74,9 @@ class _ImagesGridState extends State<ImagesGrid> {
         GetIt.I.get<ImageGridModel>().setIndex(index);
       },
     );
+  }
+
+  void onClickAllowAccess() {
+    GetIt.I.get<ImageGridModel>().askPermissions();
   }
 }

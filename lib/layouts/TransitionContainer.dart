@@ -8,14 +8,14 @@ class TransitionContainer extends StatefulWidget {
   final Curve curveIn;
   final Curve curveOut;
 
-  TransitionContainer({
-    Key key,
-    @required this.index,
-    @required this.children,
-    @required this.curveIn,
-    @required this.curveOut,
-    @required this.durationMs
-  }) : super(key: key) {
+  TransitionContainer(
+      {Key key,
+      @required this.index,
+      @required this.children,
+      @required this.curveIn,
+      @required this.curveOut,
+      @required this.durationMs})
+      : super(key: key) {
     // print('TransitionContainer() ' + this.index.toString() + ' maxCount:' + this.children.length.toString());
   }
 
@@ -44,17 +44,19 @@ class _TransitionContainerState extends State<TransitionContainer>
     if (hasChanged) {
       bool movingForward = widget.index > oldWidget.index;
 
-      if (movingForward) {
-        this.setWidgets(oldWidget.index, widget.index);
-        _controller.value = _controller.lowerBound;
-        _controller.forward();
-        _setBounceForward();
-      } else {
-        this.setWidgets(widget.index, oldWidget.index);
-        _setBounceBackward();
-        _controller.value = _controller.upperBound;
-        _controller.reverse();
-      }
+      setState(() {
+        if (movingForward) {
+          this.setWidgets(oldWidget.index, widget.index);
+          _controller.value = _controller.lowerBound;
+          _controller.forward();
+          _setBounceForward();
+        } else {
+          this.setWidgets(widget.index, oldWidget.index);
+          _setBounceBackward();
+          _controller.value = _controller.upperBound;
+          _controller.reverse();
+        }
+      });
     }
     super.didUpdateWidget(oldWidget);
   }
