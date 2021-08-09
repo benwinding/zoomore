@@ -12,7 +12,7 @@ import 'package:get_it/get_it.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  final screens = [ImageScreen(), ZoomScreen(), EmptyColorScreen()];
+  final screens = [ImageScreen(), ZoomScreen(), ShareScreen()];
   GetIt.I.registerSingleton(new ScreensModel(screens));
   GetIt.I.registerSingleton(new ImageGridModel());
   GetIt.I.registerSingleton(new ZoomPlayerModel());

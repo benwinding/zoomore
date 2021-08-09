@@ -7,6 +7,7 @@ import 'package:zoomore/layouts/BlankScreen.dart';
 import 'package:zoomore/main/ButtonsBottom.dart';
 import 'package:zoomore/screens/screen.abstract.dart';
 import 'package:zoomore/screens/screens.model.dart';
+import 'package:zoomore/zoom-player/read-only-plater.dart';
 import 'package:zoomore/zoom-player/zoom-player.dart';
 
 class ImageScreenButtons extends StatelessWidget {
@@ -64,12 +65,12 @@ class ZoomScreen implements ZScreen {
   bool valid;
 }
 
-class EmptyColorScreen implements ZScreen {
+class ShareScreen implements ZScreen {
   @override
   Widget buttons = BlankButtons('Share!');
 
   @override
-  Widget component = BlankScreen(color: Colors.red);
+  Widget component = SharePage();
 
   @override
   bool valid;
@@ -87,6 +88,22 @@ class _ZoomPageState extends State<ZoomPage> {
         color: Colors.lightBlue.shade200,
         child: Center(
           child: ZoomPlayer(height: 400),
+        ));
+  }
+}
+
+class SharePage extends StatefulWidget {
+  @override
+  _SharePageState createState() => _SharePageState();
+}
+
+class _SharePageState extends State<SharePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        color: Colors.lightBlue.shade200,
+        child: Center(
+          child: ZoomPlayerReadOnly(height: 400),
         ));
   }
 }
