@@ -6,8 +6,9 @@ class ImageGridModel with ChangeNotifier {
   List<ImageSelection> _images = [];
 
   int _index = 0;
+  final Function onClickedImageTwice;
 
-  ImageGridModel() {
+  ImageGridModel({ @required this.onClickedImageTwice}) {
     this._loadImageList();
   }
 
@@ -23,6 +24,9 @@ class ImageGridModel with ChangeNotifier {
   }
 
   void setIndex(int index) {
+    if (index == this._index) {
+      this.onClickedImageTwice();
+    }
     this._index = index;
     notifyListeners();
   }

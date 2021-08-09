@@ -11,8 +11,13 @@ import 'pages/page.provider.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   final screens = makePages();
+
+  void onClickedImageTwice() {
+    GetIt.I.get<PagesProvider>().gotoScreen(1);
+  }
+
   GetIt.I.registerSingleton(new PagesProvider(screens));
-  GetIt.I.registerSingleton(new ImageGridModel());
+  GetIt.I.registerSingleton(new ImageGridModel(onClickedImageTwice: onClickedImageTwice));
   GetIt.I.registerSingleton(new ZoomPlayerModel());
 
   GetIt.I.get<ImageGridModel>().addListener(() {

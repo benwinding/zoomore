@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'page.interface.dart';
 
 class PagesProvider with ChangeNotifier {
