@@ -12,6 +12,7 @@ class ZoomPlayer extends StatefulWidget {
 
 class _ZoomPlayerState extends State<ZoomPlayer> {
   final GlobalKey globalKey = GlobalKey();
+  final double controlsHeight = 150;
 
   double playerIndex;
   double framesCount;
@@ -53,92 +54,102 @@ class _ZoomPlayerState extends State<ZoomPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    final m = GetIt.I.get<ZoomPlayerModel>();
     return Container(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Column(
-            children: [
-              buildZoomArea(context),
-              Slider(
-                value: playerIndex,
-                label: playerIndex.toStringAsFixed(0),
-                min: 0,
-                max: framesCount,
-                divisions: 100,
-                onChanged: (value) {
-                  m.setSlider(value);
-                },
-              ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child:
-                    ButtonBar(alignment: MainAxisAlignment.center, children: [
-                  ElevatedButton(
-                      onPressed: () {
-                        m.playerRecord();
-                      },
-                      child: Icon(Icons.fiber_manual_record)),
-                  ElevatedButton(
-                      onPressed: () {
-                        if (m.isPlaying) {
-                          m.playerStop();
-                        } else {
-                          m.playerStart();
-                        }
-                      },
-                      child: Icon(isPlaying ? Icons.pause : Icons.play_arrow)),
-                  ElevatedButton(
-                      onPressed: () {
-                        m.reset();
-                      },
-                      child: Icon(Icons.close_fullscreen_sharp)),
-                  ElevatedButton(
-                      onPressed: () async {
-                        RenderRepaintBoundary boundary =
-                            globalKey.currentContext.findRenderObject();
-                        m.playerSave(boundary);
-                        final snackBar = SnackBar(
-                          content: Text('Saved to gallery!'),
-                        );
-                        Scaffold.of(context).showSnackBar(snackBar);
-                      },
-                      child: Icon(Icons.save_alt)),
-                  ElevatedButton(
-                      onPressed: () {
-                        RenderRepaintBoundary boundary =
-                            globalKey.currentContext.findRenderObject();
-                        m.playerShare(boundary);
-                      },
-                      child: Icon(Icons.share)),
-                ]),
-              ),
-              Wrap(children: [
-                Text(playerIndex.toInt().toString() + ' '),
-                Text(framesCount.toInt().toString() + ' Frames'),
-                isSaving ? Text('Saving....') : Text('')
-              ])
-            ],
+            children: [buildZoomArea(context), buildControls(context)],
           )
         ],
       ),
     );
   }
 
+  Widget buildControls(BuildContext context) {
+    final m = GetIt.I.get<ZoomPlayerModel>();
+
+    makebutton(
+        {IconData icon,
+        Function onPressed,
+        bool hide = false,
+        bool disabled = false}) {
+      return hide
+          ? SizedBox(width: 55, height: 55)
+          : ElevatedButton(
+              onPressed: () {
+                onPressed();
+              },
+              child: Icon(icon));
+    }
+
+    return Container(
+        color: Colors.lightBlue.shade100,
+        height: this.controlsHeight,
+        child: Column(children: [
+          Slider(
+            value: playerIndex,
+            label: playerIndex.toStringAsFixed(0),
+            min: 0,
+            max: framesCount,
+            divisions: 100,
+            onChanged: (value) {
+              m.setSlider(value);
+            },
+          ),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: ButtonBar(alignment: MainAxisAlignment.center, children: [
+              makebutton(
+                  icon: Icons.fiber_manual_record, onPressed: m.playerRecord),
+              makebutton(
+                  icon: isPlaying ? Icons.pause : Icons.play_arrow,
+                  onPressed: () {
+                    if (m.isPlaying) {
+                      m.playerStop();
+                    } else {
+                      m.playerStart();
+                    }
+                  }),
+              makebutton(
+                  icon: Icons.close_fullscreen_sharp, onPressed: m.reset),
+              makebutton(
+                  icon: Icons.save_alt,
+                  onPressed: () async {
+                    RenderRepaintBoundary boundary =
+                        globalKey.currentContext.findRenderObject();
+                    m.playerSave(boundary);
+                    final snackBar = SnackBar(
+                      content: Text('Saved to gallery!'),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  }),
+              makebutton(
+                  icon: Icons.share,
+                  onPressed: () {
+                    RenderRepaintBoundary boundary =
+                        globalKey.currentContext.findRenderObject();
+                    m.playerShare(boundary);
+                  }),
+            ]),
+          ),
+          // Row(children: [
+          //   Text(playerIndex.toInt().toString() + ' '),
+          //   Text(framesCount.toInt().toString() + ' Frames'),
+          //   isSaving ? Text('Saving....') : Text('')
+          // ])
+        ]));
+  }
+
   Widget buildZoomArea(BuildContext context) {
     // final imageFull = imageFull;
+    double height = MediaQuery.of(context).size.height;
     final imageThumb = image;
     return RepaintBoundary(
       key: globalKey,
       child: Container(
-        color: Color.fromRGBO(
-          222,
-          222,
-          222,
-          1,
-        ),
+        color: Colors.amber,
         child: ZoomableWidget(
             onChange: (m) => GetIt.I.get<ZoomPlayerModel>().setMatrix(m),
             matrix: matrix,
@@ -146,36 +157,33 @@ class _ZoomPlayerState extends State<ZoomPlayer> {
             child: Wrap(
               children: [
                 Container(
-                  width: 400,
-                  height: 600,
-                  color: Color.fromRGBO(
-                    0,
-                    0,
-                    0,
-                    1,
+                  height: height - this.controlsHeight,
+                  child: Wrap(
+                    children: [
+                      Stack(children: [
+                        // AnimatedOpacity(
+                        //   opacity: imageFull == null ? 1.0 : 0.0,
+                        //   duration: Duration(milliseconds: 500),
+                        //   child: imageThumb,
+                        // ),
+                        // AnimatedOpacity(
+                        //   opacity: imageFull == null ? 0.0 : 1.0,
+                        //   duration: Duration(milliseconds: 500),
+                        //   child: imageFull == null ? Container : imageFull,
+                        // ),
+
+                        // imageFull,
+                        // imageThumb,
+
+                        AnimatedOpacity(
+                          opacity: imageFull == null ? 1.0 : 0.0,
+                          duration: Duration(milliseconds: 500),
+                          child: imageThumb,
+                        ),
+                        imageFull == null ? Container() : imageFull
+                      ])
+                    ],
                   ),
-                  child: Stack(children: [
-                    // AnimatedOpacity(
-                    //   opacity: imageFull == null ? 1.0 : 0.0,
-                    //   duration: Duration(milliseconds: 500),
-                    //   child: imageThumb,
-                    // ),
-                    // AnimatedOpacity(
-                    //   opacity: imageFull == null ? 0.0 : 1.0,
-                    //   duration: Duration(milliseconds: 500),
-                    //   child: imageFull == null ? Container : imageFull,
-                    // ),
-
-                    // imageFull,
-                    // imageThumb,
-
-                    AnimatedOpacity(
-                      opacity: imageFull == null ? 1.0 : 0.0,
-                      duration: Duration(milliseconds: 500),
-                      child: imageThumb,
-                    ),
-                    imageFull == null ? Container() : imageFull
-                  ]),
                 ),
               ],
             )),
