@@ -8,6 +8,10 @@ import './zoomable-widget.dart';
 class ZoomPlayer extends StatefulWidget {
   @override
   _ZoomPlayerState createState() => _ZoomPlayerState();
+
+  final double height;
+
+  ZoomPlayer({this.height}) { }
 }
 
 class _ZoomPlayerState extends State<ZoomPlayer> {
@@ -144,7 +148,7 @@ class _ZoomPlayerState extends State<ZoomPlayer> {
 
   Widget buildZoomArea(BuildContext context) {
     // final imageFull = imageFull;
-    double height = MediaQuery.of(context).size.height;
+    double height = this.widget.height;
     final imageThumb = image;
     return RepaintBoundary(
       key: globalKey,

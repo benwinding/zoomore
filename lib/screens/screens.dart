@@ -54,8 +54,7 @@ class ZoomScreen implements ZScreen {
   Widget buttons = BlankButtons();
 
   @override
-  // Widget component = BlankScreen(color: Colors.amber);
-  Widget component = ZoomPlayer();
+  Widget component = ZoomPage();
 
   @override
   bool valid;
@@ -70,4 +69,20 @@ class EmptyColorScreen implements ZScreen {
 
   @override
   bool valid;
+}
+
+class ZoomPage extends StatefulWidget {
+  @override
+  _ZoomPageState createState() => _ZoomPageState();
+}
+
+class _ZoomPageState extends State<ZoomPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        color: Colors.lightBlue.shade200,
+        child: Center(
+          child: ZoomPlayer(height: 400),
+        ));
+  }
 }
