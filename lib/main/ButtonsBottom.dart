@@ -12,16 +12,15 @@ class ButtonState {
 class ButtonsBottom extends StatelessWidget {
   final ButtonState prev;
   final ButtonState next;
+  String hintText;
 
-  ButtonsBottom({
-    Key key,
-    @required this.next,
-    @required this.prev,
-  }) : super(key: key);
+  ButtonsBottom(
+      {Key key, @required this.next, @required this.prev, this.hintText})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    butt(IconData icon, Function onPressed, bool hide, bool disabled) {
+    makebutton(IconData icon, Function onPressed, bool hide, bool disabled) {
       return hide
           ? SizedBox(width: 55, height: 55)
           : FloatingActionButton(
@@ -32,24 +31,28 @@ class ButtonsBottom extends StatelessWidget {
     }
 
     final buttonPrev =
-        butt(Icons.navigate_before, prev.onTap, prev.hide, prev.disabled);
+        makebutton(Icons.navigate_before, prev.onTap, prev.hide, prev.disabled);
     final buttonNext =
-        butt(Icons.navigate_next, next.onTap, next.hide, next.disabled);
+        makebutton(Icons.navigate_next, next.onTap, next.hide, next.disabled);
+
+    final hintText = this.hintText != null
+        ? Container(
+            child: Text(
+              this.hintText,
+              style: TextStyle(color: Colors.white, fontSize: 18),
+            ),
+            color: Colors.grey.shade700,
+            padding: EdgeInsets.all(5),
+            margin: EdgeInsets.fromLTRB(0, 0, 0, 12),
+          )
+        : Container();
 
     return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           buttonPrev,
-          Container(
-            child: Text(
-              'Select an image!',
-              style: TextStyle(color: Colors.white, fontSize: 18),
-            ),
-            color: Colors.grey.shade700,
-            padding: EdgeInsets.all(5),
-            margin: EdgeInsets.fromLTRB(0, 0, 0, 12),
-          ),
+          hintText,
           buttonNext,
         ]);
   }

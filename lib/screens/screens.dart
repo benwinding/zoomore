@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
-import 'package:zoomore/image-grid/image-grid-model.dart';
 
 import 'package:zoomore/image-grid/image-grid.dart';
 import 'package:zoomore/layouts/BlankScreen.dart';
@@ -9,7 +8,6 @@ import 'package:zoomore/main/ButtonsBottom.dart';
 import 'package:zoomore/screens/screen.abstract.dart';
 import 'package:zoomore/screens/screens.model.dart';
 import 'package:zoomore/zoom-player/zoom-player.dart';
-import 'package:zoomore/zoom-player/zoom-player.model.dart';
 
 class ImageScreenButtons extends StatelessWidget {
   @override
@@ -19,7 +17,8 @@ class ImageScreenButtons extends StatelessWidget {
         prev: ButtonState(hide: true),
         next: ButtonState(onTap: () {
           s.nextScreen();
-        }));
+        }),
+        hintText: 'Select image');
   }
 }
 
@@ -27,11 +26,15 @@ class BlankButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final s = GetIt.I.get<ScreensModel>();
-    return ButtonsBottom(prev: ButtonState(onTap: () {
-      s.prevScreen();
-    }), next: ButtonState(onTap: () {
-      s.nextScreen();
-    }));
+    return ButtonsBottom(
+      prev: ButtonState(onTap: () {
+        s.prevScreen();
+      }),
+      next: ButtonState(onTap: () {
+        s.nextScreen();
+      }),
+      hintText: 'BLANK',
+    );
   }
 }
 
