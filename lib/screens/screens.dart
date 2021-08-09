@@ -23,6 +23,10 @@ class ImageScreenButtons extends StatelessWidget {
 }
 
 class BlankButtons extends StatelessWidget {
+  String hintText;
+
+  BlankButtons(this.hintText) {}
+
   @override
   Widget build(BuildContext context) {
     final s = GetIt.I.get<ScreensModel>();
@@ -33,7 +37,7 @@ class BlankButtons extends StatelessWidget {
       next: ButtonState(onTap: () {
         s.nextScreen();
       }),
-      hintText: 'BLANK',
+      hintText: this.hintText,
     );
   }
 }
@@ -51,7 +55,7 @@ class ImageScreen implements ZScreen {
 
 class ZoomScreen implements ZScreen {
   @override
-  Widget buttons = BlankButtons();
+  Widget buttons = BlankButtons('Pinch and Zoom!');
 
   @override
   Widget component = ZoomPage();
@@ -62,7 +66,7 @@ class ZoomScreen implements ZScreen {
 
 class EmptyColorScreen implements ZScreen {
   @override
-  Widget buttons = BlankButtons();
+  Widget buttons = BlankButtons('Share!');
 
   @override
   Widget component = BlankScreen(color: Colors.red);

@@ -41,7 +41,7 @@ class ButtonsBottom extends StatelessWidget {
               this.hintText,
               style: TextStyle(color: Colors.white, fontSize: 18),
             ),
-            color: Colors.grey.shade700,
+            color: Colors.grey.shade700.withAlpha(100),
             padding: EdgeInsets.all(5),
             margin: EdgeInsets.fromLTRB(0, 0, 0, 12),
           )
