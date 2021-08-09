@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-abstract class ZScreen {
+abstract class PageInterface {
   bool valid;
   Widget component;
   Widget buttons;

@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:zoomore/screens/screens.dart';
-import 'package:zoomore/screens/screens.model.dart';
-
-import './zoom-player/zoom-player.model.dart';
-import './image-grid/image-grid-model.dart';
-
-import './main/ComposedScreen.dart';
-import './screens/screens.dart';
 import 'package:get_it/get_it.dart';
+
+import 'zoom-player/zoom-player.model.dart';
+import 'image-grid/image-grid-model.dart';
+import 'main/ComposedScreen.dart';
+import 'pages/page.factory.dart';
+import 'pages/page.provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  final screens = [ImageScreen(), ZoomScreen(), ShareScreen()];
-  GetIt.I.registerSingleton(new ScreensModel(screens));
+  final screens = makePages();
+  GetIt.I.registerSingleton(new PagesProvider(screens));
   GetIt.I.registerSingleton(new ImageGridModel());
   GetIt.I.registerSingleton(new ZoomPlayerModel());
 

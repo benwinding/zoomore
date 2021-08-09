@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:zoomore/screens/screens.model.dart';
 
+import '../pages/page.provider.dart';
 import '../layouts/TransitionContainer.dart';
 
 class ComposedScreen extends StatefulWidget {
@@ -16,25 +16,25 @@ class _ComposedScreenState extends State<ComposedScreen>
 
   _ComposedScreenState() {
     this._controller = new AnimationController(vsync: this);
-    GetIt.I.get<ScreensModel>().addListener(this.onScreenChange);
+    GetIt.I.get<PagesProvider>().addListener(this.onScreenChange);
   }
 
   @override
   void dispose() {
     super.dispose();
     _controller.dispose();
-    GetIt.I.get<ScreensModel>().removeListener(this.onScreenChange);
+    GetIt.I.get<PagesProvider>().removeListener(this.onScreenChange);
   }
 
   void onScreenChange() {
     setState(() {
-      index = GetIt.I.get<ScreensModel>().currentScreenIndex;
+      index = GetIt.I.get<PagesProvider>().currentScreenIndex;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final s = GetIt.I.get<ScreensModel>();
+    final s = GetIt.I.get<PagesProvider>();
 
     final body = TransitionContainer(
       index: index,

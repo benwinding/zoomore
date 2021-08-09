@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'screen.abstract.dart';
+import 'page.interface.dart';
 
-class ScreensModel with ChangeNotifier {
+class PagesProvider with ChangeNotifier {
   int _screenIndex = 0;
-  List<ZScreen> _screens = [];
+  List<PageInterface> _screens = [];
 
-  ScreensModel(List<ZScreen> screens) {
+  PagesProvider(List<PageInterface> screens) {
     this._screens = screens;
     notifyListeners();
   }
@@ -26,17 +26,17 @@ class ScreensModel with ChangeNotifier {
     } else {
       this._screenIndex = idx;
     }
-    print('going to screen = ' + this._screenIndex.toString());
+    // print('going to screen = ' + this._screenIndex.toString());
     notifyListeners();
   }
 
   void nextScreen() {
-    print('going to next screen');
+    // print('going to next screen');
     this.gotoScreen(this._screenIndex + 1);
   }
 
   void prevScreen() {
-    print('going to prev screen');
+    // print('going to prev screen');
     this.gotoScreen(this._screenIndex - 1);
   }
 }
