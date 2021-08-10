@@ -7,6 +7,7 @@ class ImageGridModel with ChangeNotifier {
 
   bool hasPermission = false;
   bool hasPermissionsDenied = false;
+  final perms = new Perms();
 
   int _index = 0;
   final Function onClickedImageTwice;
@@ -16,16 +17,17 @@ class ImageGridModel with ChangeNotifier {
   }
 
   List<ImageSelection> get images => this._images;
+
+  bool get hasSelectedImage => this.selectedImage != null;
+  int get selectedIndex => this._index;
+  int get imageCount => this._images.length;
+
   Image get selectedImage {
     if (this._images.length < 1) {
       return null;
     }
     return this._images[this.selectedIndex].image;
   }
-
-  bool get hasSelectedImage => this.selectedImage != null;
-  int get selectedIndex => this._index;
-  int get imageCount => this._images.length;
 
   Future<Image> fetchCurrentImageFull() async {
     if (this._images.length < 1) {
@@ -45,18 +47,22 @@ class ImageGridModel with ChangeNotifier {
   }
 
   _checkPermissions() async {
-    final statuses = await Future.wait([
-      Permission.storage.isGranted,
-      Permission.photos.isGranted,
-    ]);
-
-    this.hasPermission = statuses[0] && statuses[1];
+    this.hasPermission = await perms.checkIsGranted();
     print('fetched permissions... hasPermission=' + hasPermission.toString());
     notifyListeners();
 
     if (!hasPermission) {
-      this._checkIfPermanentlyDenied();
+      await this._checkIfPermanentlyDenied();
     }
+  }
+
+  _checkIfPermanentlyDenied() async {
+    this.hasPermissionsDenied = await perms.checkIsPermenantlyDenied();
+    notifyListeners();
+  }
+
+  askPermissions() async {
+    await this.perms.askPermissions();
   }
 
   Future<void> _loadImageList() async {
@@ -85,43 +91,43 @@ class ImageGridModel with ChangeNotifier {
       });
     }
   }
+}
 
-  void _checkIfPermanentlyDenied() async {
-    print('checking if permanently denied');
-    final statuses = await Future.wait([
-      Permission.storage.isPermanentlyDenied,
-      Permission.photos.isPermanentlyDenied,
-    ]);
-    this.hasPermissionsDenied = statuses[0] || statuses[1];
-    print('permanently denied = ' + this.hasPermissionsDenied.toString());
-    notifyListeners();
+class Perms {
+  Future<bool> checkIsPermenantlyDenied() async {
+    final perms = await this.requestPermissions();
+    final permenantlyDenied =
+        perms[0].isPermanentlyDenied || perms[1].isPermanentlyDenied;
+    return permenantlyDenied;
   }
 
-  void askPermissions() async {
-    print('asking permissions');
-    this._checkIfPermanentlyDenied();
-    if (this.hasPermissionsDenied) {
-      return;
-    }
-    final perms = await Future.wait([
+  Future<bool> checkIsGranted() async {
+    final perms = await this.requestPermissions();
+    final isGranted = perms[0].isGranted && perms[1].isGranted;
+    return isGranted;
+  }
+
+  Future<List<PermissionStatus>> requestPermissions() async {
+    return Future.wait([
       Permission.storage.request(),
       Permission.photos.request(),
     ]);
+  }
+
+  askPermissions() async {
+    print('asking permissions');
+    final perms = await this.requestPermissions();
     if (perms[0].isDenied) {
       await Permission.storage.shouldShowRequestRationale;
     }
     if (perms[1].isDenied) {
       await Permission.photos.shouldShowRequestRationale;
     }
-    await Future.wait([
-      Permission.storage.request(),
-      Permission.photos.request(),
-    ]).then((res) {
-      if (res[0].isGranted && res[1].isGranted) {
-        return;
-      }
+    final permsAfter = await this.requestPermissions();
+    final isBothGranted = permsAfter[0].isGranted && permsAfter[1].isGranted;
+    if (isBothGranted) {
       openAppSettings();
-    });
+    }
   }
 }
 
