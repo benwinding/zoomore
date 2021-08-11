@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:flutter/material.dart';
 
 import './image-grid-model.dart';
+import 'permission-wrapper.dart';
 
 class ImagesGrid extends StatefulWidget {
   @override
@@ -12,13 +13,15 @@ class _ImagesGridState extends State<ImagesGrid> {
   int itemCount = 0;
   int selectedIndex = 0;
   List<ImageSelection> images;
+  final perms = new PermissionWrapper();
 
-  bool hasPermission;
+  bool hasPermission = false;
 
   @override
   void initState() {
     super.initState();
     GetIt.I.get<ImageGridModel>().addListener(this.onModelChange);
+    this.onClickGetPhotoAccess(null);
     this.onModelChange();
   }
 
@@ -31,9 +34,9 @@ class _ImagesGridState extends State<ImagesGrid> {
   void onModelChange() {
     setState(() {
       final m = GetIt.I.get<ImageGridModel>();
+      print('model changed image_count=' + m.images.length.toString());
       itemCount = m.imageCount;
       images = m.images;
-      hasPermission = m.hasPermission;
       selectedIndex = m.selectedIndex;
     });
   }
@@ -42,7 +45,7 @@ class _ImagesGridState extends State<ImagesGrid> {
     if (!hasPermission) {
       return Center(
           child: ElevatedButton(
-          onPressed: this.onClickAllowAccess,
+          onPressed: () => this.onClickGetPhotoAccess(context),
         child: Text('Access Photos'),
       ));
     }
@@ -76,7 +79,12 @@ class _ImagesGridState extends State<ImagesGrid> {
     );
   }
 
-  void onClickAllowAccess() {
-    GetIt.I.get<ImageGridModel>().askPermissions();
+  onClickGetPhotoAccess(BuildContext c) async {
+    final m = GetIt.I.get<ImageGridModel>();
+    final hasPermission = await perms.askPermissions(c);
+    this.setState(() {
+      this.hasPermission = hasPermission;
+    });
+    await m.loadImageList();
   }
 }

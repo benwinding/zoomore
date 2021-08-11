@@ -11,12 +11,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  app_settings: 4.1.1
   cupertino_icons: ^0.1.3
   matrix_gesture_detector: 0.1.0
   image_picker: 0.6.7
   permission_handler:
   # flutter_ffmpeg: 0.3.0
   path_provider:
+  mutex: 3.0.0
   esys_flutter_share: 1.0.2
   image_gallery_saver: 1.6.9
   media_gallery:
