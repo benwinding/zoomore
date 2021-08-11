@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
+import 'package:zoomore/zoom-player/export.provider.dart';
 
 import 'zoom-player/zoom-player.model.dart';
 import 'image-grid/image-grid-model.dart';
@@ -22,7 +23,9 @@ void main() {
 
   GetIt.I.registerSingleton(new PagesProvider(screens));
   GetIt.I.registerSingleton(new ImageGridModel(onClickedImageTwice: onClickedImageTwice));
-  GetIt.I.registerSingleton(new ZoomPlayerModel());
+  final zoomModel = new ZoomPlayerModel();
+  GetIt.I.registerSingleton(zoomModel);
+  GetIt.I.registerSingleton(new ExportProvider(zoomModel));
 
   GetIt.I.get<ImageGridModel>().addListener(() {
     final image = GetIt.I.get<ImageGridModel>().selectedImage;
