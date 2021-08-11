@@ -11,7 +11,7 @@ class ZoomPlayer extends StatefulWidget {
 
   final double height;
 
-  ZoomPlayer({this.height}) { }
+  ZoomPlayer({this.height}) {}
 }
 
 class _ZoomPlayerState extends State<ZoomPlayer> {
@@ -88,20 +88,42 @@ class _ZoomPlayerState extends State<ZoomPlayer> {
               child: Icon(icon));
     }
 
+    makeSlider() {
+      makeTextItem({String text, double left = 0, double right = 0}) {
+        return Container(
+          child: Text(text,
+              style: TextStyle(color: Colors.blue.shade600, fontSize: 10)),
+          padding: EdgeInsets.only(left: left, right: right, top: 35),
+          margin: EdgeInsets.only(top: 0),
+        );
+      }
+
+      return Stack(children: [
+        Slider(
+          value: playerIndex,
+          label: playerIndex.toStringAsFixed(0),
+          min: 0,
+          max: framesCount,
+          divisions: 100,
+          onChanged: (value) {
+            m.setSlider(value);
+          },
+        ),
+        Row(
+          children: [
+            makeTextItem(text: '0', left: 20),
+            Expanded(child: Container()),
+            makeTextItem(text: framesCount.toInt().toString(), right: 20),
+          ],
+        )
+      ]);
+    }
+
     return Container(
         color: Colors.lightBlue.shade100,
         height: this.controlsHeight,
         child: Column(children: [
-          Slider(
-            value: playerIndex,
-            label: playerIndex.toStringAsFixed(0),
-            min: 0,
-            max: framesCount,
-            divisions: 100,
-            onChanged: (value) {
-              m.setSlider(value);
-            },
-          ),
+          makeSlider(),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: ButtonBar(alignment: MainAxisAlignment.center, children: [
