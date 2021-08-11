@@ -150,7 +150,7 @@ class _ZoomPlayerReadOnlyState extends State<ZoomPlayerReadOnly> {
       child: Container(
         color: Colors.amber,
         child: ZoomableWidget(
-            onChange: (m) => GetIt.I.get<ZoomPlayerModel>().setMatrix(m),
+            onChange: (m) => GetIt.I.get<ZoomPlayerModel>().updateMatrixFromGuesture(m),
             matrix: matrix,
             key: Key('zoomy'),
             child: Wrap(

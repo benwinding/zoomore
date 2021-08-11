@@ -62,7 +62,7 @@ class ExportProvider with ChangeNotifier {
     final count = this.zoomModel.framesCount;
     for (var i = 0; i < count; i++) {
       var playFrame = this.zoomModel.getFrame(i);
-      this.zoomModel.setMatrix(playFrame);
+      this.zoomModel.updateMatrixFromGuesture(playFrame);
       // this.zoomModel();
       final f = await takeScreenshot();
       files.add(f);

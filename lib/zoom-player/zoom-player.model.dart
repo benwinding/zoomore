@@ -3,45 +3,47 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 class ZoomPlayerModel with ChangeNotifier {
+  Matrix4 _matrix = Matrix4.identity();
+  List<Matrix4> _frames = [];
+
   Image _image;
   Image _imageFull;
-  setImage(Image img) {
+  double _currentIndex = 0;
+  Timer _operation;
+
+  // Getters
+  Image get image => this._image;
+  Image get imageFull => this._imageFull;
+  Matrix4 get matrix => this._matrix;
+  double get playerIndex => _currentIndex;
+  bool get isPlaying => this._operation != null && this._operation.isActive;
+  int get framesCount => _frames.length;
+
+  // Setters
+  void setImage(Image img) {
     this._image = img;
     notifyListeners();
   }
-  setImageFull(Image img) {
+
+  void setImageFull(Image img) {
     this._imageFull = img;
     notifyListeners();
   }
-  get image => this._image;
-  get imageFull => this._imageFull;
 
-  // Slider
   void setSlider(double newSlider) {
     this._currentIndex = newSlider;
     var playFrame = _frames[_currentIndex.toInt()];
-    setMatrix(playFrame);
+    this._matrix.setFrom(playFrame);
+    notifyListeners();
   }
 
-  // Current Frame
-  Matrix4 _matrix = Matrix4.identity();
-  get matrix => this._matrix;
-
-  resetMatrix() {
+  void resetMatrix() {
     this._matrix.setIdentity();
     notifyListeners();
   }
 
-  void setMatrix(Matrix4 matrixInput) {
+  void updateMatrixFromGuesture(Matrix4 matrixInput) {
     this._matrix.setFrom(matrixInput);
-    notifyListeners();
-  }
-
-  List<Matrix4> _frames = [];
-  int get framesCount => _frames.length;
-
-  void addFrame(Matrix4 m) {
-    this._frames.add(m.clone());
     notifyListeners();
   }
 
@@ -49,13 +51,6 @@ class ZoomPlayerModel with ChangeNotifier {
     this._frames.clear();
     notifyListeners();
   }
-
-  // Playback
-  double _currentIndex = 0;
-  double get playerIndex => _currentIndex;
-  Timer _operation;
-
-  bool get isPlaying => this._operation != null && this._operation.isActive;
 
   void _nextFrameIndex() {
     _currentIndex += 1;
@@ -75,10 +70,10 @@ class ZoomPlayerModel with ChangeNotifier {
     const oneSec = const Duration(milliseconds: 50);
     _operation = new Timer.periodic(oneSec, (Timer t) {
       this._nextFrameIndex();
-      var playFrame = _frames[_currentIndex.toInt()];
-      setMatrix(playFrame);
+      final playFrame = _frames[_currentIndex.toInt()];
+      this._matrix.setFrom(playFrame);
+      notifyListeners();
     });
-    notifyListeners();
   }
 
   void playerRecord() {
@@ -87,7 +82,7 @@ class ZoomPlayerModel with ChangeNotifier {
     playerStop();
     const oneSec = const Duration(milliseconds: 50);
     _operation = new Timer.periodic(oneSec, (Timer t) {
-      addFrame(matrix);
+      this._frames.add(matrix.clone());
     });
     notifyListeners();
   }
