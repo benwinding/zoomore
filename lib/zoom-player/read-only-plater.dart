@@ -48,7 +48,6 @@ class _ZoomPlayerReadOnlyState extends State<ZoomPlayerReadOnly> {
       final m = GetIt.I.get<ZoomPlayerModel>();
       playerIndex = m.playerIndex;
       isPlaying = m.isPlaying;
-      isSaving = m.isSaving;
       matrix = m.matrix;
       framesCount = m.framesCount.toDouble();
       image = m.image;
@@ -127,7 +126,7 @@ class _ZoomPlayerReadOnlyState extends State<ZoomPlayerReadOnly> {
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: ButtonBar(alignment: MainAxisAlignment.center, children: [
-              makebutton(icon: Icons.skip_previous, onPressed: m.reset),
+              makebutton(icon: Icons.skip_previous, onPressed: m.playerStopGotoStart),
               makebutton(
                   icon: isPlaying ? Icons.pause : Icons.play_arrow,
                   onPressed: () {

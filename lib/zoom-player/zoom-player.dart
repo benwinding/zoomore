@@ -48,7 +48,6 @@ class _ZoomPlayerState extends State<ZoomPlayer> {
       final m = GetIt.I.get<ZoomPlayerModel>();
       playerIndex = m.playerIndex;
       isPlaying = m.isPlaying;
-      isSaving = m.isSaving;
       matrix = m.matrix;
       framesCount = m.framesCount.toDouble();
       image = m.image;
@@ -139,25 +138,7 @@ class _ZoomPlayerState extends State<ZoomPlayer> {
                     }
                   }),
               makebutton(
-                  icon: Icons.close_fullscreen_sharp, onPressed: m.reset),
-              makebutton(
-                  icon: Icons.save_alt,
-                  onPressed: () async {
-                    RenderRepaintBoundary boundary =
-                        globalKey.currentContext.findRenderObject();
-                    m.playerSave(boundary);
-                    final snackBar = SnackBar(
-                      content: Text('Saved to gallery!'),
-                    );
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  }),
-              makebutton(
-                  icon: Icons.share,
-                  onPressed: () {
-                    RenderRepaintBoundary boundary =
-                        globalKey.currentContext.findRenderObject();
-                    m.playerShare(boundary);
-                  }),
+                  icon: Icons.close_fullscreen_sharp, onPressed: m.resetMatrix),
             ]),
           ),
           // Row(children: [

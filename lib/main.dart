@@ -14,6 +14,10 @@ void main() {
 
   void onClickedImageTwice() {
     GetIt.I.get<PagesProvider>().gotoScreen(1);
+    final m = GetIt.I.get<ZoomPlayerModel>();
+    m.playerStopGotoStart();
+    m.resetMatrix();
+    m.resetFrames();
   }
 
   GetIt.I.registerSingleton(new PagesProvider(screens));
