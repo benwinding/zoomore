@@ -85,6 +85,8 @@ class _ImagesGridState extends State<ImagesGrid> {
     this.setState(() {
       this.hasPermission = hasPermission;
     });
-    await m.loadImageList();
+    if (hasPermission) {
+      await m.loadImageList();
+    }
   }
 }
