@@ -3,12 +3,15 @@ set -e
 
 if [ -n "$(git status --porcelain)" ]; then
   echo "-------------------------------";
+  echo "!! Aborting VersionBump !!";
   echo "Please commit the changes first";
   echo "-------------------------------";
   exit 1
 fi
 
-PUBSPEC_PATH='../pubspec.yaml'
+BIN_DIR=$(dirname $0)
+PUBSPEC_PATH="$BIN_DIR/../pubspec.yaml"
+echo "Using pubspec file: $PUBSPEC_PATH"
 # Find and increment the version number.
 perl -i -pe 's/^(version:\s+\d+\.\d+\.\d+\+)(\d+)$/$1.($2+1)/e' $PUBSPEC_PATH
 
