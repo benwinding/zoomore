@@ -57,6 +57,9 @@ android {
    buildTypes {
        release {
            signingConfig signingConfigs.release
+           // Fix for Unhandled Exception: MissingPluginException, see: https://github.com/Baseflow/flutter-permission-handler/issues/308   
+           minifyEnabled false
+           shrinkResources false
        }
    }
 }
