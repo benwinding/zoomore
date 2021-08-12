@@ -33,9 +33,8 @@ Zoomore is an app to turn static images into dynamic gifs!
 ## iOS - Deployment
 
 1. `./bin/flutter-prebuild.sh`
-2. Make sure the `android/key.properties` exists 
-    - (See `android/key.properties.EXAMPLE` for an example)
-    - Must have `keystore` file, a private key file needed to sign app
-2. `flutter build appbundle`
-3. go to [https://play.google.com/console/](https://play.google.com/console/)
-
+2. Make sure the `keys are added to XCode` 
+2. `flutter build ipa` this generates the `build/ios/archive/Runner.xcarchive` project
+3. Open `build/ios/archive/Runner.xcarchive` in XCode, then distribute app to appstore
+![](https://i.imgur.com/yaInGq9.png)
+4. Goto [https://appstoreconnect.apple.com/apps](https://appstoreconnect.apple.com/apps) to view Apps
