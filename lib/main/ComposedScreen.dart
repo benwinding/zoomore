@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-import '../pages/page.provider.dart';
+import '../pages/base/page.provider.dart';
 import '../layouts/TransitionContainer.dart';
 
 class ComposedScreen extends StatefulWidget {

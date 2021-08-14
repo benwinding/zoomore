@@ -1,4 +1,4 @@
-import 'package:zoomore/pages/page.interface.dart';
+import 'base/page.interface.dart';
 
 import 'share.page.dart';
 import 'gallery.page.dart';

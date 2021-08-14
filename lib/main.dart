@@ -6,8 +6,8 @@ import 'package:zoomore/zoom-player/export.provider.dart';
 import 'zoom-player/zoom-player.model.dart';
 import 'image-grid/image-grid-model.dart';
 import 'main/ComposedScreen.dart';
-import 'pages/page.factory.dart';
-import 'pages/page.provider.dart';
+import 'pages/allpage.factory.dart';
+import 'pages/base/page.provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

@@ -4,8 +4,8 @@ import 'package:zoomore/image-grid/image-grid-model.dart';
 import 'package:zoomore/image-grid/image-grid.dart';
 import 'package:zoomore/main/ButtonsBottom.dart';
 
-import 'page.interface.dart';
-import 'page.provider.dart';
+import 'base/page.interface.dart';
+import 'base/page.provider.dart';
 
 class GalleryPage implements PageInterface {
   @override
