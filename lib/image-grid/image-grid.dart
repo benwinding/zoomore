@@ -34,7 +34,7 @@ class _ImagesGridState extends State<ImagesGrid> {
   void onModelChange() {
     setState(() {
       final m = GetIt.I.get<ImageGridModel>();
-      print('model changed image_count=' + m.images.length.toString());
+      // print('model changed image_count=' + m.images.length.toString());
       itemCount = m.imageCount;
       images = m.images;
       selectedIndex = m.selectedIndex;
