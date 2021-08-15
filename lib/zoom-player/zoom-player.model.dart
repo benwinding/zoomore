@@ -23,6 +23,8 @@ class ZoomPlayerModel with ChangeNotifier {
   // Setters
   void setImage(Image img) async {
     this._image = img;
+    this.playerStopGotoStart();
+    this.resetFrames();
     notifyListeners();
     final i = await getImageInfo(img);
     imageRatio = i.image.width / i.image.height;
