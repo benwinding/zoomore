@@ -1,6 +1,7 @@
 import 'package:flutter/rendering.dart';
 import 'package:get_it/get_it.dart';
 import 'package:flutter/material.dart';
+import 'package:zoomore/zoom-player/zoom-controls.dart';
 
 import './zoom-player.model.dart';
 import './zoomable-widget.dart';
@@ -18,6 +19,8 @@ class _ZoomPlayerReadOnlyState extends State<ZoomPlayerReadOnly> {
   final GlobalKey globalKey = GlobalKey();
   final double controlsHeight = 150;
 
+  double viewerHeight = 400;
+
   double playerIndex;
   double framesCount;
 
@@ -26,6 +29,10 @@ class _ZoomPlayerReadOnlyState extends State<ZoomPlayerReadOnly> {
   Matrix4 matrix;
   Image image;
   Image imageFull;
+
+  double screenWidth = 400;
+  double screenHeight = 400;
+  bool screenInitialized = false;
 
   _ZoomPlayerReadOnlyState() {
     GetIt.I.get<ZoomPlayerModel>().addListener(this.onModelChanged);
@@ -52,6 +59,39 @@ class _ZoomPlayerReadOnlyState extends State<ZoomPlayerReadOnly> {
       framesCount = m.framesCount.toDouble();
       image = m.image;
       imageFull = m.imageFull;
+      viewerHeight = calculateViewerHeight(
+        ratio: m.imageRatio,
+        controlsHeight: this.controlsHeight,
+        screenWidth: this.screenWidth,
+        maxHeight: this.screenHeight - 150,
+      );
+    });
+  }
+
+  calculateViewerHeight(
+      {double ratio,
+      double screenWidth,
+      double controlsHeight,
+      double maxHeight}) {
+    final minHeight = screenWidth / 2;
+    final calHeight = (screenWidth / ratio) + controlsHeight;
+    if (calHeight > maxHeight) {
+      return maxHeight;
+    }
+    if (calHeight < minHeight) {
+      return minHeight;
+    }
+    return calHeight;
+  }
+
+  calculateScreenSize(BuildContext c) {
+    if (this.screenInitialized) {
+      return;
+    }
+    setState(() {
+      this.screenWidth = MediaQuery.of(c).size.width;
+      this.screenHeight = MediaQuery.of(c).size.height;
+      this.screenInitialized = true;
     });
   }
 
@@ -63,82 +103,20 @@ class _ZoomPlayerReadOnlyState extends State<ZoomPlayerReadOnly> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Column(
-            children: [buildZoomArea(context), buildControls(context)],
+            children: [
+              buildZoomArea(context),
+              ZoomControls(
+                isPlayOnly: true,
+                playerIndex: this.playerIndex,
+                framesCount: this.framesCount.toInt(),
+                controlsHeight: this.controlsHeight,
+                isPlaying: this.isPlaying,
+              )
+            ],
           )
         ],
       ),
     );
-  }
-
-  Widget buildControls(BuildContext context) {
-    final m = GetIt.I.get<ZoomPlayerModel>();
-
-    makebutton(
-        {IconData icon,
-        Function onPressed,
-        bool hide = false,
-        bool disabled = false}) {
-      return hide
-          ? SizedBox(width: 55, height: 55)
-          : ElevatedButton(
-              onPressed: () {
-                onPressed();
-              },
-              child: Icon(icon));
-    }
-
-    makeSlider() {
-      makeTextItem({String text, double left = 0, double right = 0}) {
-        return Container(
-          child: Text(text,
-              style: TextStyle(color: Colors.blue.shade600, fontSize: 10)),
-          padding: EdgeInsets.only(left: left, right: right, top: 35),
-          margin: EdgeInsets.only(top: 0),
-        );
-      }
-
-      return Stack(children: [
-        Slider(
-          value: playerIndex,
-          label: playerIndex.toStringAsFixed(0),
-          min: 0,
-          max: framesCount,
-          divisions: 100,
-          onChanged: (value) {
-            m.setSlider(value);
-          },
-        ),
-        Row(
-          children: [
-            makeTextItem(text: '0', left: 20),
-            Expanded(child: Container()),
-            makeTextItem(text: framesCount.toInt().toString(), right: 20),
-          ],
-        )
-      ]);
-    }
-
-    return Container(
-        color: Colors.lightBlue.shade100,
-        height: this.controlsHeight,
-        child: Column(children: [
-          makeSlider(),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: ButtonBar(alignment: MainAxisAlignment.center, children: [
-              makebutton(icon: Icons.skip_previous, onPressed: m.playerStopGotoStart),
-              makebutton(
-                  icon: isPlaying ? Icons.pause : Icons.play_arrow,
-                  onPressed: () {
-                    if (m.isPlaying) {
-                      m.playerStop();
-                    } else {
-                      m.playerStart();
-                    }
-                  }),
-            ]),
-          ),
-        ]));
   }
 
   Widget buildZoomArea(BuildContext context) {
@@ -150,7 +128,8 @@ class _ZoomPlayerReadOnlyState extends State<ZoomPlayerReadOnly> {
       child: Container(
         color: Colors.amber,
         child: ZoomableWidget(
-            onChange: (m) => GetIt.I.get<ZoomPlayerModel>().updateMatrixFromGuesture(m),
+            onChange: (m) =>
+                GetIt.I.get<ZoomPlayerModel>().updateMatrixFromGuesture(m),
             matrix: matrix,
             key: Key('zoomy'),
             child: Wrap(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:zoomore/main/ButtonsBottom.dart';
-import 'package:zoomore/zoom-player/read-only-plater.dart';
+import 'package:zoomore/zoom-player/zoom-player-readonly.dart';
 import 'base/page.provider.dart';
 import 'base/page.interface.dart';
 

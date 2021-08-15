@@ -3,6 +3,7 @@ import 'package:media_gallery/media_gallery.dart';
 
 class ImageGridModel with ChangeNotifier {
   List<ImageSelection> _images = [];
+  Map<String, bool> _imagesLoaded = Map();
 
   int _index = 0;
   final Function onClickedImageTwice;
@@ -52,6 +53,10 @@ class ImageGridModel with ChangeNotifier {
     print('found ' + count.toString() + ' files');
     for (var i = 0; i < count; i++) {
       final item = imagePage.items[i];
+      if (this._imagesLoaded.containsKey(item.id)) {
+        continue;
+      }
+      this._imagesLoaded[item.id] = true;
       item.getThumbnail(height: 180, width: 180).then((bytes) {
         final image = Image.memory(
           bytes,

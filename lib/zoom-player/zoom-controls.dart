@@ -5,16 +5,18 @@ import 'zoom-player.model.dart';
 
 class ZoomControls extends StatelessWidget {
   final double playerIndex;
-  final double framesCount;
+  final int framesCount;
   final double controlsHeight;
   final bool isPlaying;
+  final bool isPlayOnly;
 
   const ZoomControls(
       {Key key,
       this.playerIndex,
       this.framesCount,
       this.controlsHeight,
-      this.isPlaying})
+      this.isPlaying,
+      this.isPlayOnly = false})
       : super(key: key);
 
   @override
@@ -50,17 +52,17 @@ class ZoomControls extends StatelessWidget {
           value: this.playerIndex,
           label: this.playerIndex.toStringAsFixed(0),
           min: 0,
-          max: this.framesCount,
+          max: this.framesCount.toDouble(),
           divisions: 100,
           onChanged: (value) {
-            m.setSlider(value);
+            // m.setSlider(value.toInt());
           },
         ),
         Row(
           children: [
             makeTextItem(text: '0', left: 20),
             Expanded(child: Container()),
-            makeTextItem(text: framesCount.toInt().toString(), right: 20),
+            makeTextItem(text: this.framesCount.toInt().toString(), right: 20),
           ],
         )
       ]);
@@ -75,18 +77,16 @@ class ZoomControls extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             child: ButtonBar(alignment: MainAxisAlignment.center, children: [
               makebutton(
-                  icon: isPlaying ? Icons.fiber_manual_record : Icons.stop, onPressed: m.playerRecord),
-              makebutton(
-                  icon: isPlaying ? Icons.pause : Icons.play_arrow,
+                  icon: isPlaying
+                      ? Icons.pause
+                      : Icons.fiber_manual_record_rounded,
                   onPressed: () {
-                    if (m.isPlaying) {
+                    if (isPlaying) {
                       m.playerStop();
                     } else {
-                      m.playerStart();
+                      m.playerRecord();
                     }
                   }),
-              makebutton(
-                  icon: Icons.close_fullscreen_sharp, onPressed: m.resetMatrix),
             ]),
           ),
         ]));

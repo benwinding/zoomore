@@ -7,7 +7,7 @@ class ZoomPlayerModel with ChangeNotifier {
 
   Image _image;
   Image _imageFull;
-  double _currentIndex = 0;
+  int _currentIndex = 0;
   Timer _operation;
   double imageRatio = 1;
 
@@ -15,9 +15,10 @@ class ZoomPlayerModel with ChangeNotifier {
   Image get image => this._image;
   Image get imageFull => this._imageFull;
   Matrix4 get matrix => this._matrix;
-  double get playerIndex => _currentIndex;
+  double get playerIndex => _currentIndex.toDouble();
   bool get isPlaying => this._operation != null && this._operation.isActive;
-  int get framesCount => _frames.length;
+  int get framesCount => this._frames.length;
+  int get maxFrames => 100;
 
   // Setters
   void setImage(Image img) async {
@@ -33,9 +34,9 @@ class ZoomPlayerModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void setSlider(double newSlider) {
-    this._currentIndex = newSlider;
-    var playFrame = _frames[_currentIndex.toInt()];
+  void setSlider(int newSlider) {
+    this._currentIndex = newSlider.toInt();
+    var playFrame = _frames[_currentIndex];
     this._matrix.setFrom(playFrame);
     notifyListeners();
   }
@@ -55,28 +56,9 @@ class ZoomPlayerModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void _nextFrameIndex() {
-    _currentIndex += 1;
-    if (_currentIndex >= framesCount - 1) {
-      _currentIndex = 0;
-    }
-    notifyListeners();
-  }
-
   void _resetFrameIndex() {
     _currentIndex = 0;
     notifyListeners();
-  }
-
-  void playerStart() {
-    playerStop();
-    const oneSec = const Duration(milliseconds: 50);
-    _operation = new Timer.periodic(oneSec, (Timer t) {
-      this._nextFrameIndex();
-      final playFrame = _frames[_currentIndex.toInt()];
-      this._matrix.setFrom(playFrame);
-      notifyListeners();
-    });
   }
 
   void playerRecord() {
@@ -86,6 +68,10 @@ class ZoomPlayerModel with ChangeNotifier {
     const oneSec = const Duration(milliseconds: 50);
     _operation = new Timer.periodic(oneSec, (Timer t) {
       this._frames.add(matrix.clone());
+      notifyListeners();
+      if (this.framesCount >= this.maxFrames) {
+        this.playerStop();
+      }
     });
     notifyListeners();
   }

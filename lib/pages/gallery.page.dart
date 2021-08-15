@@ -54,7 +54,7 @@ class _GalleryPageButtonsState extends State<GalleryPageButtons> {
         next: ButtonState(
             disabled: !this.hasSelectedImage,
             onTap: () {
-              s.nextScreen();
+              s.gotoScreen(1);
             }),
         hintText: 'Select image');
   }
