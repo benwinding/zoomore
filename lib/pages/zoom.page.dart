@@ -33,18 +33,13 @@ class BlankButtons extends StatelessWidget {
   }
 }
 
-class ZoomPageComponent extends StatefulWidget {
-  @override
-  _ZoomPageState createState() => _ZoomPageState();
-}
-
-class _ZoomPageState extends State<ZoomPageComponent> {
+class ZoomPageComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
         color: Colors.lightBlue.shade200,
         child: Center(
-          child: ZoomPlayer(height: 400),
+          child: ZoomPlayer(),
         ));
   }
 }

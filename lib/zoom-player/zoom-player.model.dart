@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'dart:async';
+import 'dart:io';
 
 class ZoomPlayerModel with ChangeNotifier {
   Matrix4 _matrix = Matrix4.identity();
@@ -10,6 +11,7 @@ class ZoomPlayerModel with ChangeNotifier {
   Image _imageFull;
   double _currentIndex = 0;
   Timer _operation;
+  double imageRatio = 1;
 
   // Getters
   Image get image => this._image;
@@ -20,8 +22,14 @@ class ZoomPlayerModel with ChangeNotifier {
   int get framesCount => _frames.length;
 
   // Setters
-  void setImage(Image img) {
+  void setImage(Image img) async {
     this._image = img;
+    _image.image
+        .resolve(new ImageConfiguration())
+        .addListener(new ImageStreamListener((ImageInfo i, bool _) {
+      imageRatio = i.image.width / i.image.height;
+      notifyListeners();
+    }));
     notifyListeners();
   }
 
