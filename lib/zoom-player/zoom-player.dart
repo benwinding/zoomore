@@ -138,7 +138,7 @@ class _ZoomPlayerState extends State<ZoomPlayer> {
         alignment: AlignmentDirectional.topEnd,
         children: [
           Container(
-            color: Colors.amber,
+            color: Colors.black87,
             child: ZoomableWidget(
                 onChange: (m) =>
                     GetIt.I.get<ZoomPlayerModel>().updateMatrixFromGuesture(m),
