@@ -28,8 +28,9 @@ void main() {
   GetIt.I.registerSingleton(new ExportProvider(zoomModel));
 
   GetIt.I.get<ImageGridModel>().addListener(() {
-    final image = GetIt.I.get<ImageGridModel>().selectedImage;
-    GetIt.I.get<ZoomPlayerModel>().setImage(image);
+    final m = GetIt.I.get<ImageGridModel>();
+    GetIt.I.get<ZoomPlayerModel>().setImage(m.selectedImage);
+    GetIt.I.get<ZoomPlayerModel>().setImageFull(m.fullImage);
   });
 
   runApp(MyApp());

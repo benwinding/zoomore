@@ -28,14 +28,4 @@ class PagesProvider with ChangeNotifier {
     // print('going to screen = ' + this._screenIndex.toString());
     notifyListeners();
   }
-
-  void nextScreen() {
-    // print('going to next screen');
-    this.gotoScreen(this._screenIndex + 1);
-  }
-
-  void prevScreen() {
-    // print('going to prev screen');
-    this.gotoScreen(this._screenIndex - 1);
-  }
 }

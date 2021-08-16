@@ -5,6 +5,7 @@ class ImageGridModel with ChangeNotifier {
   List<ImageSelection> _images = [];
   Map<String, bool> _imagesLoaded = Map();
 
+  Image fullImage;
   int _index = 0;
   final Function onClickedImageTwice;
 
@@ -23,7 +24,7 @@ class ImageGridModel with ChangeNotifier {
     return this._images[this.selectedIndex].image;
   }
 
-  Future<Image> fetchCurrentImageFull() async {
+  Future<Image> _fetchCurrentImageFull() async {
     if (this._images.length < 1) {
       return null;
     }
@@ -37,6 +38,10 @@ class ImageGridModel with ChangeNotifier {
       this.onClickedImageTwice();
     }
     this._index = index;
+    this._fetchCurrentImageFull().then((img) {
+      this.fullImage = img;
+      notifyListeners();
+    });
     notifyListeners();
   }
 

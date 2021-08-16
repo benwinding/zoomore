@@ -25,14 +25,25 @@ class ZoomPlayerModel with ChangeNotifier {
     this._image = img;
     this.playerStopGotoStart();
     this.resetFrames();
+    if (img == null) {
+      return;
+    }
     notifyListeners();
     final i = await getImageInfo(img);
     imageRatio = i.image.width / i.image.height;
     notifyListeners();
   }
 
-  void setImageFull(Image img) {
+  void setImageFull(Image img) async {
     this._imageFull = img;
+    this.playerStopGotoStart();
+    this.resetFrames();
+    if (img == null) {
+      return;
+    }
+    notifyListeners();
+    final i = await getImageInfo(img);
+    imageRatio = i.image.width / i.image.height;
     notifyListeners();
   }
 
@@ -96,6 +107,9 @@ class ZoomPlayerModel with ChangeNotifier {
 }
 
 Future<ImageInfo> getImageInfo(Image img) async {
+  if (img == null) {
+    return null;
+  }
   final c = new Completer<ImageInfo>();
   img.image
     .resolve(new ImageConfiguration())        

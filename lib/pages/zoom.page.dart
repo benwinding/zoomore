@@ -23,10 +23,10 @@ class BlankButtons extends StatelessWidget {
     final s = GetIt.I.get<PagesProvider>();
     return ButtonsBottom(
       prev: ButtonState(onTap: () {
-        s.prevScreen();
+        s.gotoScreen(0);
       }),
       next: ButtonState(onTap: () {
-        s.nextScreen();
+        s.gotoScreen(2);
       }),
       hintText: 'Pinch and Zoom!',
     );
