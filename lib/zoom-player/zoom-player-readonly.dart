@@ -1,10 +1,10 @@
 import 'package:flutter/rendering.dart';
 import 'package:get_it/get_it.dart';
 import 'package:flutter/material.dart';
-import 'package:zoomore/zoom-player/zoom-controls.dart';
+import 'package:zoomore/zoom-player/widgets/zoom-controls.dart';
 
 import './zoom-player.model.dart';
-import './zoomable-widget.dart';
+import 'widgets/zoomable-widget.dart';
 
 class ZoomPlayerReadOnly extends StatefulWidget {
   @override
@@ -97,6 +97,8 @@ class _ZoomPlayerReadOnlyState extends State<ZoomPlayerReadOnly> {
 
   @override
   Widget build(BuildContext context) {
+    final m = GetIt.I.get<ZoomPlayerModel>();
+
     return Container(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -111,6 +113,8 @@ class _ZoomPlayerReadOnlyState extends State<ZoomPlayerReadOnly> {
                 framesCount: this.framesCount.toInt(),
                 controlsHeight: this.controlsHeight,
                 isPlaying: this.isPlaying,
+                onPlayerRecord: m.playerRecord,
+                onPlayerStop: m.playerStop,
               )
             ],
           )

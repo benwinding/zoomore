@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 import 'zoom-player.model.dart';
-import 'zoomable-widget.dart';
-import 'zoom-controls.dart';
+import 'widgets/zoomable-widget.dart';
+import 'widgets/zoom-controls.dart';
 
 class ZoomPlayer extends StatefulWidget {
   @override
@@ -99,6 +99,8 @@ class _ZoomPlayerState extends State<ZoomPlayer> {
   Widget build(BuildContext context) {
     this.calculateScreenSize(context);
 
+    final m = GetIt.I.get<ZoomPlayerModel>();
+
     return Container(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -112,6 +114,8 @@ class _ZoomPlayerState extends State<ZoomPlayer> {
                 framesCount: this.maxFrames,
                 controlsHeight: this.controlsHeight,
                 isPlaying: this.isPlaying,
+                onPlayerRecord: m.playerRecord,
+                onPlayerStop: m.playerStop,
               )
             ],
           )

@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-
-import 'zoom-player.model.dart';
 
 class ZoomControls extends StatelessWidget {
   final double playerIndex;
@@ -9,6 +6,8 @@ class ZoomControls extends StatelessWidget {
   final double controlsHeight;
   final bool isPlaying;
   final bool isPlayOnly;
+  final Function onPlayerStop;
+  final Function onPlayerRecord;
 
   const ZoomControls(
       {Key key,
@@ -16,13 +15,13 @@ class ZoomControls extends StatelessWidget {
       this.framesCount,
       this.controlsHeight,
       this.isPlaying,
+      @required this.onPlayerStop,
+      @required this.onPlayerRecord,
       this.isPlayOnly = false})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final m = GetIt.I.get<ZoomPlayerModel>();
-
     makebutton(
         {IconData icon,
         Function onPressed,
@@ -82,9 +81,9 @@ class ZoomControls extends StatelessWidget {
                       : Icons.fiber_manual_record_rounded,
                   onPressed: () {
                     if (isPlaying) {
-                      m.playerStop();
+                      onPlayerStop();
                     } else {
-                      m.playerRecord();
+                      onPlayerRecord();
                     }
                   }),
             ]),
