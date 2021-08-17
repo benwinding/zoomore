@@ -12,10 +12,9 @@ class _ZoomRecorderModelState {
 }
 
 class ZoomRecorderModel with ChangeNotifier {
-  final Matrix4 _matrix = Matrix4.identity();
-
   int _currentIndex = 0;
   Timer _operation;
+  final Matrix4 _matrix = Matrix4.identity();
 
   // Getters
   Image get image => this._store.image;
@@ -24,7 +23,6 @@ class ZoomRecorderModel with ChangeNotifier {
   int get framesCount => this._store.frameCount;
   int get maxFrames => this._store.maxFrames;
 
-  Matrix4 get matrix => this._matrix;
   double get playerIndex => this._currentIndex.toDouble();
   bool get isPlaying => this._operation != null && this._operation.isActive;
 
@@ -34,6 +32,12 @@ class ZoomRecorderModel with ChangeNotifier {
     this._store.addListener(() {
       notifyListeners();
     });
+  }
+
+  Matrix4 getCurrentFrame() {
+    // var playFrame = this._store.getFrame(_currentIndex);
+    // this._matrix.setFrom(playFrame);
+    return this._matrix;
   }
 
   // Setters
@@ -48,13 +52,6 @@ class ZoomRecorderModel with ChangeNotifier {
     this._store.setImageFull(img);
     this.playerStopGotoStart();
     this.resetFrames();
-    notifyListeners();
-  }
-
-  void setSlider(int newSlider) {
-    this._currentIndex = newSlider.toInt();
-    var playFrame = this._store.getFrame(_currentIndex);
-    this._matrix.setFrom(playFrame);
     notifyListeners();
   }
 
@@ -84,7 +81,8 @@ class ZoomRecorderModel with ChangeNotifier {
     playerStop();
     const oneSec = const Duration(milliseconds: 50);
     _operation = new Timer.periodic(oneSec, (Timer t) {
-      this._store.addFrame(matrix.clone());
+      this._store.addFrame(this._matrix.clone());
+      this._currentIndex = this.framesCount;
       notifyListeners();
       if (this.framesCount >= this.maxFrames) {
         this.playerStop();
@@ -103,9 +101,5 @@ class ZoomRecorderModel with ChangeNotifier {
   void playerStopGotoStart() {
     this.playerStop();
     this._resetFrameIndex();
-  }
-
-  Matrix4 getFrame(int i) {
-    return this._store.getFrame(i);
   }
 }

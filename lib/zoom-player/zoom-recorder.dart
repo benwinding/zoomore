@@ -52,7 +52,7 @@ class _ZoomRecorderState extends State<ZoomRecorder> {
       final m = GetIt.I.get<ZoomRecorderModel>();
       playerIndex = m.playerIndex;
       isPlaying = m.isPlaying;
-      matrix = m.matrix;
+      matrix = m.getCurrentFrame();
       framesCount = m.framesCount.toDouble();
       maxFrames = m.maxFrames;
       image = m.image;

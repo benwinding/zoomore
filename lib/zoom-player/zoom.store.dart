@@ -15,6 +15,9 @@ class ZoomStore  with ChangeNotifier {
   int get maxFrames => 100;
 
   Matrix4 getFrame(int frameIndex) {
+    if (frameIndex >= this.frameCount) {
+      return Matrix4.identity();
+    }
     return this._frames[frameIndex];
   }
   void clearFrames() {
@@ -30,7 +33,7 @@ class ZoomStore  with ChangeNotifier {
   void setImage(Image img) async {
     this._image = img;
     notifyListeners();
-    final i = await getImageInfo(img);
+    final i = await _getImageInfo(img);
     this._aspectRatio = i.image.width / i.image.height;
     notifyListeners();
   }
@@ -41,13 +44,13 @@ class ZoomStore  with ChangeNotifier {
     if (img == null) {
       return;
     }
-    final i = await getImageInfo(img);
+    final i = await _getImageInfo(img);
     this._aspectRatio = i.image.width / i.image.height;
     notifyListeners();
   }
 }
 
-Future<ImageInfo> getImageInfo(Image img) async {
+Future<ImageInfo> _getImageInfo(Image img) async {
   if (img == null) {
     return null;
   }

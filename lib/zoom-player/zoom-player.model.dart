@@ -16,7 +16,6 @@ class ZoomPlayerModel with ChangeNotifier {
   int get framesCount => this._store.frameCount;
   int get maxFrames => this._store.maxFrames;
 
-  Matrix4 get matrix => this._matrix;
   double get playerIndex => this._currentIndex.toDouble();
   bool get isPlaying => this._operation != null && this._operation.isActive;
 
@@ -26,6 +25,12 @@ class ZoomPlayerModel with ChangeNotifier {
     this._store.addListener(() {
       notifyListeners();
     });
+  }
+
+  Matrix4 getCurrentFrame() {
+    var playFrame = this._store.getFrame(_currentIndex);
+    this._matrix.setFrom(playFrame);
+    return this._matrix;
   }
 
   void setSlider(int newSlider) {
@@ -75,9 +80,5 @@ class ZoomPlayerModel with ChangeNotifier {
   void playerStopGotoStart() {
     this.playerStop();
     this._resetFrameIndex();
-  }
-
-  Matrix4 getFrame(int i) {
-    return this._store.getFrame(i);
   }
 }
