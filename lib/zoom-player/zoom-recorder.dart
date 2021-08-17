@@ -2,20 +2,20 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-import 'zoom-player.model.dart';
+import 'zoom-recorder.model.dart';
 import 'widgets/zoomable-widget.dart';
 import 'widgets/zoom-controls.dart';
 
-class ZoomPlayer extends StatefulWidget {
+class ZoomRecorder extends StatefulWidget {
   @override
-  _ZoomPlayerState createState() => _ZoomPlayerState();
+  _ZoomRecorderState createState() => _ZoomRecorderState();
 }
 
-class _ZoomPlayerState extends State<ZoomPlayer> {
+class _ZoomRecorderState extends State<ZoomRecorder> {
   final GlobalKey globalKey = GlobalKey();
   final double controlsHeight = 100;
 
-  double viewerHeight = 500;
+  double viewerHeight = 400;
 
   double playerIndex;
   double framesCount;
@@ -31,8 +31,8 @@ class _ZoomPlayerState extends State<ZoomPlayer> {
   double screenHeight = 400;
   bool screenInitialized = false;
 
-  _ZoomPlayerState() {
-    GetIt.I.get<ZoomPlayerModel>().addListener(this.onModelChanged);
+  _ZoomRecorderState() {
+    GetIt.I.get<ZoomRecorderModel>().addListener(this.onModelChanged);
   }
 
   @override
@@ -44,12 +44,12 @@ class _ZoomPlayerState extends State<ZoomPlayer> {
   @override
   void dispose() {
     super.dispose();
-    GetIt.I.get<ZoomPlayerModel>().removeListener(this.onModelChanged);
+    GetIt.I.get<ZoomRecorderModel>().removeListener(this.onModelChanged);
   }
 
   void onModelChanged() {
     setState(() {
-      final m = GetIt.I.get<ZoomPlayerModel>();
+      final m = GetIt.I.get<ZoomRecorderModel>();
       playerIndex = m.playerIndex;
       isPlaying = m.isPlaying;
       matrix = m.matrix;
@@ -100,7 +100,7 @@ class _ZoomPlayerState extends State<ZoomPlayer> {
   Widget build(BuildContext context) {
     this.calculateScreenSize(context);
 
-    final m = GetIt.I.get<ZoomPlayerModel>();
+    final m = GetIt.I.get<ZoomRecorderModel>();
 
     return Container(
       child: Column(
@@ -114,9 +114,8 @@ class _ZoomPlayerState extends State<ZoomPlayer> {
                 playerIndex: this.playerIndex,
                 framesCount: this.maxFrames,
                 controlsHeight: this.controlsHeight,
-                isPlayOnly: true,
                 isPlaying: this.isPlaying,
-                onPlayerPlay: m.playerPlay,
+                onPlayerRecord: m.playerRecord,
                 onPlayerStop: m.playerStop,
               )
             ],
@@ -135,7 +134,7 @@ class _ZoomPlayerState extends State<ZoomPlayer> {
         padding: EdgeInsets.all(10),
         child: ElevatedButton(
             onPressed: () {
-              GetIt.I.get<ZoomPlayerModel>().resetMatrix();
+              GetIt.I.get<ZoomRecorderModel>().resetMatrix();
             },
             child: Icon(Icons.close_fullscreen_sharp)));
     return RepaintBoundary(
@@ -147,7 +146,7 @@ class _ZoomPlayerState extends State<ZoomPlayer> {
             color: Colors.black87,
             child: ZoomableWidget(
                 onChange: (m) =>
-                    GetIt.I.get<ZoomPlayerModel>().updateMatrixFromGuesture(m),
+                    GetIt.I.get<ZoomRecorderModel>().updateMatrixFromGuesture(m),
                 matrix: matrix,
                 key: Key('zoomy'),
                 child: Wrap(

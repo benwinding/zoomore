@@ -8,6 +8,7 @@ class ZoomControls extends StatelessWidget {
   final bool isPlayOnly;
   final Function onPlayerStop;
   final Function onPlayerRecord;
+  final Function onPlayerPlay;
 
   const ZoomControls(
       {Key key,
@@ -16,7 +17,8 @@ class ZoomControls extends StatelessWidget {
       this.controlsHeight,
       this.isPlaying,
       @required this.onPlayerStop,
-      @required this.onPlayerRecord,
+      this.onPlayerRecord,
+      this.onPlayerPlay,
       this.isPlayOnly = false})
       : super(key: key);
 
@@ -75,6 +77,18 @@ class ZoomControls extends StatelessWidget {
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: ButtonBar(alignment: MainAxisAlignment.center, children: [
+              isPlayOnly ?
+              makebutton(
+                  icon: isPlaying
+                      ? Icons.skip_previous
+                      : Icons.play_arrow,
+                  onPressed: () {
+                    if (isPlaying) {
+                      onPlayerStop();
+                    } else {
+                      onPlayerPlay();
+                    }
+                  }) :
               makebutton(
                   icon: isPlaying
                       ? Icons.pause

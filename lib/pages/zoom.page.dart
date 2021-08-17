@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:zoomore/main/ButtonsBottom.dart';
-import 'package:zoomore/zoom-player/zoom-player.dart';
+import 'package:zoomore/zoom-player/zoom-recorder.dart';
 
 import 'base/page.provider.dart';
 import 'base/page.interface.dart';
@@ -39,7 +39,7 @@ class ZoomPageComponent extends StatelessWidget {
     return Container(
         color: Colors.lightBlue.shade200,
         child: Center(
-          child: ZoomPlayer(),
+          child: ZoomRecorder(),
         ));
   }
 }

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
-import 'package:zoomore/zoom-player/export.provider.dart';
+import 'package:zoomore/zoom-player/zoom-player.model.dart';
 
-import 'zoom-player/zoom-player.model.dart';
+import 'zoom-player/export.provider.dart';
+import 'zoom-player/zoom-recorder.model.dart';
+import 'zoom-player/zoom.store.dart';
 import 'image-grid/image-grid-model.dart';
 import 'main/ComposedScreen.dart';
 import 'pages/allpage.factory.dart';
@@ -12,25 +14,30 @@ import 'pages/base/page.provider.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   final screens = makePages();
+  final zoomStore = new ZoomStore();
 
   void onClickedImageTwice() {
     GetIt.I.get<PagesProvider>().gotoScreen(1);
-    final m = GetIt.I.get<ZoomPlayerModel>();
+    final m = GetIt.I.get<ZoomRecorderModel>();
     m.playerStopGotoStart();
     m.resetMatrix();
-    m.resetFrames();
+    final m2 = GetIt.I.get<ZoomPlayerModel>();
+    m2.playerStopGotoStart();
+    m2.resetMatrix();
+    zoomStore.clearFrames();
   }
 
   GetIt.I.registerSingleton(new PagesProvider(screens));
   GetIt.I.registerSingleton(new ImageGridModel(onClickedImageTwice: onClickedImageTwice));
-  final zoomModel = new ZoomPlayerModel();
-  GetIt.I.registerSingleton(zoomModel);
-  GetIt.I.registerSingleton(new ExportProvider(zoomModel));
+  GetIt.I.registerSingleton(zoomStore);
+  GetIt.I.registerSingleton(new ZoomRecorderModel(zoomStore));
+  GetIt.I.registerSingleton(new ZoomPlayerModel(zoomStore));
+  GetIt.I.registerSingleton(new ExportProvider(zoomStore));
 
   GetIt.I.get<ImageGridModel>().addListener(() {
     final m = GetIt.I.get<ImageGridModel>();
-    GetIt.I.get<ZoomPlayerModel>().setImage(m.selectedImage);
-    GetIt.I.get<ZoomPlayerModel>().setImageFull(m.fullImage);
+    zoomStore.setImage(m.selectedImage);
+    zoomStore.setImageFull(m.fullImage);
   });
 
   runApp(MyApp());

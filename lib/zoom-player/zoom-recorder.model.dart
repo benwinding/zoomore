@@ -1,55 +1,59 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-class ZoomPlayerModel with ChangeNotifier {
-  Matrix4 _matrix = Matrix4.identity();
-  List<Matrix4> _frames = [];
+import 'zoom.store.dart';
 
-  Image _image;
-  Image _imageFull;
+class _ZoomRecorderModelState {
+  Image image;
+  Image imageFull;
+  double aspectRatio = 1;
+  int frameCount = 100;
+  int maxFrames = 100;
+}
+
+class ZoomRecorderModel with ChangeNotifier {
+  final Matrix4 _matrix = Matrix4.identity();
+
   int _currentIndex = 0;
   Timer _operation;
-  double imageRatio = 1;
 
   // Getters
-  Image get image => this._image;
-  Image get imageFull => this._imageFull;
+  Image get image => this._store.image;
+  Image get imageFull => this._store.imageFull;
+  double get imageRatio => this._store.aspectRatio;
+  int get framesCount => this._store.frameCount;
+  int get maxFrames => this._store.maxFrames;
+
   Matrix4 get matrix => this._matrix;
-  double get playerIndex => _currentIndex.toDouble();
+  double get playerIndex => this._currentIndex.toDouble();
   bool get isPlaying => this._operation != null && this._operation.isActive;
-  int get framesCount => this._frames.length;
-  int get maxFrames => 100;
+
+  ZoomStore _store;
+
+  ZoomRecorderModel(final this._store) {
+    this._store.addListener(() {
+      notifyListeners();
+    });
+  }
 
   // Setters
   void setImage(Image img) async {
-    this._image = img;
+    this._store.setImage(img);
     this.playerStopGotoStart();
     this.resetFrames();
-    if (img == null) {
-      return;
-    }
-    notifyListeners();
-    final i = await getImageInfo(img);
-    imageRatio = i.image.width / i.image.height;
     notifyListeners();
   }
 
   void setImageFull(Image img) async {
-    this._imageFull = img;
+    this._store.setImageFull(img);
     this.playerStopGotoStart();
     this.resetFrames();
-    if (img == null) {
-      return;
-    }
-    notifyListeners();
-    final i = await getImageInfo(img);
-    imageRatio = i.image.width / i.image.height;
     notifyListeners();
   }
 
   void setSlider(int newSlider) {
     this._currentIndex = newSlider.toInt();
-    var playFrame = _frames[_currentIndex];
+    var playFrame = this._store.getFrame(_currentIndex);
     this._matrix.setFrom(playFrame);
     notifyListeners();
   }
@@ -65,7 +69,7 @@ class ZoomPlayerModel with ChangeNotifier {
   }
 
   void resetFrames() {
-    this._frames.clear();
+    this._store.clearFrames();
     notifyListeners();
   }
 
@@ -80,7 +84,7 @@ class ZoomPlayerModel with ChangeNotifier {
     playerStop();
     const oneSec = const Duration(milliseconds: 50);
     _operation = new Timer.periodic(oneSec, (Timer t) {
-      this._frames.add(matrix.clone());
+      this._store.addFrame(matrix.clone());
       notifyListeners();
       if (this.framesCount >= this.maxFrames) {
         this.playerStop();
@@ -102,19 +106,6 @@ class ZoomPlayerModel with ChangeNotifier {
   }
 
   Matrix4 getFrame(int i) {
-    return this._frames[i];
+    return this._store.getFrame(i);
   }
-}
-
-Future<ImageInfo> getImageInfo(Image img) async {
-  if (img == null) {
-    return null;
-  }
-  final c = new Completer<ImageInfo>();
-  img.image
-    .resolve(new ImageConfiguration())        
-    .addListener(new ImageStreamListener((ImageInfo i, bool _) {
-      c.complete(i);
-    }));
-  return c.future;    
 }

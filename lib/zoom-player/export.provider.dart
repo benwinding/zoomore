@@ -13,7 +13,7 @@ import 'dart:math';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 
 import 'package:image/image.dart' as img;
-import 'package:zoomore/zoom-player/zoom-player.model.dart';
+import 'zoom.store.dart';
 
 class ExportProvider with ChangeNotifier { 
   Timer _operationSave;
@@ -21,7 +21,7 @@ class ExportProvider with ChangeNotifier {
   bool get isSaving =>
       this._operationSave != null && this._operationSave.isActive;
 
-  final ZoomPlayerModel zoomModel;
+  final ZoomStore zoomModel;
 
   ExportProvider(this.zoomModel);
 
@@ -59,14 +59,14 @@ class ExportProvider with ChangeNotifier {
 
     // this.zoomModel._resetFrameIndex();
     final List<File> files = [];
-    final count = this.zoomModel.framesCount;
-    for (var i = 0; i < count; i++) {
-      var playFrame = this.zoomModel.getFrame(i);
-      this.zoomModel.updateMatrixFromGuesture(playFrame);
-      // this.zoomModel();
-      final f = await takeScreenshot();
-      files.add(f);
-    }
+    // final count = this.zoomModel.framesCount;
+    // for (var i = 0; i < count; i++) {
+    //   var playFrame = this.zoomModel.getFrame(i);
+    //   this.zoomModel.updateMatrixFromGuesture(playFrame);
+    //   // this.zoomModel();
+    //   final f = await takeScreenshot();
+    //   files.add(f);
+    // }
     return files;
   }
 
