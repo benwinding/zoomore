@@ -87,6 +87,41 @@ class ImageGridModel with ChangeNotifier {
       });
     }
   }
+
+  Future<List<ImageSelection>> fetchImages(int pageOffset, int pageSize) async {
+    if (!this._hasMoreImages) {
+      return [];
+    }
+    if (this._collection == null) {
+      final List<MediaCollection> collections = await MediaGallery.listMediaCollections(
+        mediaTypes: [MediaType.image, MediaType.video],
+      );
+      this._collection = collections[0];
+    }
+    final imageCount = pageSize;
+    final imagePage = await this._collection.getMedias(
+        mediaType: MediaType.image,
+        take: imageCount + 1,
+        skip: this._skipCount);
+    this._skipCount += imageCount;
+    final count = imagePage.items.length;
+    this._hasMoreImages = count > imageCount;
+    print('found ' + count.toString() + ' files');
+
+    Future<ImageSelection> getSingleThumb(Media item) {
+      return item.getThumbnail(height: 180, width: 180).then((bytes) {
+        final image = Image.memory(
+          bytes,
+          fit: BoxFit.cover,
+          width: double.maxFinite,
+        );
+        final imageItem = ImageSelection(image, item);
+        return imageItem;
+      });
+    }
+    final res = await Future.wait(imagePage.items.map((i) => getSingleThumb(i)));
+    return res;
+  }
 }
 
 class ImageSelection {

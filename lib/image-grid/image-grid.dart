@@ -1,8 +1,9 @@
-import 'package:get_it/get_it.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import './image-grid-model.dart';
-import 'permission-wrapper.dart';
+import 'permission-facade.dart';
 
 class ImagesGrid extends StatefulWidget {
   @override
@@ -12,23 +13,47 @@ class ImagesGrid extends StatefulWidget {
 class _ImagesGridState extends State<ImagesGrid> {
   int itemCount = 0;
   int selectedIndex = 0;
-  List<ImageSelection> images;
-  final perms = new PermissionWrapper();
+  final perms = new PermissionFacade();
 
   bool hasPermission = false;
 
+  static const _pageSize = 20;
+  final PagingController<int, ImageSelection> _pagingController =
+      PagingController(firstPageKey: 0);
+
   @override
   void initState() {
-    super.initState();
-    GetIt.I.get<ImageGridModel>().addListener(this.onModelChange);
+    final m = GetIt.I.get<ImageGridModel>();
+    m.addListener(this.onModelChange);
     this.onClickGetPhotoAccess(null);
     this.onModelChange();
+    _pagingController.addPageRequestListener((pageKey) {
+      _onPageRequest(pageKey, _pageSize);
+    });
+    super.initState();
   }
 
   @override
   void dispose() {
-    super.dispose();
+    _pagingController.dispose();
     GetIt.I.get<ImageGridModel>().removeListener(this.onModelChange);
+    super.dispose();
+  }
+
+  void _onPageRequest(int pageOffset, int pageSize) async {
+    try {
+      final newItems =
+          await GetIt.I.get<ImageGridModel>().fetchImages(pageOffset, pageSize);
+      final isLastPage = newItems.length < _pageSize;
+      if (isLastPage) {
+        _pagingController.appendLastPage(newItems);
+      } else {
+        final nextPageKey = pageOffset + newItems.length;
+        _pagingController.appendPage(newItems, nextPageKey);
+      }
+    } catch (error) {
+      _pagingController.error = error;
+    }
   }
 
   void onModelChange() {
@@ -36,7 +61,6 @@ class _ImagesGridState extends State<ImagesGrid> {
       final m = GetIt.I.get<ImageGridModel>();
       // print('model changed image_count=' + m.images.length.toString());
       itemCount = m.imageCount;
-      images = m.images;
       selectedIndex = m.selectedIndex;
     });
   }
@@ -45,32 +69,39 @@ class _ImagesGridState extends State<ImagesGrid> {
     if (!hasPermission) {
       return Center(
           child: ElevatedButton(
-          onPressed: () => this.onClickGetPhotoAccess(context),
+        onPressed: () => this.onClickGetPhotoAccess(context),
         child: Text('Access Photos'),
       ));
     }
 
-    return GestureDetector(
-      child: new Container(
-        color: Colors.lightGreen.shade100,
-        alignment: Alignment.center,
-        child: GridView.builder(
-          itemCount: itemCount,
-          gridDelegate:
-              SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
-          itemBuilder: (BuildContext context, int index) {
-            return Container(
-                padding: EdgeInsets.all(1), child: makeImage(context, index));
-          },
-        ),
+    return PagedListView<int, ImageSelection>(
+      pagingController: _pagingController,
+      builderDelegate: PagedChildBuilderDelegate<ImageSelection>(
+        itemBuilder: (context, item, index) => makeImage(context, item, index),
       ),
     );
+
+    // return GestureDetector(
+    //   child: new Container(
+    //     color: Colors.lightGreen.shade100,
+    //     alignment: Alignment.center,
+    //     child: GridView.builder(
+    //       itemCount: itemCount,
+    //       gridDelegate:
+    //           SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+    //       itemBuilder: (BuildContext context, int index) {
+    //         return Container(
+    //             padding: EdgeInsets.all(1), child: makeImage(context, index));
+    //       },
+    //     ),
+    //   ),
+    // );
   }
 
-  makeImage(BuildContext c, int index) {
+  makeImage(BuildContext c, ImageSelection item, int index) {
     return GestureDetector(
       child: Container(
-          child: images[index].image,
+          child: item.image,
           color: Colors.black,
           padding: selectedIndex == index ? EdgeInsets.all(7) : null),
       onTap: () async {

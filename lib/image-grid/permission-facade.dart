@@ -3,7 +3,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:mutex/mutex.dart';
 import 'package:app_settings/app_settings.dart';
 
-class PermissionWrapper {
+class PermissionFacade {
   Future<bool> checkIsPermenantlyDenied() async {
     await Future.delayed(Duration(milliseconds: 500));
     final perms = await this._requestPermissions();
