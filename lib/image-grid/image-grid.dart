@@ -11,22 +11,23 @@ class ImagesGrid extends StatefulWidget {
 }
 
 class _ImagesGridState extends State<ImagesGrid> {
-  int itemCount = 0;
   int selectedIndex = 0;
   final perms = new PermissionFacade();
 
   bool hasPermission = false;
 
-  static const _pageSize = 20;
-  final PagingController<int, ImageSelection> _pagingController =
-      PagingController(firstPageKey: 0);
+  static const _pageSize = 5;
+  PagingController<int, ImageSelection> _pagingController;
 
   @override
   void initState() {
+    print('[initState] imagegrid');
     final m = GetIt.I.get<ImageGridModel>();
     m.addListener(this.onModelChange);
     this.onClickGetPhotoAccess(null);
     this.onModelChange();
+    _pagingController = PagingController(firstPageKey: m.getPageOffset());
+    _pagingController.itemList = m.getImages();
     _pagingController.addPageRequestListener((pageKey) {
       _onPageRequest(pageKey, _pageSize);
     });
@@ -45,6 +46,7 @@ class _ImagesGridState extends State<ImagesGrid> {
       final newItems =
           await GetIt.I.get<ImageGridModel>().fetchImages(pageOffset, pageSize);
       final isLastPage = newItems.length < _pageSize;
+      print('[_onPageRequest] isLastPage=' + isLastPage.toString());
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
       } else {
@@ -60,7 +62,6 @@ class _ImagesGridState extends State<ImagesGrid> {
     setState(() {
       final m = GetIt.I.get<ImageGridModel>();
       // print('model changed image_count=' + m.images.length.toString());
-      itemCount = m.imageCount;
       selectedIndex = m.selectedIndex;
     });
   }
@@ -74,28 +75,14 @@ class _ImagesGridState extends State<ImagesGrid> {
       ));
     }
 
-    return PagedListView<int, ImageSelection>(
+    return PagedGridView<int, ImageSelection>(
       pagingController: _pagingController,
+      gridDelegate:
+          SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
       builderDelegate: PagedChildBuilderDelegate<ImageSelection>(
         itemBuilder: (context, item, index) => makeImage(context, item, index),
       ),
     );
-
-    // return GestureDetector(
-    //   child: new Container(
-    //     color: Colors.lightGreen.shade100,
-    //     alignment: Alignment.center,
-    //     child: GridView.builder(
-    //       itemCount: itemCount,
-    //       gridDelegate:
-    //           SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-    //       itemBuilder: (BuildContext context, int index) {
-    //         return Container(
-    //             padding: EdgeInsets.all(1), child: makeImage(context, index));
-    //       },
-    //     ),
-    //   ),
-    // );
   }
 
   makeImage(BuildContext c, ImageSelection item, int index) {
@@ -111,13 +98,12 @@ class _ImagesGridState extends State<ImagesGrid> {
   }
 
   onClickGetPhotoAccess(BuildContext c) async {
-    final m = GetIt.I.get<ImageGridModel>();
     final hasPermission = await perms.askPermissions(c);
     this.setState(() {
       this.hasPermission = hasPermission;
     });
     if (hasPermission) {
-      await m.loadImageList();
+      this._onPageRequest(0, _pageSize);
     }
   }
 }

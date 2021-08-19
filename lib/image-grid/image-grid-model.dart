@@ -3,26 +3,29 @@ import 'package:media_gallery/media_gallery.dart';
 
 class ImageGridModel with ChangeNotifier {
   List<ImageSelection> _images = [];
-  Map<String, bool> _imagesLoaded = Map();
+  Map<int, List<ImageSelection>> _thumCache = Map();
 
   Image fullImage;
   int _index = 0;
-  int _skipCount = 0;
+  int _pageOffset = 0;
   final Function onClickedImageTwice;
 
-  bool _hasMoreImages = true;
   MediaCollection _collection;
 
   ImageGridModel({@required this.onClickedImageTwice});
 
-  List<ImageSelection> get images => this._images;
-
   bool get hasSelectedImage => this.selectedImage != null;
   int get selectedIndex => this._index;
   int get imageCount => this._images.length;
+  List<ImageSelection> getImages() {
+    return [..._images];
+  }
+  int getPageOffset() {
+    return _pageOffset;
+  }
 
   Image get selectedImage {
-    if (this._images.length < 1) {
+    if (this.selectedIndex >= this._images.length) {
       return null;
     }
     return this._images[this.selectedIndex].image;
@@ -49,48 +52,24 @@ class ImageGridModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> loadImageList() async {
-    if (!this._hasMoreImages) {
-      return;
+  List<ImageSelection> _fetchAskCache(int pageOffset, int pageSize) {
+    if (_thumCache.containsKey(pageOffset)) {
+      return _thumCache[pageOffset];
     }
-    if (this._collection == null) {
-      final List<MediaCollection> collections =
-          await MediaGallery.listMediaCollections(
-        mediaTypes: [MediaType.image, MediaType.video],
-      );
-      this._collection = collections[0];
-    }
-    final imageCount = 6;
-    final imagePage = await this._collection.getMedias(
-        mediaType: MediaType.image,
-        take: imageCount + 1,
-        skip: this._skipCount);
-    this._skipCount += imageCount;
-    final count = imagePage.items.length;
-    this._hasMoreImages = count > imageCount;
-    print('found ' + count.toString() + ' files');
-    for (var i = 0; i < count; i++) {
-      final item = imagePage.items[i];
-      if (this._imagesLoaded.containsKey(item.id)) {
-        continue;
-      }
-      this._imagesLoaded[item.id] = true;
-      item.getThumbnail(height: 180, width: 180).then((bytes) {
-        final image = Image.memory(
-          bytes,
-          fit: BoxFit.cover,
-          width: double.maxFinite,
-        );
-        final imageItem = ImageSelection(image, item);
-        _images.add(imageItem);
-        notifyListeners();
-      });
-    }
+    return null;
+  }
+
+  void _updateCache(int pageOffset, List<ImageSelection> newThumbs) {
+    _thumCache[pageOffset] = newThumbs;
+    this._images.addAll(newThumbs);
   }
 
   Future<List<ImageSelection>> fetchImages(int pageOffset, int pageSize) async {
-    if (!this._hasMoreImages) {
-      return [];
+    print('fetchImages page=' + pageOffset.toString());
+    this._pageOffset = pageOffset;
+    final cacheResult = _fetchAskCache(pageOffset, pageSize);
+    if (cacheResult != null) {
+      return cacheResult;
     }
     if (this._collection == null) {
       final List<MediaCollection> collections = await MediaGallery.listMediaCollections(
@@ -101,11 +80,9 @@ class ImageGridModel with ChangeNotifier {
     final imageCount = pageSize;
     final imagePage = await this._collection.getMedias(
         mediaType: MediaType.image,
-        take: imageCount + 1,
-        skip: this._skipCount);
-    this._skipCount += imageCount;
+        take: imageCount,
+        skip: pageOffset);
     final count = imagePage.items.length;
-    this._hasMoreImages = count > imageCount;
     print('found ' + count.toString() + ' files');
 
     Future<ImageSelection> getSingleThumb(Media item) {
@@ -120,6 +97,7 @@ class ImageGridModel with ChangeNotifier {
       });
     }
     final res = await Future.wait(imagePage.items.map((i) => getSingleThumb(i)));
+    this._updateCache(pageOffset, res);
     return res;
   }
 }
