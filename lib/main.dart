@@ -37,7 +37,7 @@ void main() {
   GetIt.I.get<ImageGridModel>().addListener(() {
     final m = GetIt.I.get<ImageGridModel>();
     zoomStore.setImage(m.selectedImage);
-    zoomStore.setImageFull(m.fullImage);
+    zoomStore.setImageFull(m.selectedFullImage);
   });
 
   runApp(MyApp());
