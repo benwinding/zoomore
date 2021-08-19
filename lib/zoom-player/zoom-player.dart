@@ -32,6 +32,7 @@ class _ZoomPlayerState extends State<ZoomPlayer> {
   bool screenInitialized = false;
 
   _ZoomPlayerState() {
+    GetIt.I.get<ZoomPlayerModel>().setZoomGlobalKey(this.globalKey);
     GetIt.I.get<ZoomPlayerModel>().addListener(this.onModelChanged);
   }
 
@@ -131,13 +132,6 @@ class _ZoomPlayerState extends State<ZoomPlayer> {
     double height = this.viewerHeight;
     final imageThumb = image;
 
-    final screenButton = Container(
-        padding: EdgeInsets.all(10),
-        child: ElevatedButton(
-            onPressed: () {
-              GetIt.I.get<ZoomPlayerModel>().resetMatrix();
-            },
-            child: Icon(Icons.close_fullscreen_sharp)));
     return RepaintBoundary(
       key: globalKey,
       child: Stack(
@@ -157,20 +151,6 @@ class _ZoomPlayerState extends State<ZoomPlayer> {
                       child: Wrap(
                         children: [
                           Stack(children: [
-                            // AnimatedOpacity(
-                            //   opacity: imageFull == null ? 1.0 : 0.0,
-                            //   duration: Duration(milliseconds: 500),
-                            //   child: imageThumb,
-                            // ),
-                            // AnimatedOpacity(
-                            //   opacity: imageFull == null ? 0.0 : 1.0,
-                            //   duration: Duration(milliseconds: 500),
-                            //   child: imageFull == null ? Container : imageFull,
-                            // ),
-
-                            // imageFull,
-                            // imageThumb,
-
                             AnimatedOpacity(
                               opacity: imageFull == null ? 1.0 : 0.0,
                               duration: Duration(milliseconds: 500),
@@ -184,7 +164,6 @@ class _ZoomPlayerState extends State<ZoomPlayer> {
                   ],
                 )),
           ),
-          screenButton,
         ],
       ),
     );

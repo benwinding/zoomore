@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:zoomore/zoom-player/zoom-player.model.dart';
 
-import 'zoom-player/export.provider.dart';
+import 'export/export.provider.dart';
 import 'zoom-player/zoom-recorder.model.dart';
 import 'zoom-player/zoom.store.dart';
 import 'image-grid/image-grid-model.dart';

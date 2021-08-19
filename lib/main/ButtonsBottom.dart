@@ -4,9 +4,17 @@ import 'package:flutter/material.dart';
 class ButtonState {
   bool hide;
   bool disabled;
+  IconData icon;
   Function onTap;
 
-  ButtonState({this.hide = false, this.disabled = false, this.onTap});
+  ButtonState(
+      {this.hide = false, this.disabled = false, this.onTap, this.icon});
+
+  void setDefaultIcon(IconData icon) {
+    if (this.icon == null) {
+      this.icon = icon;
+    }
+  }
 }
 
 class ButtonsBottom extends StatelessWidget {
@@ -16,35 +24,32 @@ class ButtonsBottom extends StatelessWidget {
 
   ButtonsBottom(
       {Key key, @required this.next, @required this.prev, this.hintText})
-      : super(key: key);
+      : super(key: key) {
+    this.prev.setDefaultIcon(Icons.navigate_before);
+    this.next.setDefaultIcon(Icons.navigate_next);
+  }
+
+  makebutton(ButtonState s) {
+    return s.hide
+        ? SizedBox(width: 55, height: 55)
+        : FloatingActionButton(
+            child: Icon(s.icon),
+            onPressed: s.disabled ? null : s.onTap,
+            backgroundColor: s.disabled ? Colors.grey : null,
+          );
+  }
 
   @override
   Widget build(BuildContext context) {
-    makebutton(IconData icon, Function onPressed, bool hide, bool disabled) {
-      return hide
-          ? SizedBox(width: 55, height: 55)
-          : FloatingActionButton(
-              child: Icon(icon),
-              onPressed: disabled ? null : onPressed,
-              backgroundColor: disabled ? Colors.grey : null,
-            );
-    }
-
-    final buttonPrev =
-        makebutton(Icons.navigate_before, prev.onTap, prev.hide, prev.disabled);
-    final buttonNext =
-        makebutton(Icons.navigate_next, next.onTap, next.hide, next.disabled);
+    final buttonPrev = makebutton(prev);
+    final buttonNext = makebutton(next);
 
     final hintText = this.hintText != null
         ? Container(
             decoration: BoxDecoration(
-              color: Colors.grey.shade700.withAlpha(100),
-              border: Border.all(
-                color: Colors.transparent,
-                width: 1
-              ),
-              borderRadius: BorderRadius.all(Radius.circular(100))
-            ),
+                color: Colors.grey.shade700.withAlpha(100),
+                border: Border.all(color: Colors.transparent, width: 1),
+                borderRadius: BorderRadius.all(Radius.circular(100))),
             child: Text(
               this.hintText,
               style: TextStyle(color: Colors.white, fontSize: 18),

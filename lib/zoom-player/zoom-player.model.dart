@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/src/rendering/proxy_box.dart';
 import 'dart:async';
 
 import 'zoom.store.dart';
@@ -40,6 +41,8 @@ class ZoomPlayerModel with ChangeNotifier {
     notifyListeners();
   }
 
+  
+
   void resetMatrix() {
     this._matrix.setIdentity();
     notifyListeners();
@@ -80,5 +83,13 @@ class ZoomPlayerModel with ChangeNotifier {
   void playerStopGotoStart() {
     this.playerStop();
     this._resetFrameIndex();
+  }
+
+  GlobalKey _globalKey;
+  GlobalKey getZoomGlobalKey() {
+    return this._globalKey;
+  }
+  void setZoomGlobalKey(GlobalKey g) {
+    this._globalKey = g;
   }
 }

@@ -13,7 +13,8 @@ import 'dart:math';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 
 import 'package:image/image.dart' as img;
-import 'zoom.store.dart';
+
+import '../zoom-player/zoom.store.dart';
 
 class ExportProvider with ChangeNotifier { 
   Timer _operationSave;
@@ -160,22 +161,5 @@ class ExportProvider with ChangeNotifier {
     encoder.repeat = 0;
     final blobBytes = encoder.finish();
     return blobBytes;
-  }
-
-  Image _image;
-  Image get image => _image;
-
-  Image _imageFull;
-  Image get imageFull => _imageFull;
-
-  setImage(Image img) {
-    this._image = img;
-    // this._imageFull = null;
-    notifyListeners();
-  }
-
-  setImageFull(Image img) {
-    this._imageFull = img;
-    notifyListeners();
   }
 }
