@@ -7,7 +7,11 @@ class ImageGridModel with ChangeNotifier {
 
   Image fullImage;
   int _index = 0;
+  int _skipCount = 0;
   final Function onClickedImageTwice;
+
+  bool _hasMoreImages = true;
+  MediaCollection _collection;
 
   ImageGridModel({@required this.onClickedImageTwice});
 
@@ -46,15 +50,24 @@ class ImageGridModel with ChangeNotifier {
   }
 
   Future<void> loadImageList() async {
-    final List<MediaCollection> collections =
-        await MediaGallery.listMediaCollections(
-      mediaTypes: [MediaType.image, MediaType.video],
-    );
-    final imagePage = await collections[0].getMedias(
-      mediaType: MediaType.image,
-      take: 50,
-    );
+    if (!this._hasMoreImages) {
+      return;
+    }
+    if (this._collection == null) {
+      final List<MediaCollection> collections =
+          await MediaGallery.listMediaCollections(
+        mediaTypes: [MediaType.image, MediaType.video],
+      );
+      this._collection = collections[0];
+    }
+    final imageCount = 6;
+    final imagePage = await this._collection.getMedias(
+        mediaType: MediaType.image,
+        take: imageCount + 1,
+        skip: this._skipCount);
+    this._skipCount += imageCount;
     final count = imagePage.items.length;
+    this._hasMoreImages = count > imageCount;
     print('found ' + count.toString() + ' files');
     for (var i = 0; i < count; i++) {
       final item = imagePage.items[i];
@@ -69,7 +82,7 @@ class ImageGridModel with ChangeNotifier {
           width: double.maxFinite,
         );
         final imageItem = ImageSelection(image, item);
-        _images.insert(i, imageItem);
+        _images.add(imageItem);
         notifyListeners();
       });
     }
