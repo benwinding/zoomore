@@ -27,11 +27,15 @@ class ZoomControls extends StatelessWidget {
     makebutton(
         {IconData icon,
         Function onPressed,
+        Color color,
         bool hide = false,
         bool disabled = false}) {
       return hide
           ? SizedBox(width: 55, height: 55)
           : ElevatedButton(
+              style: color == null
+                  ? null
+                  : ElevatedButton.styleFrom(primary: color),
               onPressed: () {
                 onPressed();
               },
@@ -77,29 +81,28 @@ class ZoomControls extends StatelessWidget {
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: ButtonBar(alignment: MainAxisAlignment.center, children: [
-              isPlayOnly ?
-              makebutton(
-                  icon: isPlaying
-                      ? Icons.skip_previous
-                      : Icons.play_arrow,
-                  onPressed: () {
-                    if (isPlaying) {
-                      onPlayerStop();
-                    } else {
-                      onPlayerPlay();
-                    }
-                  }) :
-              makebutton(
-                  icon: isPlaying
-                      ? Icons.pause
-                      : Icons.fiber_manual_record_rounded,
-                  onPressed: () {
-                    if (isPlaying) {
-                      onPlayerStop();
-                    } else {
-                      onPlayerRecord();
-                    }
-                  }),
+              isPlayOnly
+                  ? makebutton(
+                      icon: isPlaying ? Icons.skip_previous : Icons.play_arrow,
+                      onPressed: () {
+                        if (isPlaying) {
+                          onPlayerStop();
+                        } else {
+                          onPlayerPlay();
+                        }
+                      })
+                  : makebutton(
+                      icon: isPlaying
+                          ? Icons.pause
+                          : Icons.fiber_manual_record_rounded,
+                      color: isPlaying ? Colors.orange : Colors.red,
+                      onPressed: () {
+                        if (isPlaying) {
+                          onPlayerStop();
+                        } else {
+                          onPlayerRecord();
+                        }
+                      }),
             ]),
           ),
         ]));
