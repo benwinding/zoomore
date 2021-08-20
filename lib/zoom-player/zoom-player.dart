@@ -66,7 +66,7 @@ class _ZoomPlayerState extends State<ZoomPlayer> {
       );
     });
 
-    print(framesCount);
+    // print(framesCount);
   }
 
   calculateViewerHeight(

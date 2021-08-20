@@ -28,7 +28,7 @@ class PermissionWrapper {
   }
 
   Future<bool> askPermissions(BuildContext c) async {
-    print('ask permissions');
+    // print('ask permissions');
     final perms = await this._requestPermissions();
     if (perms[0].isDenied) {
       await Permission.storage.shouldShowRequestRationale;
@@ -42,7 +42,7 @@ class PermissionWrapper {
     }
     if (!isGranted) {
       await showAlertDialog(c);
-      print('About to open settings');
+      // print('About to open settings');
       await AppSettings.openAppSettings();
     }
     final isGrantedYet = await this.checkIsGranted();

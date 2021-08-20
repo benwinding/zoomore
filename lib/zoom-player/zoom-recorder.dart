@@ -65,7 +65,7 @@ class _ZoomRecorderState extends State<ZoomRecorder> {
       );
     });
 
-    print(framesCount);
+    // print(framesCount);
   }
 
   calculateViewerHeight(

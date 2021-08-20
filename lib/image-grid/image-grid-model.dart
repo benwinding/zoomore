@@ -55,10 +55,10 @@ class GalleryStore with ChangeNotifier {
   Map<String, bool> _imagesLoaded = Map();
 
   Future<List<ImageSelection>> fetchImages(int pageOffset, int pageSize) async {
-    print('fetchImages pageOffset=' +
-        pageOffset.toString() +
-        ', _hasMoreImages=' +
-        _hasMoreImages.toString());
+    // print('fetchImages pageOffset=' +
+    //     pageOffset.toString() +
+    //     ', _hasMoreImages=' +
+    //     _hasMoreImages.toString());
     if (this._isInCache(pageOffset, pageSize)) {
       return this._fetchFromCache(pageOffset, pageSize);
     }
