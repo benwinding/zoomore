@@ -92,4 +92,8 @@ class ZoomPlayerModel with ChangeNotifier {
   void setZoomGlobalKey(GlobalKey g) {
     this._globalKey = g;
   }
+
+  getFrame(int i) {
+    return this._store.getFrame(i);
+  }
 }

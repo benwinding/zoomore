@@ -32,7 +32,7 @@ void main() {
   GetIt.I.registerSingleton(zoomStore);
   GetIt.I.registerSingleton(new ZoomRecorderModel(zoomStore));
   GetIt.I.registerSingleton(new ZoomPlayerModel(zoomStore));
-  GetIt.I.registerSingleton(new ExportProvider(zoomStore));
+  GetIt.I.registerSingleton(new ExportProvider());
 
   GetIt.I.get<ImageGridModel>().addListener(() {
     final m = GetIt.I.get<ImageGridModel>();

@@ -17,7 +17,7 @@ dependencies:
   matrix_gesture_detector: 0.1.0
   image_picker: 0.6.7
   permission_handler: 5.1.0+2
-  # flutter_ffmpeg: 0.3.0
+  flutter_ffmpeg: 0.3.0
   path_provider:
   mutex: 3.0.0
   esys_flutter_share: 1.0.2

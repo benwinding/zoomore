@@ -6,25 +6,21 @@ import 'dart:ui' as ui;
 
 import 'package:file/memory.dart';
 import 'package:flutter/rendering.dart';
-// import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
+import 'package:get_it/get_it.dart';
+import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
-import 'dart:math';
+import 'dart:math' as math;
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 
 import 'package:image/image.dart' as img;
-
-import '../zoom-player/zoom.store.dart';
+import 'package:zoomore/zoom-player/zoom-player.model.dart';
 
 class ExportProvider with ChangeNotifier { 
   Timer _operationSave;
 
   bool get isSaving =>
       this._operationSave != null && this._operationSave.isActive;
-
-  final ZoomStore zoomModel;
-
-  ExportProvider(this.zoomModel);
 
   Future<void> playerSave(RenderRepaintBoundary boundary) async {
     try {
@@ -49,25 +45,25 @@ class ExportProvider with ChangeNotifier {
   }
 
   Future<List<File>> _createImageFiles(RenderRepaintBoundary boundary) async {
-    // playerStop();
+    final rnd = new math.Random();
     Future<File> takeScreenshot() async {
       final bytes = await this._getImageBytes(boundary);
-      final memoryFilePath = 'img-' + new Random().toString();
+      final memoryFilePath = 'img-' + rnd.nextInt(9999999).toString();
       final gifFile = MemoryFileSystem().file(memoryFilePath);
       await gifFile.writeAsBytes(bytes);
       return gifFile;
     }
 
-    // this.zoomModel._resetFrameIndex();
+    final m = GetIt.I.get<ZoomPlayerModel>();
+    m.playerStopGotoStart();
     final List<File> files = [];
-    // final count = this.zoomModel.framesCount;
-    // for (var i = 0; i < count; i++) {
-    //   var playFrame = this.zoomModel.getFrame(i);
-    //   this.zoomModel.updateMatrixFromGuesture(playFrame);
-    //   // this.zoomModel();
-    //   final f = await takeScreenshot();
-    //   files.add(f);
-    // }
+    final count = m.framesCount;
+    for (var i = 0; i < count; i++) {
+      final playFrame = m.getFrame(i);
+      m.updateMatrixFromGuesture(playFrame);
+      final f = await takeScreenshot();
+      files.add(f);
+    }
     return files;
   }
 
@@ -107,7 +103,7 @@ class ExportProvider with ChangeNotifier {
       await File(outPath).delete();
     }
     final imagesPath = imgDirPath + '/img_%04d.png';
-    // final FlutterFFmpeg _flutterFFmpeg = new FlutterFFmpeg();
+    final FlutterFFmpeg _flutterFFmpeg = new FlutterFFmpeg();
     final arguments = [
       "-r",
       "10",
@@ -119,7 +115,7 @@ class ExportProvider with ChangeNotifier {
       "25",
       outPath
     ];
-    // await _flutterFFmpeg.executeWithArguments(arguments);
+    await _flutterFFmpeg.executeWithArguments(arguments);
     await Directory(imgDirPath).delete(recursive: true);
     return outPath;
   }
