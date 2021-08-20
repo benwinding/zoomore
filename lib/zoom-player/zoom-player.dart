@@ -118,7 +118,7 @@ class _ZoomPlayerState extends State<ZoomPlayer> {
                 isPlayOnly: true,
                 isPlaying: this.isPlaying,
                 onPlayerPlay: m.playerPlay,
-                onPlayerStop: m.playerStop,
+                onPlayerStop: m.playerStopGotoStart,
               )
             ],
           )

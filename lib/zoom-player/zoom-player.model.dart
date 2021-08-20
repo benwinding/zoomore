@@ -64,8 +64,8 @@ class ZoomPlayerModel with ChangeNotifier {
     const oneSec = const Duration(milliseconds: 50);
     _operation = new Timer.periodic(oneSec, (Timer t) {
       this._currentIndex++;
-      if (this._currentIndex >= this.maxFrames) {
-        this._currentIndex = this.maxFrames;
+      if (this._currentIndex >= this.framesCount) {
+        this._currentIndex = this.framesCount;
         this.playerStop();
       }
       notifyListeners();
