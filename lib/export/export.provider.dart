@@ -59,8 +59,7 @@ class ExportProvider with ChangeNotifier {
     final List<File> files = [];
     final count = m.framesCount;
     for (var i = 0; i < count; i++) {
-      final playFrame = m.getFrame(i);
-      m.updateMatrixFromGuesture(playFrame);
+      m.setSlider(i);
       final f = await takeScreenshot();
       files.add(f);
     }
