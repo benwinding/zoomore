@@ -16,12 +16,7 @@ import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:image/image.dart' as img;
 import 'package:zoomore/zoom-player/zoom-player.model.dart';
 
-class ExportProvider with ChangeNotifier { 
-  Timer _operationSave;
-
-  bool get isSaving =>
-      this._operationSave != null && this._operationSave.isActive;
-
+class ExportProvider with ChangeNotifier {
   Future<void> playerSave(RenderRepaintBoundary boundary) async {
     try {
       final files = await _createImageFiles(boundary);
@@ -42,6 +37,14 @@ class ExportProvider with ChangeNotifier {
     } catch (e) {
       print(e);
     }
+  }
+
+  void enterSaveMode() {
+    GetIt.I.get<ZoomPlayerModel>().setSaving(false);
+  }
+
+  void leaveSaveMode() {
+    GetIt.I.get<ZoomPlayerModel>().setSaving(true);
   }
 
   Future<List<File>> _createImageFiles(RenderRepaintBoundary boundary) async {

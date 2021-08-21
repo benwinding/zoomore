@@ -9,6 +9,7 @@ class ZoomPlayerModel with ChangeNotifier {
 
   int _currentIndex = 0;
   Timer _operation;
+  bool _isSaving = false;
 
   // Getters
   Image get image => this._store.image;
@@ -19,6 +20,7 @@ class ZoomPlayerModel with ChangeNotifier {
 
   double get playerIndex => this._currentIndex.toDouble();
   bool get isPlaying => this._operation != null && this._operation.isActive;
+  bool get isSaving => this._isSaving;
 
   ZoomStore _store;
 
@@ -40,8 +42,6 @@ class ZoomPlayerModel with ChangeNotifier {
     this._matrix.setFrom(playFrame);
     notifyListeners();
   }
-
-  
 
   void resetMatrix() {
     this._matrix.setIdentity();
@@ -89,11 +89,17 @@ class ZoomPlayerModel with ChangeNotifier {
   GlobalKey getZoomGlobalKey() {
     return this._globalKey;
   }
+
   void setZoomGlobalKey(GlobalKey g) {
     this._globalKey = g;
   }
 
   getFrame(int i) {
     return this._store.getFrame(i);
+  }
+
+  void setSaving(bool isSaving) {
+    this._isSaving = isSaving;
+    notifyListeners();
   }
 }

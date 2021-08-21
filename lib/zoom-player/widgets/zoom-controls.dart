@@ -6,6 +6,7 @@ class ZoomControls extends StatelessWidget {
   final double controlsHeight;
   final bool isPlaying;
   final bool isPlayOnly;
+  final bool disabled;
   final Function onPlayerStop;
   final Function onPlayerRecord;
   final Function onPlayerPlay;
@@ -19,7 +20,8 @@ class ZoomControls extends StatelessWidget {
       @required this.onPlayerStop,
       this.onPlayerRecord,
       this.onPlayerPlay,
-      this.isPlayOnly = false})
+      this.isPlayOnly = false,
+      this.disabled})
       : super(key: key);
 
   @override
@@ -37,7 +39,9 @@ class ZoomControls extends StatelessWidget {
                   ? null
                   : ElevatedButton.styleFrom(primary: color),
               onPressed: () {
-                onPressed();
+                if (!disabled) {
+                  onPressed();
+                }
               },
               child: Icon(icon));
     }
@@ -60,7 +64,7 @@ class ZoomControls extends StatelessWidget {
           max: this.framesCount.toDouble(),
           divisions: 100,
           onChanged: (value) {
-            // m.setSlider(value.toInt());
+            // disabled && m.setSlider(value.toInt());
           },
         ),
         Row(

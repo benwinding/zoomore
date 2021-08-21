@@ -53,6 +53,7 @@ class _ZoomPlayerState extends State<ZoomPlayer> {
       final m = GetIt.I.get<ZoomPlayerModel>();
       playerIndex = m.playerIndex;
       isPlaying = m.isPlaying;
+      isSaving = m.isSaving;
       matrix = m.getCurrentFrame();
       framesCount = m.framesCount.toDouble();
       maxFrames = m.maxFrames;
@@ -112,6 +113,7 @@ class _ZoomPlayerState extends State<ZoomPlayer> {
             children: [
               buildZoomArea(context),
               ZoomControls(
+                disabled: this.isSaving,
                 playerIndex: this.playerIndex,
                 framesCount: this.maxFrames,
                 controlsHeight: this.controlsHeight,

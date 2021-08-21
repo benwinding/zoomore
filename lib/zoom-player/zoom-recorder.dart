@@ -111,6 +111,7 @@ class _ZoomRecorderState extends State<ZoomRecorder> {
             children: [
               buildZoomArea(context),
               ZoomControls(
+                disabled: false,
                 playerIndex: this.playerIndex,
                 framesCount: this.maxFrames,
                 controlsHeight: this.controlsHeight,
