@@ -4,12 +4,16 @@ PODS:
   - esys_flutter_share (0.0.1):
     - Flutter
   - Flutter (1.0.0)
+  - flutter_ffmpeg/audio-lts (0.4.2):
+    - Flutter
+    - mobile-ffmpeg-audio (= 4.4.LTS)
   - image_gallery_saver (1.5.0):
     - Flutter
   - image_picker (0.0.1):
     - Flutter
   - media_gallery (0.0.1):
     - Flutter
+  - mobile-ffmpeg-audio (4.4.LTS)
   - path_provider (0.0.1):
     - Flutter
   - "permission_handler (5.1.0+2)":
@@ -19,11 +23,16 @@ DEPENDENCIES:
   - app_settings (from `.symlinks/plugins/app_settings/ios`)
   - esys_flutter_share (from `.symlinks/plugins/esys_flutter_share/ios`)
   - Flutter (from `Flutter`)
+  - flutter_ffmpeg/audio-lts (from `.symlinks/plugins/flutter_ffmpeg/ios`)
   - image_gallery_saver (from `.symlinks/plugins/image_gallery_saver/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - media_gallery (from `.symlinks/plugins/media_gallery/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
+
+SPEC REPOS:
+  trunk:
+    - mobile-ffmpeg-audio
 
 EXTERNAL SOURCES:
   app_settings:
@@ -32,6 +41,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/esys_flutter_share/ios"
   Flutter:
     :path: Flutter
+  flutter_ffmpeg:
+    :path: ".symlinks/plugins/flutter_ffmpeg/ios"
   image_gallery_saver:
     :path: ".symlinks/plugins/image_gallery_saver/ios"
   image_picker:
@@ -47,12 +58,14 @@ SPEC CHECKSUMS:
   app_settings: d103828c9f5d515c4df9ee754dabd443f7cedcf3
   esys_flutter_share: 403498dab005b36ce1f8d7aff377e81f0621b0b4
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
+  flutter_ffmpeg: 3ec3912c74649851e6c3b1885511eef78142ac4f
   image_gallery_saver: 259eab68fb271cfd57d599904f7acdc7832e7ef2
   image_picker: 66aa71bc96850a90590a35d4c4a2907b0d823109
   media_gallery: 834a04455a476b975c280aa1f24ed2853dfe36de
+  mobile-ffmpeg-audio: 1e0a053f8a6de57114e50ff48b3a85ff1c60f902
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   permission_handler: ccb20a9fad0ee9b1314a52b70b76b473c5f8dab0
 
-PODFILE CHECKSUM: 9a90a17828c526c83a6cdbcaa737add1bf7a5222
+PODFILE CHECKSUM: 1753f5cc1f80af5806094058152379e9e54c14d7
 
 COCOAPODS: 1.10.2
