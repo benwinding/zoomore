@@ -51,11 +51,11 @@ class ShareButtonOptions extends StatelessWidget {
 
         switch (result) {
           case SharePageEnum.saveVideo:
-            await GetIt.I.get<ExportProvider>().playerSave(paintB);
+            await GetIt.I.get<ExportProvider>().playerSave(paintB, context);
             break;
           case SharePageEnum.shareVideo:
           default:
-            await GetIt.I.get<ExportProvider>().playerShare(paintB);
+            await GetIt.I.get<ExportProvider>().playerShare(paintB, context);
             break;
         }
       },
