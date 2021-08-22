@@ -44,11 +44,20 @@ class ShareButtonOptions extends StatelessWidget {
 
     return PopupMenuButton<SharePageEnum>(
       child: Icon(Icons.share),
-      onSelected: (SharePageEnum result) {
+      onSelected: (SharePageEnum result) async {
         final globalKey = GetIt.I.get<ZoomPlayerModel>().getZoomGlobalKey();
         RenderRepaintBoundary paintB =
             globalKey.currentContext.findRenderObject();
-        GetIt.I.get<ExportProvider>().playerSave(paintB);
+
+        switch (result) {
+          case SharePageEnum.saveVideo:
+            await GetIt.I.get<ExportProvider>().playerSave(paintB);
+            break;
+          case SharePageEnum.shareVideo:
+          default:
+            await GetIt.I.get<ExportProvider>().playerShare(paintB);
+            break;
+        }
       },
       itemBuilder: (BuildContext context) => <PopupMenuEntry<SharePageEnum>>[
         makeItem(value: SharePageEnum.saveVideo, icon: Icons.download, text: 'Export Video'),
