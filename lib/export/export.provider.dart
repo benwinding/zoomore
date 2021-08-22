@@ -19,16 +19,12 @@ import 'package:zoomore/zoom-player/zoom-player.model.dart';
 class ExportProvider with ChangeNotifier {
   Future<void> playerSave(RenderRepaintBoundary boundary, BuildContext c) async {
     try {
-      final c1 = showProgressDialog(c, 'Capturing Zoom', 'Please dont close the app!');
+      final c1 = showProgressDialog(c, 'Saving Zoom', 'Please dont close the app!');
       final files = await _createImageFiles(boundary);
-      c1();
-      final c2 = showProgressDialog(c, 'Converting to Images', 'Please dont close the app!');
       final imgDirPath = await saveImagesTemp(files);
-      c2();
-      final c3 = showProgressDialog(c, 'Saving Video!', 'Please dont close the app!');
       final vidPath = await saveVideoTemp(imgDirPath);
       await saveVideoToGallery(vidPath);
-      c3();
+      await c1();
     } catch (e) {
       print(e);
     }
@@ -38,14 +34,10 @@ class ExportProvider with ChangeNotifier {
     try {
       final c1 = showProgressDialog(c, 'Capturing Zoom', 'Please dont close the app!');
       final files = await _createImageFiles(boundary);
-      c1();
-      final c2 = showProgressDialog(c, 'Converting to Images', 'Please dont close the app!');
       final imgDirPath = await saveImagesTemp(files);
-      c2();
-      final c3 = showProgressDialog(c, 'Saving Video!', 'Please dont close the app!');
       final vidPath = await saveVideoTemp(imgDirPath);
+      await c1();
       await sharedVideoPath(vidPath);
-      c3();
     } catch (e) {
       print(e);
     }
@@ -189,8 +181,9 @@ showProgressDialog(BuildContext context, String title, String description) {
     },
   );
 
-  Function onClose() {
+  onClose() async {
     Navigator.of(context, rootNavigator: true).pop();
+    await Future.delayed(Duration(milliseconds: 100));
   }
 
   return onClose;
