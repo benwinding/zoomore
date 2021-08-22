@@ -19,6 +19,7 @@ class ImageGridModel with ChangeNotifier {
   Image get selectedImage {
     return _store.getImageThumb(this.selectedIndex);
   }
+
   Image get selectedFullImage {
     return _fullImage;
   }
@@ -36,7 +37,7 @@ class ImageGridModel with ChangeNotifier {
   }
 
   Future<void> fetchImages(int pageOffset, int pageSize) async {
-    final imgs = await this._store.fetchImages(pageOffset, pageSize);    
+    await this._store.fetchImages(pageOffset, pageSize);
     notifyListeners();
   }
 }
@@ -54,7 +55,7 @@ class GalleryStore with ChangeNotifier {
   MediaCollection _collection;
   Map<String, bool> _imagesLoaded = Map();
 
-  Future<List<ImageSelection>> fetchImages(int pageOffset, int pageSize) async {
+  Future<void> fetchImages(int pageOffset, int pageSize) async {
     // print('fetchImages pageOffset=' +
     //     pageOffset.toString() +
     //     ', _hasMoreImages=' +
@@ -104,7 +105,7 @@ class GalleryStore with ChangeNotifier {
   }
 
   bool _isInCache(int pageOffset, int pageSize) {
-    final isCached = _images.length >= pageOffset + pageSize;
+    final isCached = _images.length >= (pageOffset + pageSize);
     return isCached;
   }
 
@@ -115,8 +116,13 @@ class GalleryStore with ChangeNotifier {
 
 Future<List<ImageSelection>> fetchFromGallery(
     MediaCollection col, int pageOffset, int pageSize) async {
+  final noMore = col.count <= pageOffset;
+  if (noMore) {
+    return [];
+  }
+  final pageSizeSafe = (col.count - pageOffset) >= pageSize ? pageSize : col.count - pageOffset;
   final imagePage = await col.getMedias(
-      mediaType: MediaType.image, take: pageSize, skip: pageOffset);
+      mediaType: MediaType.image, take: pageSizeSafe, skip: pageOffset);
   Future<ImageSelection> getSingleThumb(Media item) {
     return item.getThumbnail(height: 180, width: 180).then((bytes) {
       final image = Image.memory(
