@@ -113,10 +113,12 @@ class ExportProvider with ChangeNotifier {
       "image2",
       "-i",
       imagesPath,
-      "-crf",
-      "25",
+      // "-crf", 
+      // "25",
+      // ^ DOESN'T WORK ON IOS
       outPath
     ];
+    print('FFMPEG ARGS:' + arguments.join(' | '));
     await _flutterFFmpeg.executeWithArguments(arguments);
     await Directory(imgDirPath).delete(recursive: true);
     return outPath;
