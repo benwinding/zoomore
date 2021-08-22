@@ -5,10 +5,15 @@ class ButtonState {
   bool hide;
   bool disabled;
   IconData icon;
+  Widget child;
   Function onTap;
 
   ButtonState(
-      {this.hide = false, this.disabled = false, this.onTap, this.icon});
+      {this.hide = false,
+      this.disabled = false,
+      this.onTap,
+      this.icon,
+      this.child});
 
   void setDefaultIcon(IconData icon) {
     if (this.icon == null) {
@@ -30,10 +35,11 @@ class ButtonsBottom extends StatelessWidget {
   }
 
   makebutton(ButtonState s) {
+    final child = s.child == null ? Icon(s.icon) : s.child;
     return s.hide
         ? SizedBox(width: 55, height: 55)
         : FloatingActionButton(
-            child: Icon(s.icon),
+            child: child,
             onPressed: s.disabled ? null : s.onTap,
             backgroundColor: s.disabled ? Colors.grey : null,
           );

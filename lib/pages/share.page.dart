@@ -10,7 +10,7 @@ import 'base/page.interface.dart';
 
 class SharePage implements PageInterface {
   @override
-  Widget buttons = BlankButtons();
+  Widget buttons = ShareButtons();
 
   @override
   Widget component = SharePageComponent();
@@ -19,7 +19,46 @@ class SharePage implements PageInterface {
   bool valid;
 }
 
-class BlankButtons extends StatelessWidget {
+// This is the type used by the popup menu below.
+enum SharePageEnum { saveVideo, shareVideo }
+
+class ShareButtonOptions extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    PopupMenuItem<SharePageEnum> makeItem({SharePageEnum value, IconData icon, String text}) {
+        return PopupMenuItem<SharePageEnum>(
+          value: value,
+          child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: Icon(
+                icon,
+                color: Colors.black,
+              ),
+            ),
+            Text(text)
+          ]),
+        );
+    }
+
+
+    return PopupMenuButton<SharePageEnum>(
+      child: Icon(Icons.share),
+      onSelected: (SharePageEnum result) {
+        final globalKey = GetIt.I.get<ZoomPlayerModel>().getZoomGlobalKey();
+        RenderRepaintBoundary paintB =
+            globalKey.currentContext.findRenderObject();
+        GetIt.I.get<ExportProvider>().playerSave(paintB);
+      },
+      itemBuilder: (BuildContext context) => <PopupMenuEntry<SharePageEnum>>[
+        makeItem(value: SharePageEnum.saveVideo, icon: Icons.download, text: 'Export Video'),
+        makeItem(value: SharePageEnum.shareVideo, icon: Icons.share, text: 'Share Video'),
+      ],
+    );
+  }
+}
+
+class ShareButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final s = GetIt.I.get<PagesProvider>();
@@ -27,14 +66,7 @@ class BlankButtons extends StatelessWidget {
       prev: ButtonState(onTap: () {
         s.gotoScreen(1);
       }),
-      next: ButtonState(
-        icon: Icons.share,
-        onTap: () {
-          final globalKey = GetIt.I.get<ZoomPlayerModel>().getZoomGlobalKey();
-          RenderRepaintBoundary paintB = globalKey.currentContext.findRenderObject();
-          GetIt.I.get<ExportProvider>().playerSave(paintB);
-        }
-      ),
+      next: ButtonState(child: ShareButtonOptions(), onTap: () {}),
       hintText: 'Share!',
     );
   }
