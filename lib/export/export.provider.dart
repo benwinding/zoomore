@@ -19,12 +19,13 @@ import 'package:zoomore/zoom-player/zoom-player.model.dart';
 class ExportProvider with ChangeNotifier {
   Future<void> playerSave(RenderRepaintBoundary boundary, BuildContext c) async {
     try {
-      final c1 = showProgressDialog(c, 'Saving Zoom', 'Please dont close the app!');
+      final closeDialog = showProgressDialog(c, 'Saving Zoom', 'Please dont close the app!');
       final files = await _createImageFiles(boundary);
       final imgDirPath = await saveImagesTemp(files);
       final vidPath = await saveVideoTemp(imgDirPath);
       await saveVideoToGallery(vidPath);
-      await c1();
+      await showDialogAutoClose(c, 'Success', 'Saved Zoom to Gallery!', 1000);
+      await closeDialog();
     } catch (e) {
       print(e);
     }
@@ -36,8 +37,8 @@ class ExportProvider with ChangeNotifier {
       final files = await _createImageFiles(boundary);
       final imgDirPath = await saveImagesTemp(files);
       final vidPath = await saveVideoTemp(imgDirPath);
-      await c1();
       await sharedVideoPath(vidPath);
+      await c1();
     } catch (e) {
       print(e);
     }
@@ -187,4 +188,10 @@ showProgressDialog(BuildContext context, String title, String description) {
   }
 
   return onClose;
+}
+
+showDialogAutoClose(BuildContext context, String title, String description, int closeDelayMs) async {
+  final closeCb = showProgressDialog(context, title, description);
+  await Future.delayed(Duration(milliseconds: closeDelayMs));
+  await closeCb();
 }
