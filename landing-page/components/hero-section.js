@@ -1,5 +1,6 @@
 export function HeroSection() {
-  const playstoreLink = "https://google.com";
+  const playstoreLink = "https://play.google.com/store/apps/details?id=com.benwinding.zoomore";
+  const appStoreLink = "https://play.google.com/store/apps/details?id=com.benwinding.zoomore";
 
   return (
     <>
@@ -37,7 +38,7 @@ export function HeroSection() {
                     <a
                       target="_blank"
                       href={playstoreLink}
-                      className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10"
+                      className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-green-400 hover:bg-green-700 md:py-4 md:text-lg md:px-10"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -78,9 +79,9 @@ export function HeroSection() {
                   </div>
                   <div className="mt-3 sm:mt-0 sm:ml-3">
                     <a
-                      href="#"
-                      disabled
-                      className="opacity-30 w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-blue-700 bg-blue-100 md:py-4 md:text-lg md:px-10 cursor-default"
+                      target="_blank"
+                      href={appStoreLink}
+                      className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
