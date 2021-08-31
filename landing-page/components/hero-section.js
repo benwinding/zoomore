@@ -1,6 +1,6 @@
 export function HeroSection() {
   const playstoreLink = "https://play.google.com/store/apps/details?id=com.benwinding.zoomore";
-  const appStoreLink = "https://play.google.com/store/apps/details?id=com.benwinding.zoomore";
+  const appStoreLink = "https://apps.apple.com/us/app/zoomore/id1579048457";
 
   return (
     <>
