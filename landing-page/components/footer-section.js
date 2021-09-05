@@ -34,6 +34,14 @@ export function FooterSection() {
     </Link>
   );
 
+  const TermsLink = (
+    <Link href="/terms">
+      <a className="flex text-blue-900">
+        <span className="ml-1">Terms</span>
+      </a>
+    </Link>
+  );
+
   return (
     <>
       <footer className="bg-white">
@@ -42,6 +50,7 @@ export function FooterSection() {
             {BenLink}
             {CopyRightLink}
             {PrivacyLink}
+            {TermsLink}
           </div>
         </div>
       </footer>

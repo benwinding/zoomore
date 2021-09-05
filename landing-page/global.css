@@ -9,17 +9,20 @@
 
 /* custom styles */
 h1 {
-  @apply text-2xl py-3;
+  @apply text-4xl py-3;
 }
 h2 {
-  @apply text-xl py-2;
+  @apply text-3xl py-2;
 }
 h3 {
-  @apply text-lg py-1;
+  @apply text-2xl py-2;
 }
 a {
   @apply text-blue-600 underline;
 }
 p {
   @apply py-1;
+}
+ul {
+  @apply list-disc pl-5 py-2;
 }
