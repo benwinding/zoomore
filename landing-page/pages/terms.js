@@ -92,7 +92,7 @@ export default function Page() {
           <p>We reserve the right, at our sole discretion, to update, change or replace any part of these Terms of Service by posting updates and changes to our website. It is your responsibility to check our website periodically for changes. Your continued use of or access to our website or the Service following the posting of any changes to these Terms of Service constitutes acceptance of those changes.</p>
           <h3>SECTION 20 – CONTACT INFORM</h3>
           <h3>ATION</h3>
-          <p>Questions about the Terms of Service should be sent to us at apps@benwinding.com</p>
+          <p>Questions about the Terms of Service should be sent to us at hello+zoomore@benwinding.com</p>
         </div>
       </div>
       <FooterSection />
