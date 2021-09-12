@@ -27,7 +27,7 @@ export function HeroSection() {
                     </span>
                   </a>
                   <span className="block text-3xl text-gray-400">
-                    Turn pictures into videos
+                    Turn photos into videos
                   </span>
                 </span>
                 <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
