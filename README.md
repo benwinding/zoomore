@@ -42,7 +42,7 @@ Zoomore is an app to turn static images into dynamic gifs!
 ### iOS - Images
 
 - iPhone 6.5" Display = iPhone 12 Pro Max
-- iPhone 5.5" Display = iPhone 6 Plus, iPhone 6S Plus, iPhone 7 Plus, iPhone 8 Plus (5.5 Inch)
+- iPhone 5.5" Display = iPhone 8 Plus, iPhone 7 Plus
 - iPad Pro (3rd Gen) 12.9" Display = iPad Pro (5th Gen)
 - iPad Pro (2nd Gen) 12.9" Display = iPad Pro (5th Gen)
 
