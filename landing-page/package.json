@@ -22,6 +22,7 @@
   "scripts": {
     "deploy": "yarn dokku-pages deploy -g dokku@benwinding.com:zoomore -d dist --minimal",
     "start": "next dev",
-    "build": "rimraf dist && next build && next export -o dist/"
+    "build": "rimraf dist && next build && next export -o dist/",
+    "postinstall": "rm -rf .next"
   }
 }

@@ -20,7 +20,7 @@ export function HeroSection() {
             <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="sm:text-center lg:text-left pt-10">
                 <span className="">
-                  <a href="/">
+                  <a href="/" className="no-underline">
                     <span className="block text-6xl font-checkbk xl:inline">
                       <span className="text-gray-900">Zoom</span>
                       <span className="text-blue-500">ore</span>
@@ -38,7 +38,7 @@ export function HeroSection() {
                     <a
                       target="_blank"
                       href={playstoreLink}
-                      className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-green-400 hover:bg-green-700 md:py-4 md:text-lg md:px-10"
+                      className="no-underline w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-green-400 hover:bg-green-700 md:py-4 md:text-lg md:px-10"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -81,7 +81,7 @@ export function HeroSection() {
                     <a
                       target="_blank"
                       href={appStoreLink}
-                      className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10"
+                      className="no-underline w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
