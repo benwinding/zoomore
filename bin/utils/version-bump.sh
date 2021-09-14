@@ -9,8 +9,8 @@ if [ -n "$(git status --porcelain)" ]; then
   exit 1
 fi
 
-BIN_DIR=$(dirname $0)
-PUBSPEC_PATH="$BIN_DIR/../pubspec.yaml"
+UTILS_DIR=$(dirname $0)
+PUBSPEC_PATH="$UTILS_DIR/../../pubspec.yaml"
 echo "Using pubspec file: $PUBSPEC_PATH"
 # Find and increment the version number.
 perl -i -pe 's/^(version:\s+\d+\.\d+\.\d+\+)(\d+)$/$1.($2+1)/e' $PUBSPEC_PATH
