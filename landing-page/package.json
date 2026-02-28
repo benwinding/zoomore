@@ -11,13 +11,19 @@
     "autoprefixer": "^10.1.0",
     "dokku-pages": "^1.0.10",
     "next": "^10.0.3",
-    "postcss": "^8.2.1",
+    "postcss": "8.4.31",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "tailwindcss": "^2.0.2"
   },
+  "devDependencies": {
+    "rimraf": "^3.0.2"
+  },
+  "resolutions": {
+    "postcss-safe-parser": "5.0.2"
+  },
   "engines": {
-    "node": ">=12.13.0"
+    "node": ">=12.13.0 <17"
   },
   "scripts": {
     "deploy": "yarn dokku-pages deploy -g dokku@benwinding.com:zoomore -d dist --minimal",

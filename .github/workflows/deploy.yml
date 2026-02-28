@@ -1,45 +1,38 @@
+name: Deploy 🚀 Landing Page
+
 on:
   push:
-    branches:
-      - master
+    branches: [master]
     paths:
-      - 'landing-page/**'
-      - '.github/**'
+      - "landing-page/**"
+      - ".github/workflows/**"
 
-name: "Deploy 🚀 Landing Page"
+permissions:
+  contents: write
+
 jobs:
-  build:
-    name: Build
+  deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js
-        uses: actions/setup-node@v1
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
         with:
-          node-version: 12.13.0
-      - name: Cache node_modules
-        id: cache-modules
-        uses: actions/cache@v1
+          node-version: 16
+          cache: yarn
+          cache-dependency-path: landing-page/yarn.lock
+
+      - name: Install
+        working-directory: landing-page
+        run: yarn install --frozen-lockfile
+
+      - name: Build
+        working-directory: landing-page
+        run: yarn build
+
+      - name: Deploy to GitHub Pages (gh-pages branch)
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          path: landing-page/node_modules
-          key: ${{ runner.OS }}-build-node_modules-${{ hashFiles('landing-page/yarn.lock') }}
-      - name: Install Dependencies
-        if: steps.cache-modules.outputs.cache-hit != 'true'
-        working-directory: ./landing-page
-        run: yarn
-      - name: Install SSH key
-        uses: shimataro/ssh-key-action@v2
-        with:
-          name: id_rsa-target
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
-          config: |
-            IdentityFile ~/.ssh/id_rsa-target
-      - name: Allow git pushing
-        run: |
-          git config --global user.email "action@github.com"
-          git config --global user.name "GitHub Action"
-      - run: yarn build
-        working-directory: ./landing-page
-      - run: yarn deploy
-        working-directory: ./landing-page
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: landing-page/build
